@@ -1,0 +1,188 @@
+.mediaViewInfo {
+    --web-view-name: Enter - Login - SignUp – 1;
+    --web-view-id: Enter___Login___SignUp___1;
+    --web-scale-to-fit: true;
+    --web-scale-to-fit-type: fit;
+    --web-scale-on-resize: true;
+    --web-center-horizontally: true;
+    --web-center-vertically: true;
+    --web-enable-deep-linking: true;
+}
+:root {
+    --web-view-ids: Enter___Login___SignUp___1;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+#Enter___Login___SignUp___1 {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    height: 1080px;
+    background-color: rgba(255,255,255,1);
+    overflow: hidden;
+    --web-view-name: Enter - Login - SignUp – 1;
+    --web-view-id: Enter___Login___SignUp___1;
+    --web-scale-to-fit: true;
+    --web-scale-to-fit-type: fit;
+    --web-scale-on-resize: true;
+    --web-center-horizontally: true;
+    --web-center-vertically: true;
+    --web-enable-deep-linking: true;
+}
+#A_Game_Distribution_Service_by_bl {
+    position: absolute;
+    left: 745px;
+    top: 1021px;
+    overflow: visible;
+    width: 431px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    color: rgba(112,112,112,1);
+}
+#A_Game_Distribution_Service_by_bl {
+    position: absolute;
+    left: 745px;
+    top: 1021px;
+    overflow: visible;
+    width: 431px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    color: rgba(112,112,112,1);
+}
+.Rectangle_92 {
+    position: absolute;
+    overflow: visible;
+    width: 908px;
+    height: 635px;
+    left: 506px;
+    top: 202px;
+}
+#Sign_In {
+    position: absolute;
+    left: 819px;
+    top: 234px;
+    overflow: visible;
+    width: 246px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 80px;
+    color: rgba(112,112,112,1);
+}
+.Rectangle_95 {
+    position: absolute;
+    overflow: visible;
+    width: 707px;
+    height: 100px;
+    left: 588px;
+    top: 396px;
+}
+#Icon_feather_mail {
+    position: absolute;
+    width: 30px;
+    height: 24px;
+    left: 625.207px;
+    top: 435px;
+    overflow: visible;
+}
+.Path_15 {
+    overflow: visible;
+    position: absolute;
+    width: 33px;
+    height: 27px;
+    left: 0px;
+    top: 0px;
+    transform: matrix(1,0,0,1,0,0);
+}
+.Path_16 {
+    overflow: visible;
+    position: absolute;
+    width: 34.178px;
+    height: 14.089px;
+    left: 0px;
+    top: 3px;
+    transform: matrix(1,0,0,1,0,0);
+}
+#Email_Address {
+    position: absolute;
+    left: 672px;
+    top: 419px;
+    overflow: visible;
+    width: 255px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    color: rgba(112,112,112,1);
+}
+.Rectangle_97 {
+    position: absolute;
+    overflow: visible;
+    width: 707px;
+    height: 100px;
+    left: 588px;
+    top: 548px;
+}
+#Password {
+    position: absolute;
+    left: 672px;
+    top: 571px;
+    overflow: visible;
+    width: 168px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    color: rgba(112,112,112,1);
+}
+.Icon_awesome_key {
+    overflow: visible;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: 625px;
+    top: 580px;
+    transform: matrix(1,0,0,1,0,0);
+}
+.Rectangle_98 {
+    position: absolute;
+    overflow: visible;
+    width: 281px;
+    height: 69px;
+    left: 801px;
+    top: 700px;
+}
+#Sign_Me {
+    position: absolute;
+    left: 868px;
+    top: 707px;
+    overflow: visible;
+    width: 148px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    color: rgb(86, 188, 22);
+}

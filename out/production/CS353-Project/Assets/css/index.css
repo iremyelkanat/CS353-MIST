@@ -1,0 +1,97 @@
+.mediaViewInfo {
+    --web-view-name: Enter - Login - SignUp;
+    --web-view-id: Enter___Login___SignUp;
+    --web-scale-to-fit: true;
+    --web-scale-to-fit-type: fit;
+    --web-enable-scale-up: true;
+    --web-scale-on-resize: true;
+    --web-scale-on-double-click: true;
+    --web-center-horizontally: true;
+    --web-center-vertically: true;
+    --web-enable-deep-linking: true;
+}
+:root {
+    --web-view-ids: Enter___Login___SignUp;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+.Enter___Login___SignUp_Class {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    height: 1080px;
+    background-color: rgba(255,255,255,1);
+    overflow: hidden;
+    --web-view-name: Enter - Login - SignUp;
+    --web-view-id: Enter___Login___SignUp;
+    --web-scale-to-fit: true;
+    --web-scale-to-fit-type: fit;
+    --web-enable-scale-up: true;
+    --web-scale-on-resize: true;
+    --web-scale-on-double-click: true;
+    --web-center-horizontally: true;
+    --web-center-vertically: true;
+    --web-enable-deep-linking: true;
+}
+.MIST_Class {
+    position: absolute;
+    left: 787px;
+    top: 332px;
+    overflow: visible;
+    width: 348px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 152px;
+    color: rgba(112,112,112,1);
+}
+.SIGN_UP_Class {
+    position: absolute;
+    left: 1154px;
+    top: 669px;
+    overflow: visible;
+    width: 205px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 52px;
+    color: rgba(112,112,112,1);
+}
+.SIGN_IN_Class {
+    position: absolute;
+    left: 568px;
+    top: 669px;
+    overflow: visible;
+    width: 193px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 52px;
+    color: rgba(112,112,112,1);
+}
+.A_Game_Distribution_Service_by_Class {
+    position: absolute;
+    left: 745px;
+    top: 1021px;
+    overflow: visible;
+    width: 431px;
+    white-space: nowrap;
+    text-align: left;
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    color: rgba(112,112,112,1);
+}
