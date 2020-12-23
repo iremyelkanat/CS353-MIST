@@ -1,3 +1,4 @@
+<? ob_start(); ?> 
 <?php
     //config inclusion session starts
     include("config.php");
@@ -166,3 +167,4 @@
 </script>
 </body>
 </html>
+<? ob_flush(); ?>
