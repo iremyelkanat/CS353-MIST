@@ -181,7 +181,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                  <hr style="margin-top: 25px; margin-bottom: 25px;">
                  <div class="create-card">
                      <form id="create-card-form" method="post">
-                         <div class="input-group" style="">
+                         <div class="input-group">
                              <input id="card-name" type="text" class="form-control" name="card-name" placeholder="Name of the Card" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
                          </div>
                          <div class="input-group" style="margin-top: 20px">

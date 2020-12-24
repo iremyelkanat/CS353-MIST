@@ -241,7 +241,7 @@ if (isset($_POST['return'])) {
             <hr style="margin-top: 25px; margin-bottom: 25px;">
                  <div class="create-column">
                      <form id="create-comment-form" method="post">
-                         <div class="input-group" style="">
+                         <div class="input-group" >
                              <input id="given_text" type="text" class="form-control" name="given_text" placeholder="Leave Comment" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
                          </div>
                          <div class="form-group" style="text-align: center; margin-top: 50px">
