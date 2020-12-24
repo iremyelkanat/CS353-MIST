@@ -108,7 +108,7 @@ if (isset($_POST['return'])) {
                 ?>
                 <a class="nav-item nav-link active">Store</a>
                 <a href="library.php" class="nav-item nav-link">Libary</a>
-                <a href="mode.php" class="nav-item nav-link">Mode</a>
+                <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">
@@ -222,18 +222,46 @@ if (isset($_POST['return'])) {
                         <div style='text-decoration:none;color:white '>
                         <span>Mods</span>
                         </div>
-
-                  
                   </a>";
                         ?>
                     </div>
                 </div>
 
             </div>
+            <div style="width: 100%">
 
             <?php
-            echo "Mod"
+                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mod M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " . $_SESSION['g_ID'] . ";";
+                $mods_result = mysqli_query($db, $mods_query);
 
+                if (!$mods_result) {
+                    printf("Error: %s\n", mysqli_error($db));
+                    exit();
+                }
+                if (mysqli_num_rows($mods_result) > 0) {
+                    while ($mods_row = mysqli_fetch_assoc($mods_result)) {
+                        $mod_name = $mods_row['m_name'];
+                        $mod_description = $mods_row['m_description'];
+
+                        echo "<div class='credit-card-info' style='
+                               border-style: solid;
+                               border-width: 5px;
+                               margin-top: 50px;
+                               padding: 10px;
+                               border-radius: 25px; display: flex;'>
+                               <div>
+                               $mod_name
+                               </div>
+                               <div>
+                               $mod_description
+                               </div>
+                           </div>";
+
+                        }
+                }
+                else {
+                    echo "no results";
+                }
             ?>
             
         </div>
