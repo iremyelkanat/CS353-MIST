@@ -295,7 +295,7 @@ public class DBConnector {
             stmt.executeUpdate("CREATE TABLE comments_on(" +
                     "a_ID INT, " +
                     "g_ID INT, " +
-                    "date DATE NOT NULL, " +
+                    
                     "text VARCHAR(140) NOT NULL, " +
                     "PRIMARY KEY(a_ID, g_ID), " +
                     "FOREIGN KEY (a_ID) REFERENCES User (a_ID) ON DELETE CASCADE ON UPDATE RESTRICT, " +

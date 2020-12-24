@@ -3,7 +3,6 @@ include("config.php");
 session_start();
 
 if (isset($_GET['game_id'])) {
-    $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
     echo $game_id;
 
@@ -24,22 +23,6 @@ if (isset($_GET['game_id'])) {
     $genre = $game_row['genre'];
     $g_requirements = $game_row['g_requirements'];
 }
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $given_text = trim($_POST["given_text"]);
-    $a_id = $_SESSION["a_ID"];
-    $game_id = $_GET['game_id'];
-    $date = date("Y/m/d") ;
-    $insert_com_query = "INSERT INTO comments_on(a_ID, g_ID, date, text) VALUES (".$a_id. " , ".$game_id.", ".$date.", ".$given_text." );";
-    $insert_com_result = mysqli_query($db, $insert_com_query);
-    if (!$insert_com_result) {
-        printf("Error: %s\n", mysqli_error($db));
-        printf("Error: 1");
-        exit();
-    }
-    echo "<script LANGUAGE='JavaScript'>
-                    window.alert('Your comment has been added successfully');
-                </script>";
-}   
 if (isset($_POST['return'])) {
     $delete_query = "DELETE FROM buys WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -92,7 +75,7 @@ if (isset($_POST['return'])) {
             </script>";
     }
 }
- 
+
 ?>
 
 <!DOCTYPE html>
@@ -108,6 +91,7 @@ if (isset($_POST['return'])) {
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script id="applicationScript" type="text/javascript" src="index.js"></script>
 </head>
 
 <body>
@@ -206,12 +190,12 @@ if (isset($_POST['return'])) {
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
-                  background-color: rgb(126, 166, 234); 
-                  border-color: rgb(126, 166, 234);
+                  background-color: rgb(256, 256, 256); 
+                  border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
                         <?php
                         echo " <a href='commentsandreview.php?game_id=" . $game_id . "'>
-                        <div style='text-decoration:none;color: white '>
+                        <div style='text-decoration:none;color:black '>
                         <span>Comments & Reviews</span>
                         </div>
 
@@ -222,12 +206,12 @@ if (isset($_POST['return'])) {
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
-                  background-color: rgb(256, 256, 256); 
-                  border-color: rgba(112,112,112,0.3);
+                 background-color: rgb(126, 166, 234); 
+                  border-color: rgb(126, 166, 234);
                   border-radius: 20px">
                   <?php
                         echo " <a href='mods.php?game_id=" . $game_id . "'>
-                        <div style='text-decoration:none;color:black '>
+                        <div style='text-decoration:none;color:white '>
                         <span>Comments & Reviews</span>
                         </div>
 
@@ -238,45 +222,12 @@ if (isset($_POST['return'])) {
                 </div>
 
             </div>
-            <hr style="margin-top: 25px; margin-bottom: 25px;">
-                 <div class="create-column">
-                     <form id="create-comment-form" method="post">
-                         <div class="input-group" style="">
-                             <input id="given_text" type="text" class="form-control" name="given_text" placeholder="Leave Comment" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
-                         </div>
-                         <div class="form-group" style="text-align: center; margin-top: 50px">
-                             <input onclick="checkEmptyAndCreateComment()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Leave Comment     ">
-                         </div>
-                     </form>
-            </div>
+
             <?php
-            $game_id = $_GET['game_id'];
-            echo $game_id;
-            $comments_query = "SELECT * FROM comments_on c WHERE  c.g_ID= " . $game_id . ";";
-            $comments_query_results = mysqli_query($db, $comments_query);
-                    if (!$comments_query_results) {
-                        printf("Error: %s\n", mysqli_error($db));
-                        echo "ali\n";
-                        exit();
-                    }
-                    if (mysqli_num_rows($comments_query_results) > 0) {
-                        while ($comment_row = mysqli_fetch_assoc($comments_query_results)) {
-                            echo "lele\n";
-                            $com_a_id = $comment_row['a_ID'];
-                            $com_g_name = $comment_row['g_ID'];
-                            $com_date = $comment_row['date'];
-                            $com_text = $comment_row['text'];
-                            echo "<div class='comments_out'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'> Comemnts: </span> " . $com_text . " </div>";
-
-
-                            
-                        }
-
-                    }
-
+            echo "Mod"
 
             ?>
+            
         </div>
 
 
@@ -302,17 +253,6 @@ if (isset($_POST['return'])) {
                     let form = document.getElementById("login-form").submit();
                 }
             }
-            function checkEmptyAndCreateComment() {
-             let giv_text = document.getElementById("given_text").value;
-             if (giv_text === "" ){
-                 alert("Make sure to fill all fields!");
-             }
-             else {
-                 alert("full");
-                 alert(giv_text);
-                 let form = document.getElementById("create-comment-form").submit();
-             }
-         }
         </script>
 </body>
 
