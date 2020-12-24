@@ -73,6 +73,15 @@ if (isset($_POST['return'])) {
         printf("Error: %s\n", mysqli_error($db));
         exit();
     }
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $delete_query = "DELETE FROM comments_on WHERE a_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
+
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
 
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('You successfully returned from the Video Game...');
@@ -264,20 +273,40 @@ if (isset($_POST['return'])) {
                 </div>
 
             </div>
-            <hr style="margin-top: 25px; margin-bottom: 25px;">
-                 <div class="create-column">
-                     <form id="create-comment-form" method="post">
-                         <div class="input-group" >
-                             <input id="given_text" type="text" class="form-control" name="given_text" placeholder="Leave Comment" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
-                         </div>
-                         <div class="form-group" style="text-align: center; margin-top: 50px">
-                             <input onclick="checkEmptyAndCreateComment()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Leave Comment     ">
-                         </div>
-                     </form>
-            </div>
+            
             <?php
             $game_id = $_GET['game_id'];
             $a_id = $_SESSION["a_ID"];
+            $comments_query = "SELECT * FROM buys b WHERE b.a_ID = ".$a_id." AND b.g_id = " . $game_id . ";";
+
+            $comments_query_results = mysqli_query($db, $comments_query);
+            if (!$comments_query_results) {
+                printf("Error: %s\n", mysqli_error($db));
+                
+                exit();
+            }
+            $comment_row = mysqli_fetch_assoc($comments_query_results);
+            $pass = $comment_row['a_ID'];
+            if($a_id == $pass){
+                echo "<hr style='margin-top: 25px; margin-bottom: 25px;'>
+            <div class='create-column'>
+            <form id='create-comment-form' method='post'>
+                <div class='input-group' >
+                    <input id='given_text' type='text' class='form-control' name='given_text' placeholder='Leave Comment' style=' outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                </div>
+                <div class='form-group' style='text-align: center; margin-top: 50px'>
+                    <input onclick='checkEmptyAndCreateComment()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Leave Comment     '>
+                </div>
+            </form>
+            </div>
+            
+            
+            
+            ";
+            }
+            
+            
+                 
             $comments_query = "SELECT * FROM comments_on c, User u WHERE c.a_ID = u.a_ID AND c.g_ID= " . $game_id . ";";
             $comments_query_results = mysqli_query($db, $comments_query);
                     if (!$comments_query_results) {
@@ -351,8 +380,6 @@ if (isset($_POST['return'])) {
                  alert("Make sure to fill all fields!");
              }
              else {
-                 alert("full");
-                 alert(giv_text);
                  let form = document.getElementById("create-comment-form").submit();
              }
          }
