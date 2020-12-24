@@ -38,7 +38,15 @@ if (isset($_POST['return'])) {
         printf("Error: %s\n", mysqli_error($db));
         exit();
     }
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $delete_query = "DELETE FROM comments_on WHERE a_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
 
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('You successfully returned from the Video Game...');
             </script>";
@@ -75,7 +83,8 @@ if (isset($_POST['return'])) {
     }
 }
 elseif (isset($_POST['build'])) {
- //
+    $game_id = $_GET['game_id'];
+    echo " ";
 }
 
 ?>
@@ -123,6 +132,8 @@ elseif (isset($_POST['build'])) {
                     <div style="font-family: Avenir; font-size: 48px;">Video Game</div>
                     <div style=" width: 420px; text-align: right; margin-top: 10px" ;>
                         <?php
+                        $game_id = $_GET['game_id'];
+
                         $has_query = "SELECT COUNT(*) as has_count FROM buys b WHERE b.a_ID=" . $_SESSION['a_ID'] . " AND b.g_id = " . $g_id . ";";
                         $has_query_result = mysqli_query($db, $has_query);
 
@@ -144,14 +155,27 @@ elseif (isset($_POST['build'])) {
                              border-color: rgb(234, 124, 137); 
                              border-radius: 20px' value='Return'>";
                             echo "</form>";
-                            echo "<input type='submit' name='build' onclick='' class='btn btn-primary btn-lg' 
-                            style='font-family: Avenir;
-                             width: 100%; 
-                             background-color: rgb(234, 124, 137); 
-                             border-color: rgb(234, 124, 137); 
-                             border-radius: 20px' value='Build Mode'>";
-                            echo "</form>";
                             
+                            echo "<div style='justify-content:space-around; display: flex; margin:auto; margin-top: 20px;'>
+                            <div style=' font-family: Avenir ;float: left; width: 100%; text-align: left' ;>
+                                <div class='btn btn-primary btn-lg' style='width: 100%; 
+                                background-color: green; 
+                                border-color: green; 
+                              border-radius: 20px'>
+                              
+                          <a href='createmode.php?game_id=" . $game_id . "'>
+                                    <div style='text-decoration:none;color: white '>
+                                    <span>Build Mode</span>
+                                    </div>
+            
+                              
+                              </a></div>
+                              </div>
+                          </div>";
+                              
+                                    
+                              
+                               
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
@@ -190,6 +214,7 @@ elseif (isset($_POST['build'])) {
                     ?>
                 </div>
             </div>
+            
             <div style="justify-content:space-around; display: flex; margin:auto; margin-top: 20px;">
                 <div style=" margin-right: 200px ;float: left; width: 420px; text-align: left" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
@@ -242,9 +267,11 @@ elseif (isset($_POST['build'])) {
             <div style="width: 100%">
 
             <?php
-                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mod M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " . $_SESSION['g_ID'] . ";";
-                $mods_result = mysqli_query($db, $mods_query);
 
+                
+                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
+                $mods_result = mysqli_query($db, $mods_query);
+                
                 if (!$mods_result) {
                     printf("Error: %s\n", mysqli_error($db));
                     exit();
@@ -255,6 +282,7 @@ elseif (isset($_POST['build'])) {
                         $mod_description = $mods_row['m_description'];
 
                         echo "<div class='credit-card-info' style='
+                                
                                border-style: solid;
                                border-width: 5px;
                                margin-top: 50px;
