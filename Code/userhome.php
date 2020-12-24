@@ -30,8 +30,8 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active">Home</a>
             <a href="store.php" class="nav-item nav-link">Store</a>
-            <a href="library.php" class="nav-item nav-link">Libary</a>
-            <a href="mode.php" class="nav-item nav-link">Mode</a>
+            <a href="library.php" class="nav-item nav-link">Library</a>
+            <a href="mode.php" class="nav-item nav-link">Modes</a>
             <a href="friends.php" class="nav-item nav-link">Friends</a>
         </div>
         <div  class="navbar-nav ml-auto">
@@ -140,7 +140,7 @@
             <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; text-align: right">Wallet</div>
             <hr style="margin-left: 5%">
             <div style="width: 420px; height: 250px; float: right; position: relative; text-align: center">
-                <img style="; max-height: 100%; max-width: 100%;" src="../Assets/images/wallet.jpeg" alt="">
+                <img style=" max-height: 100%; max-width: 100%;" src="../Assets/images/wallet.jpeg" alt="">
                 <?php
                 $wallet_query = "SELECT w.balance FROM Wallet w WHERE w.a_ID =" . $_SESSION['a_ID'] . ";";
                 $wallet_query_result = mysqli_query($db, $wallet_query);
