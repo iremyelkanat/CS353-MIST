@@ -38,7 +38,15 @@ if (isset($_POST['return'])) {
         printf("Error: %s\n", mysqli_error($db));
         exit();
     }
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $delete_query = "DELETE FROM comments_on WHERE a_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
 
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('You successfully returned from the Video Game...');
             </script>";
