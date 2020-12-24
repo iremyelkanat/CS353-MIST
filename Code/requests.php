@@ -28,7 +28,8 @@
             <a class="nav-item nav-link" href="logout.php">Logout</a>
         </div>
     </nav>
-
+    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Requests</div>
+    <hr>
     <div style="position: fixed;
                 left: 0;
                 bottom: 5px;
