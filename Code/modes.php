@@ -61,7 +61,7 @@
                             $game_id = $games__bought_row['g_ID'];
                             $game_name = $games__bought_row['g_name'];
 
-                            echo "<a href='videogame.php?game_id=". $game_id ."'>
+                            echo "<a href='modsvideo.php?game_id=". $game_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>

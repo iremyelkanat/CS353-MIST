@@ -54,9 +54,8 @@ if (isset($_POST['return'])) {
     $user_balance = $get_balance_row['balance'];
     if ($user_balance < $g_price) {
         echo "<script type='text/javascript'>alert('Your balance is not sufficient.');</script>";
-    } else {
-
-
+    } 
+    else {
         $insert_query = "INSERT INTO buys VALUES (" . $_SESSION['a_ID'] . ", " . $g_id . ", now());";
         $insert_query_result = mysqli_query($db, $insert_query);
         if (!$insert_query_result) {
@@ -74,6 +73,9 @@ if (isset($_POST['return'])) {
                 window.alert('You successfully bought the video game...');
             </script>";
     }
+}
+elseif (isset($_POST['build'])) {
+ //
 }
 
 ?>
@@ -134,6 +136,7 @@ if (isset($_POST['return'])) {
                         $down = $has_count;
                         if ($has_count > 0) {
                             echo "<form method='post'>";
+
                             echo "<input type='submit' name='return' onclick='' class='btn btn-primary btn-lg' 
                             style='font-family: Avenir;
                              width: 100%; 
@@ -141,6 +144,14 @@ if (isset($_POST['return'])) {
                              border-color: rgb(234, 124, 137); 
                              border-radius: 20px' value='Return'>";
                             echo "</form>";
+                            echo "<input type='submit' name='build' onclick='' class='btn btn-primary btn-lg' 
+                            style='font-family: Avenir;
+                             width: 100%; 
+                             background-color: rgb(234, 124, 137); 
+                             border-color: rgb(234, 124, 137); 
+                             border-radius: 20px' value='Build Mode'>";
+                            echo "</form>";
+                            
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
