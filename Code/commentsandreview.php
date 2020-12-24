@@ -29,7 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
     $date = date("Y/m/d") ;
-    $insert_com_query = "INSERT INTO comments_on(a_ID, g_ID, date, text) VALUES (".$a_id. " , ".$game_id.", ".$date.", ".$given_text." );";
+    $insert_com_query = "INSERT INTO comments_on(a_ID, g_ID, date, text) VALUES ($a_id  , $game_id, $date, '$given_text' );";
     $insert_com_result = mysqli_query($db, $insert_com_query);
     if (!$insert_com_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -201,7 +201,15 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="videogame.php" style="text-decoration:none;color:black " ;><span>Abouts</span></a>
+                  <?php
+                        echo " <a href='videogame.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color: black '>
+                        <span>Abouts</span>
+                        </div>
+
+                  
+                  </a>";
+                  ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -226,9 +234,9 @@ if (isset($_POST['return'])) {
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
                   <?php
-                        echo " <a href='mods.php?game_id=" . $game_id . "'>
+                        echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
                         <div style='text-decoration:none;color:black '>
-                        <span>Comments & Reviews</span>
+                        <span>Mods</span>
                         </div>
 
                   
@@ -251,26 +259,29 @@ if (isset($_POST['return'])) {
             </div>
             <?php
             $game_id = $_GET['game_id'];
-            echo $game_id;
-            $comments_query = "SELECT * FROM comments_on c WHERE  c.g_ID= " . $game_id . ";";
+            $comments_query = "SELECT * FROM comments_on c, User u WHERE c.a_ID = u.a_ID AND c.g_ID= " . $game_id . ";";
             $comments_query_results = mysqli_query($db, $comments_query);
                     if (!$comments_query_results) {
                         printf("Error: %s\n", mysqli_error($db));
-                        echo "ali\n";
+                        
                         exit();
                     }
                     if (mysqli_num_rows($comments_query_results) > 0) {
                         while ($comment_row = mysqli_fetch_assoc($comments_query_results)) {
-                            echo "lele\n";
                             $com_a_id = $comment_row['a_ID'];
+                            $usr_name = $comment_row['u_name'];
                             $com_g_name = $comment_row['g_ID'];
                             $com_date = $comment_row['date'];
                             $com_text = $comment_row['text'];
-                            echo "<div class='comments_out'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'> Comemnts: </span> " . $com_text . " </div>";
+                            echo "<div class='game-date'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>User: </span> " . $usr_name . "
+                            </div>
+                            <div class='comments_out'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'> Comemnts: </span> " . $com_text . " </div>
+                            <div class='game-date'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>Date: </span> " . $com_date . "
+                            </div> ";
 
-
-                            
                         }
 
                     }
