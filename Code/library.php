@@ -33,8 +33,8 @@
             }
             ?>
                 <a href="store.php" class="nav-item nav-link">Store</a>
-                <a class="nav-item nav-link active">Libary</a>
-                <a href="mode.php" class="nav-item nav-link">Mode</a>
+                <a class="nav-item nav-link active">Library</a>
+                <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">
