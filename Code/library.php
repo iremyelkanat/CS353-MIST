@@ -44,13 +44,11 @@
         <div class="main-div"
             style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
             <div class="information-header" style="width: 100%">
-                <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%">Library</div>
+                <div style="font-family: Avenir; font-size: 48px ; margin-bottom: 2%">Library</div>
                 <hr style="margin-right: 20%">
                 <div class="games-bought-display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div>
-                        Games Bought
-                    </div>
+                    <div style="font-family: Avenir; font-size: 25px ; font-weight: bold; margin-bottom: 2%">Games Bought</div>
                     <?php
                     $games_bought_query = "SELECT v.g_name, v.g_image FROM buys b, Video_Game v WHERE b.g_ID=v.g_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
                     $games_bought_result = mysqli_query($db, $games_bought_query);
@@ -78,11 +76,9 @@
                     ?>
                 </div>
             </div>
-            <div class="package_bought_display">
+            <div class="package_subscribed_display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div>
-                        Current Subscriptions
-                    </div>
+                    <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Current Subscriptions</div>
                     <?php
                         $current_subscriptions_query = "SELECT sp.package_name FROM subscribes s, Subscription_Package sp WHERE sp.package_ID = s.package_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
                         $current_subscriptions_result = mysqli_query($db, $current_subscriptions_query);        
@@ -110,11 +106,9 @@
                     ?>
                 </div>
             </div>
-            <div class="games-bought-display">
+            <div class="games-from-packages-display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div>
-                        Games From Subscriptions
-                    </div>
+                <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Games From Subscriptions</div>
                     <?php
                     $package_games_query = "SELECT g.g_name, g.g_image FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
                     $package_games_result = mysqli_query($db, $package_games_query);
@@ -142,11 +136,9 @@
                     ?>
                 </div>
             </div>
-            <div class="games-bought-display">
+            <div class="games-downloaded-display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div>
-                        Games Downloaded
-                    </div>
+                    <div style="font-family: Avenir; font-size: 25px; font-weight: bold ; margin-bottom: 2%">Games Downloaded</div>
                     <?php
                     $downloaded_games_query = "SELECT g.g_name, g.g_image FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
                     $downloaded_games_result = mysqli_query($db, $downloaded_games_query);
