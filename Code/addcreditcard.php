@@ -6,6 +6,63 @@
        header("location: index.php");
        die("Redirecting to login.php");
    }
+
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $cardName = trim($_POST["card-name"]);
+    $bankNme = trim($_POST["bank-name"]);
+    $cardNumber = trim($_POST["card-number"]);
+    $date = trim($_POST["date"]);
+
+    /*// phone existence check
+    $phone_check_query = "SELECT * FROM Accountt WHERE phone_number = '$phoneNumber'";
+    $phone_check_result = mysqli_query($db, $phone_check_query);
+    $num_of_rows_phone_check = mysqli_num_rows($phone_check_result);
+
+    // email existence check
+    $email_check_query = "SELECT * FROM Accountt WHERE email_address = '$email'";
+    $email_check_result = mysqli_query($db, $email_check_query);
+    $num_of_rows_email_check = mysqli_num_rows($email_check_result);
+
+    // nick existence check
+    $nick_check_query = "SELECT * FROM User WHERE nick_name = '$nickName'";
+    $nick_check_result = mysqli_query($db, $nick_check_query);
+    $num_of_rows_nick_check = mysqli_num_rows($nick_check_result);
+
+    if ($num_of_rows_phone_check > 0) {
+        echo "<script type='text/javascript'>alert('Phone Number Already Exists.');</script>";
+    }
+    else if ($num_of_rows_email_check > 0) {
+        echo "<script type='text/javascript'>alert('Email Already Exists.');</script>";
+    }
+    else if ($num_of_rows_nick_check > 0) {
+        echo "<script type='text/javascript'>alert('Nick Name Already Exists.');</script>";
+    }
+    */
+        $insert_card_query = "INSERT INTO Credit_Card(card_ID, bank, name, exp_date) VALUES ('$cardNumber', '$bankNme', '$cardName', '$date');";
+        $insert_card_result = mysqli_query($db, $insert_card_query);
+
+        $insert_include_query = "INSERT INTO include VALUES ('$cardNumber', 0, ". $_SESSION['a_ID'].");";
+        $insert_include_result = mysqli_query($db, $insert_include_query);
+
+        if (!$insert_card_result) {
+            printf("Error: %s\n", mysqli_error($db));
+            printf("Error: 1");
+            exit();
+        }
+
+        if (!$insert_include_result) {
+            printf("Error: 2\n");
+            exit();
+        }
+
+        echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your card has been added successfully! Redirecing...');
+                window.location.href = 'userhome.php';
+            </script>";
+}
    ?>
 <!DOCTYPE html>
 <html>
@@ -57,7 +114,74 @@
                </div>
             </div>
          </div>
-         <div style="display: grid;width:  420px; height: 250px; float: right; position: relative; text-align: center">
+         <div class="main-part" style="
+                    border-style: solid;
+                     border-width: 2px;
+                  margin-top: 50px;
+                  margin-left: 200px;
+                  margin-right: 200px;
+                  padding: 50px;
+                  border-radius: 20px";>
+             <div style="width: 100%">
+                 <div>
+                     Current Credit Cards
+                 </div>
+                 <?php
+                     $card_query = "SELECT c.card_ID, c.name FROM Wallet w, include i, Credit_Card c WHERE i.w_ID = w.w_ID AND c.card_ID = i.card_ID AND w.a_ID = " . $_SESSION['a_ID'] . ";";
+                     $card_result = mysqli_query($db, $card_query);
+
+                     if (!$card_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+                         exit();
+                     }
+                     if (mysqli_num_rows($card_result) > 0) {
+                         while ($cards_row = mysqli_fetch_assoc($card_result)) {
+                             $package_id = $cards_row['name'];
+                             $package_name = $cards_row['card_ID'];
+
+                             echo "<div class='credit-card-info' style='
+                                    border-style: solid;
+                                    border-width: 2px;
+                                    margin-top: 50px;
+                                    padding: 10px;
+                                    border-radius: 25px; display: flex;'>
+                                    <div>
+                                    $package_id
+                                    </div>
+                                    <div>
+                                    $package_name
+                                    </div>
+                                </div>";
+
+                             }
+                     }
+                     else {
+                         echo "no results";
+                     }
+                 ?>
+                 <hr style="margin-top: 25px; margin-bottom: 25px;">
+                 <div class="create-card">
+                     <form id="create-card-form" method="post">
+                         <div class="input-group" style="">
+                             <input id="card-name" type="text" class="form-control" name="card-name" placeholder="Name of the Card" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                         </div>
+                         <div class="input-group" style="margin-top: 20px">
+                             <input id="bank-name" type="text" class="form-control" name="bank-name" placeholder="Bank Name" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                         </div>
+                         <div style="display: flex">
+                             <div class="input-group" style="margin-top: 20px; margin-right: 10px">
+                                 <input id="card-number" type="text" class="form-control" name="card-number" placeholder="Card Number" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                             </div>
+                             <div class="input-group" style="margin-top: 20px; margin-left: 10px">
+                                 <input id="date" type="date" class="form-control" name="date" placeholder="Expiration Date" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                             </div>
+                         </div>
+                         <div class="form-group" style="text-align: center; margin-top: 20px">
+                             <input onclick="checkEmptyAndCreateCard()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Add New Card      ">
+                         </div>
+                     </form>
+                 </div>
+             </div>
          </div>
          <div style="position: fixed;
             left: 0;
@@ -70,17 +194,20 @@
          </div>
       </div>
       <script type="text/javascript">
-         function checkEmptyAndLogin() {
-             let fullNameVal = document.getElementById("full-name").value;
-             let nickNameVal = document.getElementById("nick-name").value;
-             let emailVal = document.getElementById("email").value;
-             let passwordVal = document.getElementById("password").value;
-             let phoneNumberVal = document.getElementById("phone-number").value;
-             if (fullNameVal === "" || passwordVal === "" || nickNameVal === "" || emailVal === "" | phoneNumberVal === "") {
+         function checkEmptyAndCreateCard() {
+             let cardNameVal = document.getElementById("card-name").value;
+             let bankNameVal = document.getElementById("bank-name").value;
+             let cardNumberVal = document.getElementById("card-number").value;
+             let dateVal = document.getElementById("date").value;
+             if (cardNameVal === "" || bankNameVal === "" || cardNumberVal === "" || dateVal === "") {
                  alert("Make sure to fill all fields!");
              }
+             else if (dateVal < Date.now()) {
+                 alert("Msg!");
+             }
              else {
-                 let form = document.getElementById("login-form").submit();
+                 alert("full");
+                 let form = document.getElementById("create-card-form").submit();
              }
          }
       </script>
