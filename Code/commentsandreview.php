@@ -24,7 +24,7 @@ if (isset($_GET['game_id'])) {
     $genre = $game_row['genre'];
     $g_requirements = $game_row['g_requirements'];
 }
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['given_text'])) {
     $given_text = trim($_POST["given_text"]);
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
@@ -40,6 +40,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     window.alert('Your comment has been added successfully');
                 </script>";
 }   
+
+if (isset($_POST['Delete'])) {
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $delete_query = "DELETE FROM comments_on WHERE a_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
+
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+
+    
+
+    echo "<script LANGUAGE='JavaScript'>
+                window.alert('You successfully delete your comment...');
+            </script>";
+}
 if (isset($_POST['return'])) {
     $delete_query = "DELETE FROM buys WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -259,6 +277,7 @@ if (isset($_POST['return'])) {
             </div>
             <?php
             $game_id = $_GET['game_id'];
+            $a_id = $_SESSION["a_ID"];
             $comments_query = "SELECT * FROM comments_on c, User u WHERE c.a_ID = u.a_ID AND c.g_ID= " . $game_id . ";";
             $comments_query_results = mysqli_query($db, $comments_query);
                     if (!$comments_query_results) {
@@ -273,7 +292,17 @@ if (isset($_POST['return'])) {
                             $com_g_name = $comment_row['g_ID'];
                             $com_date = $comment_row['date'];
                             $com_text = $comment_row['text'];
-                            echo "<div class='game-date'; style='margin-top: 20px;'>
+                            if($a_id == $com_a_id){
+                                echo "<form method='post'>";
+                                echo "<input type='submit' 
+                                name='Delete' onclick='' class='btn btn-primary btn-lg' 
+                                style='font-family: Avenir; 
+                                width: 10%; background-color: rgb(234, 124, 137); 
+                                border-color: rgb(234, 124, 137); 
+                                border-radius: 20px' value='Delete'>";
+                                echo "</form>";
+                            }
+                            echo "<div class='game-date'; style='margin-top: 20px; margin-bottom:20px;'>
                             <span style='font-weight: bold'>User: </span> " . $usr_name . "
                             </div>
                             <div class='comments_out'; style='margin-top: 20px;'>
@@ -281,16 +310,19 @@ if (isset($_POST['return'])) {
                             <div class='game-date'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Date: </span> " . $com_date . "
                             </div> ";
-
+                            echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";
+                            
                         }
-
+                        
+                        
                     }
+                    
 
 
             ?>
         </div>
 
-
+        
         <div style="position: fixed;
                 left: 0;
                 bottom: 5px;
