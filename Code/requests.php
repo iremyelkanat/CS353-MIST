@@ -1,4 +1,11 @@
 <?php
+    include("config.php");
+    session_start();
+
+    if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "pub"){
+        header("location: index.php");
+        die("Redirecting to login.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +37,74 @@
     </nav>
     <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Requests</div>
     <hr>
+    <div class="request-div" style="display: flex; height: 400px">
+        <?php
+            $query = "SELECT vg.g_name, vg.g_description FROM develops d, about a, takes t, Video_Game vg, asks ask, Request req WHERE (t.state <> 'Approved' OR t.state <> 'Declined') AND vg.g_ID = a.g_ID AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID and ask.r_ID = t.r_ID AND t.a_ID = " . $_SESSION["a_ID"] . " AND d.a_ID = " . $_SESSION["a_ID"] . " AND d.g_ID = vg.g_ID AND vg.g_ID NOT IN (SELECT vgt.g_ID FROM Video_Game vgt, publish p WHERE vgt.g_ID = p.g_ID AND p.a_ID = " . $_SESSION["a_ID"] . ")";
+
+            $card_data = mysqli_query($db, $query);
+
+            if (!$card_data) {
+                printf("Error: %s\n", mysqli_error($db));
+                exit();
+            }
+            if (mysqli_num_rows($card_data) > 0) {
+                while ($cards_row = mysqli_fetch_assoc($card_data)) {
+                    $game_name = $cards_row['vg.g_name'];
+                    $game_desc = $cards_row['vg.g_description'];
+                    $game_image = $cards_row['vg.g_image'];
+
+                    echo "<div style='display: flex;'>
+                            <div class='game-image' style='
+                                width: 420px; 
+                                height: 250px;
+                                float: right;
+                                display: table;
+                                overflow: hidden;
+                                text-align: center;
+                                font-size: 30px;
+                                margin-top: 10px;
+                                margin-bottom: 10px;
+                                border-style: solid;
+                                border-color: rgba(112,112,112,1);
+                                border-width: 2px;
+                                margin-right: 100px;
+                                margin-left: 100px;
+                                position: relative; 
+                                border-radius: 20px;'>
+                                <div style='display: table-cell; vertical-align: middle'> 
+                                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
+                            </div>
+                        </div>
+                        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+                            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                                <div>
+                                    <span style='font-weight: bold'>Name: </span>
+                                    <span>" . $game_name . "</span>
+                                </div>
+                                <div>
+                                    <span style='font-weight: bold'>Description:> </span>
+                                    <span>" . $game_desc . "</span>
+                                </div>
+                                <br>
+                                <div>
+                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                                Approve
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                                Decline
+                                    </button>
+                                </div>
+                            </div>
+                        </div>";
+                }
+            }
+            else {
+                echo "no results";
+            }
+        ?>
+    </div>
     <div style="position: fixed;
                 left: 0;
                 bottom: 5px;
