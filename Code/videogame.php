@@ -193,7 +193,15 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="commentsandreview.php" style="text-decoration:none;color:black " ;><span>Comments & Reviews</span></a>
+                        <?php
+                        echo " <a href='commentsandreview.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color:black '>
+                        <span>Comments & Reviews</span>
+                        </div>
+
+                  
+                  </a>";
+                        ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -201,49 +209,57 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="mods.php" style="text-decoration:none;color:black " ;><span>Modes</span></a>
+                  <?php
+                        echo " <a href='mods.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color:black '>
+                        <span>Comments & Reviews</span>
+                        </div>
+
+                  
+                  </a>";
+                        ?>
                     </div>
                 </div>
 
             </div>
             <?php
-              $has_query = "SELECT c_name as developer_name FROM develops d , Company c WHERE d.a_ID=  c.a_ID  AND d.g_id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+            $has_query = "SELECT c_name as developer_name FROM develops d , Company c WHERE d.a_ID=  c.a_ID  AND d.g_id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $dev_name = $has_row['developer_name'];
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
 
-              $has_query = "SELECT c_name as publish_name FROM publish p , Company c WHERE p.a_ID=  c.a_ID  AND p.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $dev_name = $has_row['developer_name'];
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
+            $has_query = "SELECT c_name as publish_name FROM publish p , Company c WHERE p.a_ID=  c.a_ID  AND p.g_Id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $pub_name = $has_row['publish_name'];
 
-              $has_query = "SELECT date as g_date FROM updates u  WHERE  u.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $pub_name = $has_row['publish_name'];
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $update_date = $has_row['g_date'];
+            $has_query = "SELECT date as g_date FROM updates u  WHERE  u.g_Id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
- 
+
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
+
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $update_date = $has_row['g_date'];
+
+
             ?>
             <div class="game-details-p3" style="width: 50%; font-family: Avenir; font-size: 24px">
                 <?php
