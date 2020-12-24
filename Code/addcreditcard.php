@@ -128,7 +128,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgb(126, 166, 234); 
                   border-radius: 20px">
-                        <a href="addcreditcard.php" style="text-decoration:none;color:black " ;><span>Transfer Money</span></a>
+                        <a href="transfermoney.php" style="text-decoration:none;color:black " ;><span>Transfer Money</span></a>
                     </div>
                 </div>
             </div>

@@ -37,9 +37,9 @@
     </nav>
     <div class="main-div" style="display: flex; height: 400px">
         <?php
-            $card_query = "SELECT ​vg.g_name, vg.g_description, vg.g_image FROM​ develops d, about a, takes t, Video_Game vg, asks ask, Request req WHERE ​t.state= “Approved” ​AND​ vg.g_ID=a.g_ID AND ​a.r_ID = req.r_ID ​AND ​t.r_ID = req.r_ID ​AND​ ask.r_ID = t.r_ID ​AND​ t.a_ID=" . $_SESSION["a_ID"] . "​AND ​d.a_ID=" . $_SESSION["a_ID"] . "​AND​ d.g_ID = vg.g_ID MINUS SELECT ​vg.g_name, vg.g_description, vg.g_image FROM​ Video_Game vg, publish p WHERE ​vg.g_ID = publish.g_ID ​AND​ p.a_ID =" . $_SESSION["a_ID"] . ";";
+            $query = "SELECT vg.g_name, vg.g_description, vg.g_image FROM develops d, about a, takes t, Video_Game vg, asks ask, Request req WHERE t.state = 'Approved' AND vg.g_ID = a.g_ID AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID AND ask.r_ID = t.r_ID AND t.a_ID=" . $_SESSION["a_ID"] . "AND d.a_ID=" . $_SESSION["a_ID"] . " AND d.g_ID = vg.g_ID AND vg.g_ID NOT IN (SELECT vgt.g_ID FROM Video_Game vgt, publish p WHERE vgt.g_ID = p.g_ID AND p.a_ID=" . $_SESSION["a_ID"] . ");";
 
-            $card_result = mysqli_query($db, $card_query);
+            $card_result = mysqli_query($db, $query);
 
             if (!$card_result) {
                 printf("Error: %s\n", mysqli_error($db));
