@@ -1,0 +1,40 @@
+<div style='display: flex;'>
+            <div class='game-image' style='
+                width: 420px; 
+                height: 250px;
+                float: right;
+                display: table;
+                overflow: hidden;
+                text-align: center;
+                font-size: 30px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border-style: solid;
+                border-color: rgba(112,112,112,1);
+                border-width: 2px;
+                margin-right: 100px;
+                margin-left: 100px;
+                position: relative; 
+                border-radius: 20px;'>
+                <div style='display: table-cell; vertical-align: middle'> 
+                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
+            </div>
+        </div>
+        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                <div>
+                    <span style='font-weight: bold'>Name: </span>
+                    <span>Lele</span>
+                </div>
+                <div>
+                    <span style='font-weight: bold'>Description:> </span>
+                    <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil atque blanditiis eius ut! Ut inventore reiciendis accusamus, voluptatibus saepe, aspernatur blanditiis atque nesciunt assumenda, maiores commodi laboriosam nihil itaque? Magnam.</span>
+                </div>
+                <br>
+                <div>
+                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                Publish
+                    </button>
+                </div>
+            </div>
+        </div>
