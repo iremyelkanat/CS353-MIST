@@ -185,7 +185,15 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="videogame.php" style="text-decoration:none;color:black " ;><span>Abouts</span></a>
+                  <?php
+                        echo " <a href='videogame.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color: black '>
+                        <span>Abouts</span>
+                        </div>
+
+                  
+                  </a>";
+                  ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -195,7 +203,7 @@ if (isset($_POST['return'])) {
                   border-radius: 20px">
                         <?php
                         echo " <a href='commentsandreview.php?game_id=" . $game_id . "'>
-                        <div style='text-decoration:none;color:black '>
+                        <div style='text-decoration:none;color: black '>
                         <span>Comments & Reviews</span>
                         </div>
 
@@ -206,13 +214,13 @@ if (isset($_POST['return'])) {
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
-                 background-color: rgb(126, 166, 234); 
+                  background-color: rgb(126, 166, 234); 
                   border-color: rgb(126, 166, 234);
                   border-radius: 20px">
                   <?php
-                        echo " <a href='mods.php?game_id=" . $game_id . "'>
+                        echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
                         <div style='text-decoration:none;color:white '>
-                        <span>Comments & Reviews</span>
+                        <span>Mods</span>
                         </div>
 
                   

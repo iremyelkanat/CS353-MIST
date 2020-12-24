@@ -183,9 +183,17 @@ if (isset($_POST['return'])) {
                 <div style=" margin-right: 200px ;float: left; width: 420px; text-align: left" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
                   background-color: rgb(126, 166, 234); 
-                  border-color: rgb(126, 166, 234); 
+                  border-color: rgb(126, 166, 234);
                   border-radius: 20px">
-                        <a href="videogame.php" style="text-decoration:none;color:inherit " ;><span>Abouts</span></a>
+                  <?php
+                        echo " <a href='videogame.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color: white '>
+                        <span>Abouts</span>
+                        </div>
+
+                  
+                  </a>";
+                  ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -193,7 +201,15 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="commentsandreview.php" style="text-decoration:none;color:black " ;><span>Comments & Reviews</span></a>
+                        <?php
+                        echo " <a href='commentsandreview.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color: black '>
+                        <span>Comments & Reviews</span>
+                        </div>
+
+                  
+                  </a>";
+                        ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -201,7 +217,15 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                        <a href="mods.php" style="text-decoration:none;color:black " ;><span>Modes</span></a>
+                  <?php
+                        echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
+                        <div style='text-decoration:none;color:black '>
+                        <span>Mods</span>
+                        </div>
+
+                  
+                  </a>";
+                        ?>
                     </div>
                 </div>
 
