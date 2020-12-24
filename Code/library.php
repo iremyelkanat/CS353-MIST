@@ -50,7 +50,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                     <div style="font-family: Avenir; font-size: 25px ; font-weight: bold; margin-bottom: 2%">Games Bought</div>
                     <?php
-                    $games_bought_query = "SELECT v.g_name, v.g_image FROM buys b, Video_Game v WHERE b.g_ID=v.g_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $games_bought_query = "SELECT v.g_name,v.g_ID, v.g_image FROM buys b, Video_Game v WHERE b.g_ID=v.g_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
                     $games_bought_result = mysqli_query($db, $games_bought_query);
                     if (!$games_bought_result) {
                         printf("Error: %s\n", mysqli_error($db));
@@ -65,7 +65,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }
@@ -80,7 +79,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                     <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Current Subscriptions</div>
                     <?php
-                        $current_subscriptions_query = "SELECT sp.package_name FROM subscribes s, Subscription_Package sp WHERE sp.package_ID = s.package_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
+                        $current_subscriptions_query = "SELECT sp.package_name, sp.package_ID FROM subscribes s, Subscription_Package sp WHERE sp.package_ID = s.package_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
                         $current_subscriptions_result = mysqli_query($db, $current_subscriptions_query);        
                         if (!$current_subscriptions_result) {
                             printf("Error: %s\n", mysqli_error($db));
@@ -95,7 +94,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $package_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                             }
@@ -110,7 +108,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                 <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Games From Subscriptions</div>
                     <?php
-                    $package_games_query = "SELECT g.g_name, g.g_image FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $package_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
                     $package_games_result = mysqli_query($db, $package_games_query);
                     if (!$package_games_result) {
                         printf("Error: %s\n", mysqli_error($db));
@@ -125,7 +123,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }
@@ -140,7 +137,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                     <div style="font-family: Avenir; font-size: 25px; font-weight: bold ; margin-bottom: 2%">Games Downloaded</div>
                     <?php
-                    $downloaded_games_query = "SELECT g.g_name, g.g_image FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $downloaded_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
                     $downloaded_games_result = mysqli_query($db, $downloaded_games_query);
                     if (!$downloaded_games_result) {
                         printf("Error: %s\n", mysqli_error($db));
@@ -154,7 +151,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }

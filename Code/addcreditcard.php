@@ -7,79 +7,78 @@
        die("Redirecting to login.php");
    }
 
-    if (isset($_GET['package_id'])) {
-        $package_id = $_GET['package_id'];
+   if (isset($_GET['package_id'])) {
+    $package_id = $_GET['package_id'];
 
-        $package_query = "SELECT * FROM Subscription_Package WHERE package_ID =" . $package_id . ";";
+    $package_query = "SELECT * FROM Subscription_Package WHERE package_ID =" . $package_id . ";";
 
-        $package_query_result = mysqli_query($db, $package_query);
-        if (!$package_query_result) {
+    $package_query_result = mysqli_query($db, $package_query);
+    if (!$package_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    $package_row = mysqli_fetch_assoc($package_query_result);
+
+    $package_name = $package_row['package_name'];
+    $package_duration = $package_row['duration'];
+    $package_price = $package_row['price'];
+}
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $cardName = trim($_POST["card-name"]);
+    $bankNme = trim($_POST["bank-name"]);
+    $cardNumber = trim($_POST["card-number"]);
+    $date = trim($_POST["date"]);
+
+    /*// phone existence check
+    $phone_check_query = "SELECT * FROM Accountt WHERE phone_number = '$phoneNumber'";
+    $phone_check_result = mysqli_query($db, $phone_check_query);
+    $num_of_rows_phone_check = mysqli_num_rows($phone_check_result);
+
+    // email existence check
+    $email_check_query = "SELECT * FROM Accountt WHERE email_address = '$email'";
+    $email_check_result = mysqli_query($db, $email_check_query);
+    $num_of_rows_email_check = mysqli_num_rows($email_check_result);
+
+    // nick existence check
+    $nick_check_query = "SELECT * FROM User WHERE nick_name = '$nickName'";
+    $nick_check_result = mysqli_query($db, $nick_check_query);
+    $num_of_rows_nick_check = mysqli_num_rows($nick_check_result);
+
+    if ($num_of_rows_phone_check > 0) {
+        echo "<script type='text/javascript'>alert('Phone Number Already Exists.');</script>";
+    }
+    else if ($num_of_rows_email_check > 0) {
+        echo "<script type='text/javascript'>alert('Email Already Exists.');</script>";
+    }
+    else if ($num_of_rows_nick_check > 0) {
+        echo "<script type='text/javascript'>alert('Nick Name Already Exists.');</script>";
+    }
+    */
+        $insert_card_query = "INSERT INTO Credit_Card(card_ID, bank, name, exp_date) VALUES ('$cardNumber', '$bankNme', '$cardName', '$date');";
+        $insert_card_result = mysqli_query($db, $insert_card_query);
+
+        $insert_include_query = "INSERT INTO include VALUES ('$cardNumber', 0, ". $_SESSION['a_ID'].");";
+        $insert_include_result = mysqli_query($db, $insert_include_query);
+
+        if (!$insert_card_result) {
             printf("Error: %s\n", mysqli_error($db));
+            printf("Error: 1");
             exit();
         }
-        $package_row = mysqli_fetch_assoc($package_query_result);
 
-        $package_name = $package_row['package_name'];
-        $package_duration = $package_row['duration'];
-        $package_price = $package_row['price'];
-    }
-
-
-
-    if($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        $cardName = trim($_POST["card-name"]);
-        $bankNme = trim($_POST["bank-name"]);
-        $cardNumber = trim($_POST["card-number"]);
-        $date = trim($_POST["date"]);
-
-        /*// phone existence check
-        $phone_check_query = "SELECT * FROM Accountt WHERE phone_number = '$phoneNumber'";
-        $phone_check_result = mysqli_query($db, $phone_check_query);
-        $num_of_rows_phone_check = mysqli_num_rows($phone_check_result);
-
-        // email existence check
-        $email_check_query = "SELECT * FROM Accountt WHERE email_address = '$email'";
-        $email_check_result = mysqli_query($db, $email_check_query);
-        $num_of_rows_email_check = mysqli_num_rows($email_check_result);
-
-        // nick existence check
-        $nick_check_query = "SELECT * FROM User WHERE nick_name = '$nickName'";
-        $nick_check_result = mysqli_query($db, $nick_check_query);
-        $num_of_rows_nick_check = mysqli_num_rows($nick_check_result);
-
-        if ($num_of_rows_phone_check > 0) {
-            echo "<script type='text/javascript'>alert('Phone Number Already Exists.');</script>";
+        if (!$insert_include_result) {
+            printf("Error: 2\n");
+            exit();
         }
-        else if ($num_of_rows_email_check > 0) {
-            echo "<script type='text/javascript'>alert('Email Already Exists.');</script>";
-        }
-        else if ($num_of_rows_nick_check > 0) {
-            echo "<script type='text/javascript'>alert('Nick Name Already Exists.');</script>";
-        }
-        */
-            $insert_card_query = "INSERT INTO Credit_Card(card_ID, bank, name, exp_date) VALUES ('$cardNumber', '$bankNme', '$cardName', '$date');";
-            $insert_card_result = mysqli_query($db, $insert_card_query);
 
-            $insert_include_query = "INSERT INTO include VALUES ('$cardNumber', 0, ". $_SESSION['a_ID'].");";
-            $insert_include_result = mysqli_query($db, $insert_include_query);
-
-            if (!$insert_card_result) {
-                printf("Error: %s\n", mysqli_error($db));
-                printf("Error: 1");
-                exit();
-            }
-
-            if (!$insert_include_result) {
-                printf("Error: 2\n");
-                exit();
-            }
-
-            echo "<script LANGUAGE='JavaScript'>
-                    window.alert('Your card has been added successfully! Redirecing...');
-                    window.location.href = 'userhome.php';
-                </script>";
-    }
+        echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your card has been added successfully! Redirecting...');
+                window.location.href = 'userhome.php';
+            </script>";
+}
    ?>
 <!DOCTYPE html>
 <html>
@@ -94,7 +93,6 @@
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script id="applicationScript" type="text/javascript" src="index.js"></script>
 </head>
 
@@ -124,13 +122,13 @@
                         <a href="addcreditcard.php" style="text-decoration:none;color:inherit " ;><span>Add Credit Card</span></a>
                     </div>
                 </div>
-                <div style="font-size: 24px; height: 50px; line-height: 50px; font-family: Avenir"> OR </div>
+                <span> OR </span>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
                   background-color: rgb(256, 256, 256); 
-                  border-color: rgba(112,112,112,0.3);
+                  border-color: rgb(126, 166, 234); 
                   border-radius: 20px">
-                        <a href="transfermoney.php" style="text-decoration:none;color:black " ;><span>Transfer Money</span></a>
+                        <a href="addcreditcard.php" style="text-decoration:none;color:black " ;><span>Transfer Money</span></a>
                     </div>
                 </div>
             </div>
@@ -142,9 +140,9 @@
                   margin-left: 200px;
                   margin-right: 200px;
                   padding: 50px;
-                  border-radius: 30px";>
-             <div style="width: 100%; font-family: Avenir">
-                 <div style="font-size: 32px;">
+                  border-radius: 20px";>
+             <div style="width: 100%">
+                 <div>
                      Current Credit Cards
                  </div>
                  <?php
@@ -157,28 +155,20 @@
                      }
                      if (mysqli_num_rows($card_result) > 0) {
                          while ($cards_row = mysqli_fetch_assoc($card_result)) {
-                             $cardName = $cards_row['name'];
-                             $cardId = $cards_row['card_ID'];
+                             $package_id = $cards_row['name'];
+                             $package_name = $cards_row['card_ID'];
 
                              echo "<div class='credit-card-info' style='
                                     border-style: solid;
-                                    border-width: 1px;
-                                    margin-top: 20px;
+                                    border-width: 2px;
+                                    margin-top: 50px;
                                     padding: 10px;
-                                    font-size: 20px;
-                                    border-color: rgba(112,112,112,0.3);
-                                    border-radius: 25px; display: flex;
-                                    padding-left: 40px'>
-                                    <div style=''>
-                                    $cardName
+                                    border-radius: 25px; display: flex;'>
+                                    <div>
+                                    $package_id
                                     </div>
-                                    <div style='position: absolute; left: 600px'>
-                                    $cardId
-                                    </div>
-                                    <div style='position: absolute; right: 300px'>
-                                    <a href='deletecard.php?card_id=" . $cardId. "' style='color: inherit'>
-                                    <i class='fa fa-trash'></i>
-                                    </a>
+                                    <div>
+                                    $package_name
                                     </div>
                                 </div>";
 
@@ -205,7 +195,7 @@
                                  <input id="date" type="date" class="form-control" name="date" placeholder="Expiration Date" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
                              </div>
                          </div>
-                         <div class="form-group" style="text-align: center; margin-top: 50px">
+                         <div class="form-group" style="text-align: center; margin-top: 20px">
                              <input onclick="checkEmptyAndCreateCard()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Add New Card      ">
                          </div>
                      </form>

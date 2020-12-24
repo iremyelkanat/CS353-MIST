@@ -210,7 +210,7 @@ if (isset($_POST['return'])) {
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
                   <?php
-                        echo " <a href='mods.php?game_id=" . $game_id . "'>
+                        echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
                         <div style='text-decoration:none;color:black '>
                         <span>Comments & Reviews</span>
                         </div>
