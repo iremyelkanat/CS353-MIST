@@ -39,7 +39,7 @@
             <a class="nav-item nav-link" href="logout.php">Logout</a>
         </div>
     </nav>
-
+    
     <div style="position: fixed;
                 left: 0;
                 bottom: 5px;

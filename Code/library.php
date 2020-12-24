@@ -65,7 +65,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }
@@ -95,7 +94,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $package_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                             }
@@ -125,7 +123,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }
@@ -154,7 +151,6 @@
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; bottom: 8px; right: 16px; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90);'> X </h3>
                                 </div>
                             </a>";
                         }
