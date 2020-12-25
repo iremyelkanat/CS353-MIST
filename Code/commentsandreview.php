@@ -272,7 +272,7 @@ if (isset($_POST['return'])) {
                      }
                      $has_row = mysqli_fetch_assoc($has_query_result);
                      $has_count = $has_row['has_count'];
-                     
+                     $com = $has_row['com'];
                      if($com == 0){
                         $com = 1;
                      }

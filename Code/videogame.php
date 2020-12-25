@@ -170,7 +170,25 @@ if (isset($_POST['return'])) {
                     </div>
                 </div>
                 <div class="game-details-p2" style="width: 50%; font-family: Avenir; font-size: 24px">
-                    <?php
+                <?php
+                     $has_query = "SELECT SUM(r.value) as has_count , COUNT(r.value) as com FROM rates r WHERE  r.g_ID = " . $g_id . ";";
+                     $has_query_result = mysqli_query($db, $has_query);
+
+                     if (!$has_query_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+
+                         exit();
+                     }
+                     $has_row = mysqli_fetch_assoc($has_query_result);
+                     $has_count = $has_row['has_count'];
+                     $com = $has_row['com'];
+                     if($com == 0){
+                        $com = 1;
+                     }
+                     else{
+                        $com = $has_row['com'];
+                     }
+                     $has_count = $has_count / $com;
                     echo "<div class='game-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Game Name: </span> " . $g_name . "
                         </div>
@@ -183,7 +201,34 @@ if (isset($_POST['return'])) {
                         <div class='package-duration' style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Downloaded: </span> " . $down . "
                         </div>
-                        ";
+                        <div class='package-duration' style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>Give Rate: </span> ".$has_count."
+                             
+                        </div>";
+                        $a_id = $_SESSION["a_ID"];
+                        $has_query = "SELECT COUNT(*) AS has_count FROM rates r WHERE r.a_ID = ". $a_id ." AND r.g_ID = " . $g_id . ";";
+                     $has_query_result = mysqli_query($db, $has_query);
+
+                     if (!$has_query_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+
+                         exit();
+                     }
+                     $has_row = mysqli_fetch_assoc($has_query_result);
+                     $co_rate = $has_row['has_count'];
+                        if(isset($_POST['buy'])&& $co_rate < 1){
+                            echo "<form id='create-rate-form' method='post'>
+                            <div class='input-group' >
+                        <input id='rate_given_text' type='number' class='form-control' name='rate_given_text' placeholder='Rate' style='  margin-right: 80%;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                    </div>
+                    <div class='form-group' style='text-align: left; margin-top: 10px'>
+                        <input onclick='checkEmptyAndCreateRate()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Rate     '>
+                    </div>
+                </form>
+                            
+                            ";
+                        }
+                        
                     ?>
                 </div>
             </div>
