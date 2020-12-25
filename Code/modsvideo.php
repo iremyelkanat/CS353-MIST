@@ -6,7 +6,7 @@ if (isset($_GET['game_id'])) {
     $game_id = $_GET['game_id'];
     echo $game_id;
 
-    $game_query = "SELECT * FROM Video_Game WHERE g_id = " . $game_id . ";";
+    $game_query = "SELECT * FROM Video_Game Where g_id = " . $game_id . ";";
     $game_query_result = mysqli_query($db, $game_query);
     if (!$game_query_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -51,7 +51,7 @@ if (isset($_POST['return'])) {
                 window.alert('You successfully returned from the Video Game...');
             </script>";
 } elseif (isset($_POST['buy'])) {
-    $get_balance_query = "SELECT w.balance FROM Wallet w WHERE w.a_ID=" . $_SESSION['a_ID'] . ";";
+    $get_balance_query = "SELECT balance FROM Wallet w WHERE w.a_ID=" . $_SESSION['a_ID'] . ";";
     $get_balance_query_result = mysqli_query($db, $get_balance_query);
     if (!$get_balance_query_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -62,9 +62,8 @@ if (isset($_POST['return'])) {
     $user_balance = $get_balance_row['balance'];
     if ($user_balance < $g_price) {
         echo "<script type='text/javascript'>alert('Your balance is not sufficient.');</script>";
-    } else {
-
-
+    } 
+    else {
         $insert_query = "INSERT INTO buys VALUES (" . $_SESSION['a_ID'] . ", " . $g_id . ", now());";
         $insert_query_result = mysqli_query($db, $insert_query);
         if (!$insert_query_result) {
@@ -82,6 +81,10 @@ if (isset($_POST['return'])) {
                 window.alert('You successfully bought the video game...');
             </script>";
     }
+}
+elseif (isset($_POST['build'])) {
+    $game_id = $_GET['game_id'];
+    echo " ";
 }
 
 ?>
@@ -116,7 +119,7 @@ if (isset($_POST['return'])) {
                 ?>
                 <a class="nav-item nav-link active">Store</a>
                 <a href="library.php" class="nav-item nav-link">Libary</a>
-                <a href="mode.php" class="nav-item nav-link">Mode</a>
+                <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">
@@ -129,6 +132,8 @@ if (isset($_POST['return'])) {
                     <div style="font-family: Avenir; font-size: 48px;">Video Game</div>
                     <div style=" width: 420px; text-align: right; margin-top: 10px" ;>
                         <?php
+                        $game_id = $_GET['game_id'];
+
                         $has_query = "SELECT COUNT(*) as has_count FROM buys b WHERE b.a_ID=" . $_SESSION['a_ID'] . " AND b.g_id = " . $g_id . ";";
                         $has_query_result = mysqli_query($db, $has_query);
 
@@ -142,6 +147,7 @@ if (isset($_POST['return'])) {
                         $down = $has_count;
                         if ($has_count > 0) {
                             echo "<form method='post'>";
+
                             echo "<input type='submit' name='return' onclick='' class='btn btn-primary btn-lg' 
                             style='font-family: Avenir;
                              width: 100%; 
@@ -149,6 +155,27 @@ if (isset($_POST['return'])) {
                              border-color: rgb(234, 124, 137); 
                              border-radius: 20px' value='Return'>";
                             echo "</form>";
+                            
+                            echo "<div style='justify-content:space-around; display: flex; margin:auto; margin-top: 20px;'>
+                            <div style=' font-family: Avenir ;float: left; width: 100%; text-align: left' ;>
+                                <div class='btn btn-primary btn-lg' style='width: 100%; 
+                                background-color: green; 
+                                border-color: green; 
+                              border-radius: 20px'>
+                              
+                          <a href='createmode.php?game_id=" . $game_id . "'>
+                                    <div style='text-decoration:none;color: white '>
+                                    <span>Build Mode</span>
+                                    </div>
+            
+                              
+                              </a></div>
+                              </div>
+                          </div>";
+                              
+                                    
+                              
+                               
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
@@ -187,15 +214,16 @@ if (isset($_POST['return'])) {
                     ?>
                 </div>
             </div>
+            
             <div style="justify-content:space-around; display: flex; margin:auto; margin-top: 20px;">
                 <div style=" margin-right: 200px ;float: left; width: 420px; text-align: left" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
-                  background-color: rgb(126, 166, 234); 
-                  border-color: rgb(126, 166, 234);
+                  background-color: rgb(256, 256, 256); 
+                  border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
                   <?php
                         echo " <a href='videogame.php?game_id=" . $game_id . "'>
-                        <div style='text-decoration:none;color: white '>
+                        <div style='text-decoration:none;color: black '>
                         <span>Abouts</span>
                         </div>
 
@@ -222,81 +250,59 @@ if (isset($_POST['return'])) {
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
                     <div class="btn btn-primary btn-lg" style="width: 100%; 
-                  background-color: rgb(256, 256, 256); 
-                  border-color: rgba(112,112,112,0.3);
+                  background-color: rgb(126, 166, 234); 
+                  border-color: rgb(126, 166, 234);
                   border-radius: 20px">
                   <?php
                         echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
-                        <div style='text-decoration:none;color:black '>
+                        <div style='text-decoration:none;color:white '>
                         <span>Mods</span>
                         </div>
-
-                  
                   </a>";
                         ?>
                     </div>
                 </div>
 
             </div>
+            <div style="width: 100%">
+
             <?php
-              $has_query = "SELECT c_name as developer_name FROM develops d , Company c WHERE d.a_ID=  c.a_ID  AND d.g_id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
+                
+                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
+                $mods_result = mysqli_query($db, $mods_query);
+                
+                if (!$mods_result) {
+                    printf("Error: %s\n", mysqli_error($db));
+                    exit();
+                }
+                if (mysqli_num_rows($mods_result) > 0) {
+                    while ($mods_row = mysqli_fetch_assoc($mods_result)) {
+                        $mod_name = $mods_row['m_name'];
+                        $mod_description = $mods_row['m_description'];
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $dev_name = $has_row['developer_name'];
+                        echo "<div class='credit-card-info' style='
+                                
+                               border-style: solid;
+                               border-width: 5px;
+                               margin-top: 50px;
+                               padding: 10px;
+                               border-radius: 25px; display: flex;'>
+                               <div>
+                               $mod_name
+                               </div>
+                               <div>
+                               $mod_description
+                               </div>
+                           </div>";
 
-              $has_query = "SELECT c_name as publish_name FROM publish p , Company c WHERE p.a_ID=  c.a_ID  AND p.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
-
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
-
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $pub_name = $has_row['publish_name'];
-
-              $has_query = "SELECT date as g_date FROM updates u  WHERE  u.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
-
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
-
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $update_date = $has_row['g_date'];
-
- 
+                        }
+                }
+                else {
+                    echo "no results";
+                }
             ?>
-            <div class="game-details-p3" style="width: 50%; font-family: Avenir; font-size: 24px">
-                <?php
-                echo "<div class='game-requirement'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Minimum System Requirement: </span> " . $g_requirements . "
-                        </div>
-                        <div class='game-description'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Developer: </span> " . $dev_name . "
-                        </div>
-                        <div class='game-genre'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Publisher: </span> " . $pub_name . "
-                        </div>
-                        <div class='package-duration' style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Version: </span> " . $g_version . "
-                        </div>
-                        <div class='package-duration' style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Last Update On: </span> " . $update_date . "
-                        </div>
-                        ";
-                ?>
-            </div>
+            
         </div>
 
 

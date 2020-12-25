@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="width=device-width, initial-scale=1.0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIST - Library</title>
+    <title>MIST - Modes</title>
     <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="../Assets/css/index.css" />
     <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
@@ -33,8 +33,8 @@
             }
             ?>
                 <a href="store.php" class="nav-item nav-link">Store</a>
-                <a class="nav-item nav-link active">Library</a>
-                <a href="modes.php" class="nav-item nav-link">Modes</a>
+                <a href="library.php" class="nav-item nav-link ">Library</a>
+                <a class="nav-item nav-link active">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">
@@ -44,24 +44,24 @@
         <div class="main-div"
             style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
             <div class="information-header" style="width: 100%">
-                <div style="font-family: Avenir; font-size: 48px ; margin-bottom: 2%">Library</div>
+                <div style="font-family: Avenir; font-size: 48px ; margin-bottom: 2%">Modes</div>
                 <hr style="margin-right: 20%">
-                <div class="games-bought-display">
+                <div class="mods-to-download-display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div style="font-family: Avenir; font-size: 25px ; font-weight: bold; margin-bottom: 2%">Games Bought</div>
+                    <div style="font-family: Avenir; font-size: 25px ; font-weight: bold; margin-bottom: 2%">Games to Build Mode For</div>
                     <?php
-                    $games_bought_query = "SELECT v.g_name,v.g_ID, v.g_image FROM buys b, Video_Game v WHERE b.g_ID=v.g_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
-                    $games_bought_result = mysqli_query($db, $games_bought_query);
-                    if (!$games_bought_result) {
+                    $mods_tobuild_query = "SELECT v.g_name, v.g_image, v.g_ID FROM install b, Video_Game v WHERE b.g_ID=v.g_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $mods_tobuild_result = mysqli_query($db, $mods_tobuild_query);
+                    if (!$mods_tobuild_result) {
                         printf("Error: %s\n", mysqli_error($db));
                         exit();
                     }
-                    if (mysqli_num_rows($games_bought_result) > 0) {
-                        while ($games__bought_row = mysqli_fetch_assoc($games_bought_result)) {
+                    if (mysqli_num_rows($mods_tobuild_result) > 0) {
+                        while ($games__bought_row = mysqli_fetch_assoc($mods_tobuild_result)) {
                             $game_id = $games__bought_row['g_ID'];
                             $game_name = $games__bought_row['g_name'];
 
-                            echo "<a href='videogame.php?game_id=". $game_id ."'>
+                            echo "<a href='modsvideo.php?game_id=". $game_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
@@ -75,22 +75,22 @@
                     ?>
                 </div>
             </div>
-            <div class="package_subscribed_display">
+            <div class="mods_downloaded_display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Current Subscriptions</div>
+                    <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Modes Downloaded</div>
                     <?php
-                        $current_subscriptions_query = "SELECT sp.package_name, sp.package_ID FROM subscribes s, Subscription_Package sp WHERE sp.package_ID = s.package_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
-                        $current_subscriptions_result = mysqli_query($db, $current_subscriptions_query);        
-                        if (!$current_subscriptions_result) {
+                        $mods_downloaded_query = "SELECT d.m_ID, m.m_name FROM downloads d, Mode m WHERE m.m_ID = d.m_ID AND d.a_ID =" . $_SESSION['a_ID'] . ";";
+                        $mods_downloaded_result = mysqli_query($db, $mods_downloaded_query);        
+                        if (!$mods_downloaded_result) {
                             printf("Error: %s\n", mysqli_error($db));
                             exit();
                         }
-                        if (mysqli_num_rows($current_subscriptions_result) > 0) {
-                            while ($packages_row = mysqli_fetch_assoc($current_subscriptions_result)) {
-                                $package_id = $packages_row['package_ID'];
-                                $package_name = $packages_row['package_name'];
+                        if (mysqli_num_rows($mods_downloaded_result) > 0) {
+                            while ($modes_row = mysqli_fetch_assoc($mods_downloaded_result)) {
+                                $mode_id = $modes_row['m_ID'];
+                                $mode_name = $modes_row['m_name'];
 
-                                echo "<a href='subscriptionpackage.php?package_id=". $package_id ."'>
+                                echo "<a href='mode.php?package_id=". $mode_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $package_name ."</h3>
@@ -104,22 +104,22 @@
                     ?>
                 </div>
             </div>
-            <div class="games-from-packages-display">
+            <div class="modes-built-display">
                 <div style=" overflow-x: scroll; white-space: nowrap;">
-                <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Games From Subscriptions</div>
+                <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Modes Built</div>
                     <?php
-                    $package_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
-                    $package_games_result = mysqli_query($db, $package_games_query);
-                    if (!$package_games_result) {
+                    $modes_built_query = "SELECT m.m_ID, m.m_name FROM builds b, Mode m WHERE m.m_ID = b.m_ID AND b.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $modes_built_result = mysqli_query($db, $modes_built_query);
+                    if (!$modes_built_result) {
                         printf("Error: %s\n", mysqli_error($db));
                         exit();
                     }
-                    if (mysqli_num_rows($package_games_result) > 0) {
-                        while ($games__bought_row = mysqli_fetch_assoc($package_games_result)) {
-                            $game_id = $games__bought_row['g_ID'];
-                            $game_name = $games__bought_row['g_name'];
+                    if (mysqli_num_rows($modes_built_result) > 0) {
+                        while ($modes_built_row = mysqli_fetch_assoc($modes_built_result)) {
+                            $mode_id = $modes_built_row['m_ID'];
+                            $mode_name = $modes_built_row['m_name'];
 
-                            echo "<a href='videogame.php?game_id=". $game_id ."'>
+                            echo "<a href='mode.php?game_id=". $mode_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
@@ -133,33 +133,6 @@
                     ?>
                 </div>
             </div>
-            <div class="games-downloaded-display">
-                <div style=" overflow-x: scroll; white-space: nowrap;">
-                    <div style="font-family: Avenir; font-size: 25px; font-weight: bold ; margin-bottom: 2%">Games Downloaded</div>
-                    <?php
-                    $downloaded_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
-                    $downloaded_games_result = mysqli_query($db, $downloaded_games_query);
-                    if (!$downloaded_games_result) {
-                        printf("Error: %s\n", mysqli_error($db));
-                        exit();
-                    }
-                    if (mysqli_num_rows($downloaded_games_result) > 0) {
-                        while ($games_downloaded_row = mysqli_fetch_assoc($downloaded_games_result)) {
-                            $game_id = $games_downloaded_row['g_ID'];
-                            $game_name = $games_downloaded_row['g_name'];
-                            echo "<a href='videogame.php?game_id=". $game_id ."'>
-                                <div style='display: inline-block; float:none; position: relative'>
-                                    <img src='../Assets/images/package.jpeg'/>
-                                    <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
-                                </div>
-                            </a>";
-                        }
-                    }
-                    else {
-                        echo "no results";
-                    }
-                    ?>
-                </div>
             </div>
                 <div style="position: fixed;
                 left: 0;

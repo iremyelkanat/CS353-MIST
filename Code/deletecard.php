@@ -13,7 +13,7 @@
             exit();
         }
         echo "<script LANGUAGE='JavaScript'>
-                    window.alert('Your card has been deleted successfully! Redirecing...');
+                    window.alert('Your card has been deleted successfully! Redirecting...');
                     window.location.href = 'addcreditcard.php';
                 </script>";
     }

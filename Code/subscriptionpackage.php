@@ -55,7 +55,7 @@
             echo "<script type='text/javascript'>alert('Your balance is not sufficient.');</script>";
         }
         else {
-            $date = date('Y-m-d');
+
 
             $insert_query = "INSERT INTO subscribes VALUES (". $_SESSION['a_ID'] .", ".$package_id.", now());";
 
