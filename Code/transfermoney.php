@@ -2,8 +2,8 @@
    include("config.php");
    session_start();
 
-   if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "user"){
-       header("location: index.php");
+   if(empty($_SESSION['a_ID'] ) || ( ($_SESSION['type'] !== "user" ) && ($_SESSION['type'] !== "curator"))){
+    header("location: index.php");
        die("Redirecting to login.php");
    }
 
@@ -19,11 +19,19 @@
             printf("Error: %s\n", mysqli_error($db));
             exit();
         }
-
-        echo "<script LANGUAGE='JavaScript'>
+        if($_SESSION['type'] === "user"){
+            echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your wallet has been updated successfully! Redirecing...');
                 window.location.href = 'userhome.php';
             </script>";
+        }
+        else{
+            echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your wallet has been updated successfully! Redirecing...');
+                window.location.href = 'curatorhome.php';
+            </script>";
+        }
+        
     }
    ?>
 <!DOCTYPE html>
@@ -146,7 +154,8 @@
                              </div>
                          </div>
                          <div class="form-group" style="text-align: center; margin-top: 50px">
-                             <input onclick="checkEmptyAndUpdateBalance()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Transfer      ">
+                             <input onclick="checkEmptyAndUpdateBalance()" type="button" class="btn btn-primary btn-lg" 
+                             style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Transfer      ">
                          </div>
                  </div>
                  </form>
