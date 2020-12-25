@@ -172,10 +172,7 @@ elseif (isset($_POST['build'])) {
                               </a></div>
                               </div>
                           </div>";
-                              
-                                    
-                              
-                               
+       
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
@@ -269,7 +266,7 @@ elseif (isset($_POST['build'])) {
             <?php
 
                 
-                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
+                $mods_query = "SELECT M.m_name, M.m_description, U.u_name, M.m_ID FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
                 $mods_result = mysqli_query($db, $mods_query);
                 
                 if (!$mods_result) {
@@ -280,22 +277,20 @@ elseif (isset($_POST['build'])) {
                     while ($mods_row = mysqli_fetch_assoc($mods_result)) {
                         $mod_name = $mods_row['m_name'];
                         $mod_description = $mods_row['m_description'];
+                        $mod_id =  $mods_row['m_ID'];
+                        $user_name = $mods_row['u_name'];
 
-                        echo "<div class='credit-card-info' style='
-                                
-                               border-style: solid;
-                               border-width: 5px;
-                               margin-top: 50px;
-                               padding: 10px;
-                               border-radius: 25px; display: flex;'>
-                               <div>
-                               $mod_name
-                               </div>
-                               <div>
-                               $mod_description
-                               </div>
-                           </div>";
-
+                        echo "<a href='mode.php?mode_ID=". $mod_id ."'>
+                        <div class='game-date'; style='border-style: solid;
+                        border-width: 2px;
+                        margin-top: 50px;
+                        padding: 10px;
+                        border-radius: 25px; display: flex;'>
+                        <span style='font-weight: bold'>Mode Built By: </span> " . $user_name . "
+                        <span style='font-weight: bold'> Mode Name: </span> " . $mod_name . " 
+                        <span style='font-weight: bold'>Mode Description: </span> " . $mod_description . "
+                        </div> </a>";
+                        echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";  
                         }
                 }
                 else {

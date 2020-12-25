@@ -17,6 +17,4 @@
                     window.location.href = 'addcreditcard.php';
                 </script>";
     }
-
-
 ?>
