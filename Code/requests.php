@@ -39,7 +39,11 @@
     <hr>
     <div class="request-div" style="display: flex; height: 400px">
         <?php
-            $query = "SELECT vg.g_name, vg.g_description FROM develops d, about a, takes t, Video_Game vg, asks ask, Request req WHERE (t.state <> 'Approved' OR t.state <> 'Declined') AND vg.g_ID = a.g_ID AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID and ask.r_ID = t.r_ID AND t.a_ID = " . $_SESSION["a_ID"] . " AND d.a_ID = " . $_SESSION["a_ID"] . " AND d.g_ID = vg.g_ID AND vg.g_ID NOT IN (SELECT vgt.g_ID FROM Video_Game vgt, publish p WHERE vgt.g_ID = p.g_ID AND p.a_ID = " . $_SESSION["a_ID"] . ")";
+            $query = "SELECT vg.g_name, vg.g_description, vg.g_image
+                                                FROM about a, takes t, Video_Game vg, Request req
+                                                WHERE (t.state <> 'Approved' AND t.state <> 'Declined') AND vg.g_ID=a.g_ID
+                                                             AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID
+                                                            AND t.a_ID=". $_SESSION['a_ID'] .";";
 
             $card_data = mysqli_query($db, $query);
 
@@ -49,9 +53,9 @@
             }
             if (mysqli_num_rows($card_data) > 0) {
                 while ($cards_row = mysqli_fetch_assoc($card_data)) {
-                    $game_name = $cards_row['vg.g_name'];
-                    $game_desc = $cards_row['vg.g_description'];
-                    $game_image = $cards_row['vg.g_image'];
+                    $game_name = $cards_row['g_name'];
+                    $game_desc = $cards_row['g_description'];
+                    $game_image = $cards_row['g_image'];
 
                     echo "<div style='display: flex;'>
                             <div class='game-image' style='
@@ -82,19 +86,21 @@
                                     <span>" . $game_name . "</span>
                                 </div>
                                 <div>
-                                    <span style='font-weight: bold'>Description:> </span>
+                                    <span style='font-weight: bold'>Description: </span>
                                     <span>" . $game_desc . "</span>
                                 </div>
                                 <br>
+                                <div class='buttons' style='display: flex'>
                                 <div>
-                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
                                                 Approve
                                     </button>
                                 </div>
                                 <div>
-                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>
                                                 Decline
                                     </button>
+                                </div>
                                 </div>
                             </div>
                         </div>";

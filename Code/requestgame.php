@@ -22,8 +22,6 @@ if (isset($_GET['g_ID'])) {
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    var_dump($_GET);
-
     $companyId = trim($_POST["companies"]);
 
     $insert_request_query = "INSERT INTO Request() VALUES ();";
@@ -143,7 +141,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             printf("Error: %s\n", mysqli_error($db));
                             exit();
                         }
-                        printf(mysqli_num_rows($companies_query_result));
+
                         if (mysqli_num_rows($companies_query_result) > 0) {
                             while ($companies_row = mysqli_fetch_assoc($companies_query_result)) {
 
