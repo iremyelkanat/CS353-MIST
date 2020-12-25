@@ -23,6 +23,45 @@ if (isset($_GET['game_id'])) {
     $genre = $game_row['genre'];
     $g_requirements = $game_row['g_requirements'];
 }
+
+
+if (isset($_POST['uninstall'])) {
+    $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
+
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                window.alert('You successfully uninstall  the Video Game...');
+            </script>";
+}
+if (isset($_POST['install'])) {
+    $insert_query = "SELECT g_version FROM Video_Game v WHERE v.g_ID =  " . $g_id . " ;";
+
+    $delete_query_result = mysqli_query($db, $insert_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        printf("dsafjajsdfj a");
+
+        exit();
+    }
+    $has_row = mysqli_fetch_assoc($delete_query_result);
+    $has_count = $has_row['g_version'];
+
+
+    $insert_query = "INSERT INTO install VALUES ( ".$_SESSION['a_ID'].",  ".$g_id." , ".$has_count." );";
+
+    $delete_query_result = mysqli_query($db, $insert_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                window.alert('You successfully install  the Video Game...');
+            </script>";
+}
 if (isset($_POST['return'])) {
     $delete_query = "DELETE FROM buys WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -48,8 +87,19 @@ if (isset($_POST['return'])) {
         exit();
     }
     echo "<script LANGUAGE='JavaScript'>
-                window.alert('You successfully returned from the Video Game...');
+                window.alert('You successfully returned  the Video Game...');
             </script>";
+
+            $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
+
+            $delete_query_result = mysqli_query($db, $delete_query);
+            if (!$delete_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
+                exit();
+            }
+            echo "<script LANGUAGE='JavaScript'>
+                        window.alert('You successfully uninstall from the Video Game...');
+                    </script>";
 } elseif (isset($_POST['buy'])) {
     $get_balance_query = "SELECT w.balance FROM Wallet w WHERE w.a_ID=" . $_SESSION['a_ID'] . ";";
     $get_balance_query_result = mysqli_query($db, $get_balance_query);
@@ -140,7 +190,7 @@ if (isset($_POST['return'])) {
                         $has_row = mysqli_fetch_assoc($has_query_result);
                         $has_count = $has_row['has_count'];
                         $down = $has_count;
-                        if ($has_count > 0) {
+                        if ($down > 0) {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='return' onclick='' class='btn btn-primary btn-lg' 
                             style='font-family: Avenir;
@@ -149,6 +199,34 @@ if (isset($_POST['return'])) {
                              border-color: rgb(234, 124, 137); 
                              border-radius: 20px' value='Return'>";
                             echo "</form>";
+                            $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
+                            $has_query_result = mysqli_query($db, $has_query);
+
+                            if (!$has_query_result) {
+                                printf("Error: %s\n", mysqli_error($db));
+
+                                exit();
+                            }
+                            $has_row = mysqli_fetch_assoc($has_query_result);
+                            $has_count = $has_row['has_count'];
+                            if ($has_count > 0) {
+                                echo "<form method='post'>";
+                                echo "<input type='submit' name='uninstall' onclick='' class='btn btn-primary btn-lg' 
+                            style='font-family: Avenir; margin-top: 10px;
+                             width: 100%; 
+                             background-color: rgb(234, 124, 137); 
+                             border-color: rgb(234, 124, 137); 
+                             border-radius: 20px' value='Uninstall'>";
+                                echo "</form>";
+                            } else {
+                                echo "<form method='post'>";
+                                echo "<input type='submit' name='install' onclick='' class='btn btn-primary btn-lg' 
+                            style='font-family: Avenir; margin-top: 10px;
+                            width: 100%; background-color: rgb(93, 239, 132); 
+                            border-color: rgb(93, 239, 132); 
+                            border-radius: 20px' value='Install '>";
+                                echo "</form>";
+                            }
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
@@ -158,6 +236,7 @@ if (isset($_POST['return'])) {
                             border-radius: 20px' value='Buy " . $g_price . "TL'>";
                             echo "</form>";
                         }
+
                         ?>
                     </div>
                 </div>
@@ -189,6 +268,18 @@ if (isset($_POST['return'])) {
                         $com = $has_row['com'];
                      }
                      $has_count = $has_count / $com;
+                     $has_count = $has_count / $com;
+                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
+                        $has_query_result = mysqli_query($db, $has_query);
+
+                        if (!$has_query_result) {
+                            printf("Error: %s\n", mysqli_error($db));
+
+                            exit();
+                        }
+                        $has_row = mysqli_fetch_assoc($has_query_result);
+                        $down = $has_row['has_count'];
+                
                     echo "<div class='game-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Game Name: </span> " . $g_name . "
                         </div>

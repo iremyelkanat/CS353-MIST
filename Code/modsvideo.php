@@ -229,6 +229,18 @@ elseif (isset($_POST['build'])) {
                         $com = $has_row['com'];
                      }
                      $has_count = $has_count / $com;
+                     $has_count = $has_count / $com;
+                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
+                        $has_query_result = mysqli_query($db, $has_query);
+
+                        if (!$has_query_result) {
+                            printf("Error: %s\n", mysqli_error($db));
+
+                            exit();
+                        }
+                        $has_row = mysqli_fetch_assoc($has_query_result);
+                        $down = $has_row['has_count'];
+                
                     echo "<div class='game-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Game Name: </span> " . $g_name . "
                         </div>
