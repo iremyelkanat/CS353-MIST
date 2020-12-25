@@ -108,7 +108,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                 <div style="font-family: Avenir; font-size: 25px; font-weight: bold; margin-bottom: 2%">Games From Subscriptions</div>
                     <?php
-                    $package_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $package_games_query = "SELECT g.g_name, g.g_image, g.g_ID FROM contains c, subscribes s, Video_Game g WHERE c.package_ID=s.package_ID AND g.g_ID = c.g_ID AND s.a_ID =" . $_SESSION['a_ID'] . ";";
                     $package_games_result = mysqli_query($db, $package_games_query);
                     if (!$package_games_result) {
                         printf("Error: %s\n", mysqli_error($db));
@@ -137,7 +137,7 @@
                 <div style=" overflow-x: scroll; white-space: nowrap;">
                     <div style="font-family: Avenir; font-size: 25px; font-weight: bold ; margin-bottom: 2%">Games Downloaded</div>
                     <?php
-                    $downloaded_games_query = "SELECT g.g_name, g.g_image, g.g_ID, FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
+                    $downloaded_games_query = "SELECT g.g_name, g.g_image, g.g_ID FROM install i, Video_Game g WHERE i.g_ID = g.g_ID AND i.a_ID =" . $_SESSION['a_ID'] . ";";
                     $downloaded_games_result = mysqli_query($db, $downloaded_games_query);
                     if (!$downloaded_games_result) {
                         printf("Error: %s\n", mysqli_error($db));

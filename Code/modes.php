@@ -90,7 +90,7 @@
                                 $mode_id = $modes_row['m_ID'];
                                 $mode_name = $modes_row['m_name'];
 
-                                echo "<a href='mode.php?package_id=". $mode_id ."'>
+                                echo "<a href='mode.php?mode_ID=". $mode_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $package_name ."</h3>
@@ -119,7 +119,7 @@
                             $mode_id = $modes_built_row['m_ID'];
                             $mode_name = $modes_built_row['m_name'];
 
-                            echo "<a href='mode.php?game_id=". $mode_id ."'>
+                            echo "<a href='mode.php?mode_ID=". $mode_id ."'>
                                 <div style='display: inline-block; float:none; position: relative'>
                                     <img src='../Assets/images/package.jpeg'/>
                                     <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>". $game_name ."</h3>
