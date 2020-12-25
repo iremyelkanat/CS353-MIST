@@ -4,8 +4,8 @@ include("config.php");
 session_start();
 
 if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "curator"){
-    echo "naci Dalkiran";
-   
+    header("location: index.php");
+    die("Redirecting to login.php");
     
 }
 ?>
