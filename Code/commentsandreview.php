@@ -40,7 +40,40 @@ if(isset($_POST['given_text'])) {
                     window.alert('Your comment has been added successfully');
                 </script>";
 }   
+if(isset($_POST['rew_given_text'])) {
+    $rew_given_text = trim($_POST["rew_given_text"]);
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $date = date("Y/m/d") ;
+    $insert_com_query = "INSERT INTO review(c_ID, g_ID,  text,date) VALUES ($a_id  , $game_id,'$rew_given_text', $date  );";
+    $insert_com_result = mysqli_query($db, $insert_com_query);
+    if (!$insert_com_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        printf("Error: 1");
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                    window.alert('Your review has been added successfully');
+                </script>";
+}   
 
+if (isset($_POST['rew_Delete'])) {
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $delete_query = "DELETE FROM review WHERE c_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
+
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+
+    
+
+    echo "<script LANGUAGE='JavaScript'>
+                window.alert('You successfully delete your review...');
+            </script>";
+}
 if (isset($_POST['Delete'])) {
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
@@ -76,6 +109,13 @@ if (isset($_POST['return'])) {
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
     $delete_query = "DELETE FROM comments_on WHERE a_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
+
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    $delete_query = "DELETE FROM review WHERE c_ID=" . $a_id . " AND g_ID=" . $game_id . ";";
 
     $delete_query_result = mysqli_query($db, $delete_query);
     if (!$delete_query_result) {
@@ -292,12 +332,12 @@ if (isset($_POST['return'])) {
             if($a_id == $pass){
                 echo "<hr style='margin-top: 10px; margin-bottom: 10px;'>
             <div class='create-column'>
-            <form id='create-comment-form' method='post'>
+            <form id='create-review-form' method='post'>
                 <div class='input-group' >
-                    <input id='given_text' type='text' class='form-control' name='given_text' placeholder='Leave Comment' style=' outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                    <input id='rew_given_text' type='text' class='form-control' name='rew_given_text' placeholder='Leave Review' style=' outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
                 </div>
                 <div class='form-group' style='text-align: center; margin-top: 50px'>
-                    <input onclick='checkEmptyAndCreateComment()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Leave Comment     '>
+                    <input onclick='checkEmptyAndCreateReview()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Leave Review     '>
                 </div>
             </form>
             </div>
@@ -322,7 +362,7 @@ if (isset($_POST['return'])) {
                                  if($a_id == $com_a_id){
                                      echo "<form method='post'>";
                                      echo "<input type='submit' 
-                                     name='Delete' onclick='' class='btn btn-primary btn-lg' 
+                                     name='rew_Delete' onclick='' class='btn btn-primary btn-lg' 
                                      style='font-family: Avenir; 
                                      width: 10%; background-color: rgb(234, 124, 137); 
                                      border-color: rgb(234, 124, 137); 
@@ -452,7 +492,18 @@ if (isset($_POST['return'])) {
              else {
                  let form = document.getElementById("create-comment-form").submit();
              }
-         }
+            }
+             function checkEmptyAndCreateReview() {
+             let giv_text = document.getElementById("rew_given_text").value;
+             if (giv_text === "" ){
+                 alert("Make sure to fill all fields!");
+             }
+             else {
+                 let form = document.getElementById("create-review-form").submit();
+             }
+            }
+         
+         
         </script>
 </body>
 
