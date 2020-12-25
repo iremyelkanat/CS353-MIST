@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
 include("config.php");
 session_start();
 
@@ -334,4 +332,3 @@ elseif (isset($_POST['build'])) {
 </body>
 
 </html>
->>>>>>> c84f755ae4241141f9806938fc14975228612ca0
