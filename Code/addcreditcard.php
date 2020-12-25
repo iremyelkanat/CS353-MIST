@@ -2,7 +2,7 @@
    include("config.php");
    session_start();
    
-   if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "user"){
+   if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "user" || $_SESSION['type'] !== "curator"){
        header("location: index.php");
        die("Redirecting to login.php");
    }
