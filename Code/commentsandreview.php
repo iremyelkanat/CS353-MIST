@@ -273,7 +273,77 @@ if (isset($_POST['return'])) {
                 </div>
 
             </div>
+            <div style="font-family: Avenir; font-size: 24px; margin-top: 10px">Reviews</div>
+            <hr style="margin-top: 25px; margin-bottom: 10px;margin-top: 10px;">
+            <?php
+            $game_id = $_GET['game_id'];
+            $a_id = $_SESSION["a_ID"];
+            $comments_query = "SELECT * FROM Curator c, buys b WHERE c.a_ID = ".$a_id. " AND b.a_ID = ".$a_id. " AND b.g_ID = " . $game_id . " ;";
             
+
+            $comments_query_results = mysqli_query($db, $comments_query);
+            if (!$comments_query_results) {
+                printf("Error: %s\n", mysqli_error($db));
+                
+                exit();
+            }
+            $comment_row = mysqli_fetch_assoc($comments_query_results);
+            $pass = $comment_row['a_ID'];
+            if($a_id == $pass){
+                echo "<hr style='margin-top: 10px; margin-bottom: 10px;'>
+            <div class='create-column'>
+            <form id='create-comment-form' method='post'>
+                <div class='input-group' >
+                    <input id='given_text' type='text' class='form-control' name='given_text' placeholder='Leave Comment' style=' outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                </div>
+                <div class='form-group' style='text-align: center; margin-top: 50px'>
+                    <input onclick='checkEmptyAndCreateComment()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Leave Comment     '>
+                </div>
+            </form>
+            </div>
+
+            ";
+            }
+                 $review_query = "SELECT * FROM review r, User u WHERE r.c_ID = u.a_ID AND r.g_ID= " . $game_id . ";";
+                 
+                 $review_query_results = mysqli_query($db, $review_query);
+                         if (!$review_query_results) {
+                             printf("Error: %s\n", mysqli_error($db));
+                             
+                             exit();
+                         }
+                         if (mysqli_num_rows($review_query_results) > 0) {
+                             while ($comment_row = mysqli_fetch_assoc($review_query_results)) {
+                                 $com_a_id = $comment_row['a_ID'];
+                                 $usr_name = $comment_row['u_name'];
+                                 $com_g_name = $comment_row['g_ID'];
+                                 $com_date = $comment_row['date'];
+                                 $com_text = $comment_row['text'];
+                                 if($a_id == $com_a_id){
+                                     echo "<form method='post'>";
+                                     echo "<input type='submit' 
+                                     name='Delete' onclick='' class='btn btn-primary btn-lg' 
+                                     style='font-family: Avenir; 
+                                     width: 10%; background-color: rgb(234, 124, 137); 
+                                     border-color: rgb(234, 124, 137); 
+                                     border-radius: 20px' value='Delete'>";
+                                     echo "</form>";
+                                 }
+                                 echo "<div class='game-date'; style='margin-top: 20px; margin-bottom:20px;'>
+                                 <span style='font-weight: bold'>By: </span> " . $usr_name . "
+                                 </div>
+                                 <div class='comments_out'; style='margin-top: 20px;'>
+                                 <span style='font-weight: bold'> Review: </span> " . $com_text . " </div>
+                                 <div class='game-date'; style='margin-top: 20px;'>
+                                 <span style='font-weight: bold'>Date: </span> " . $com_date . "
+                                 </div> ";
+                                 echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";
+                                 
+                             }
+            }
+            ?>                
+            
+            <div style="font-family: Avenir; font-size: 24px; margin-top: 10px">Comments</div>
             <?php
             $game_id = $_GET['game_id'];
             $a_id = $_SESSION["a_ID"];
@@ -288,7 +358,7 @@ if (isset($_POST['return'])) {
             $comment_row = mysqli_fetch_assoc($comments_query_results);
             $pass = $comment_row['a_ID'];
             if($a_id == $pass){
-                echo "<hr style='margin-top: 25px; margin-bottom: 25px;'>
+                echo "<hr style='margin-top: 10px; margin-bottom: 10px;'>
             <div class='create-column'>
             <form id='create-comment-form' method='post'>
                 <div class='input-group' >
@@ -299,9 +369,7 @@ if (isset($_POST['return'])) {
                 </div>
             </form>
             </div>
-            
-            
-            
+
             ";
             }
             
@@ -314,6 +382,8 @@ if (isset($_POST['return'])) {
                         
                         exit();
                     }
+                    echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";
+
                     if (mysqli_num_rows($comments_query_results) > 0) {
                         while ($comment_row = mysqli_fetch_assoc($comments_query_results)) {
                             $com_a_id = $comment_row['a_ID'];
@@ -332,10 +402,10 @@ if (isset($_POST['return'])) {
                                 echo "</form>";
                             }
                             echo "<div class='game-date'; style='margin-top: 20px; margin-bottom:20px;'>
-                            <span style='font-weight: bold'>User: </span> " . $usr_name . "
+                            <span style='font-weight: bold'>By: </span> " . $usr_name . "
                             </div>
                             <div class='comments_out'; style='margin-top: 20px;'>
-                            <span style='font-weight: bold'> Comemnts: </span> " . $com_text . " </div>
+                            <span style='font-weight: bold'> Comments: </span> " . $com_text . " </div>
                             <div class='game-date'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Date: </span> " . $com_date . "
                             </div> ";

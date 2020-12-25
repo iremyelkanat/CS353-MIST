@@ -4,8 +4,9 @@ include("config.php");
 session_start();
 
 if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "curator"){
-    header("location: index.php");
-    die("Redirecting to login.php");
+    echo "naci Dalkiran";
+   
+    
 }
 ?>
 
@@ -176,8 +177,14 @@ if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "curator"){
                 ?>
             </div>
             <div style="clear: both;"></div>
-            <div style=" float: right; width: 420px; text-align: right";>
-                <input type="button" onclick=""class="btn btn-primary btn-lg" style="width: 100%; background-color: rgb(126, 166, 234); border-color: rgb(126, 166, 234); border-radius: 20px" value="Go Wallet Options">
+            
+                <div style=" float: right; width: 420px; text-align: right";>
+                <div class = "btn btn-primary btn-lg" style="width: 100%; 
+                background-color: rgb(126, 166, 234); 
+                border-color: rgb(126, 166, 234); 
+                border-radius: 20px">
+                <a href="addcreditcard.php" style="text-decoration:none;color:inherit " ;><span>Go Wallet Options</span></a>
+                </div>
             </div>
         </div>
     </div>
