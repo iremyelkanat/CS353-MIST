@@ -331,4 +331,8 @@ elseif (isset($_POST['build'])) {
         </script>
 </body>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 17c5dff4d4ceac5dbe0636079e88390618577ee6
