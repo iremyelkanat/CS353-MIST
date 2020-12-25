@@ -140,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
-                    display: table;
+                    
                     overflow: hidden;
                     text-align: center;
                     font-size: 30px;
@@ -151,7 +151,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      margin-right: 100px;
                      margin-left: 100px;
                      border-radius: 20px;'>
-                    <div style='display: table-cell; vertical-align: middle'> + </div>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
                 </div>
                 <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
                     <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
@@ -211,7 +213,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
-                    display: table;
+                    
                     overflow: hidden;
                     text-align: center;
                     font-size: 30px;
@@ -222,7 +224,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      margin-right: 100px;
                      margin-left: 100px;
                      border-radius: 20px;'>
-                    <div style='display: table-cell; vertical-align: middle'> + </div>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
                 </div>
                 <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
                     <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
@@ -253,7 +257,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 }
                 else {
-                    echo "no results";
+                    echo "no results for pending";
                 }
                 ?>
             </div>
@@ -278,7 +282,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
-                    display: table;
+                    
                     overflow: hidden;
                     text-align: center;
                     font-size: 30px;
@@ -289,7 +293,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      margin-right: 100px;
                      margin-left: 100px;
                      border-radius: 20px;'>
-                    <div style='display: table-cell; vertical-align: middle'> + </div>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
                 </div>
                 <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
                     <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
@@ -323,7 +329,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 }
                 else {
-                    echo "no results";
+                    echo "no results for not requested";
                 }
                 ?>
             </div>
@@ -348,7 +354,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
-                    display: table;
+                    
                     overflow: hidden;
                     text-align: center;
                     font-size: 30px;
@@ -359,7 +365,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      margin-right: 100px;
                      margin-left: 100px;
                      border-radius: 20px;'>
-                    <div style='display: table-cell; vertical-align: middle'> + </div>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
+                </div>
                 </div>
                 <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
                     <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
@@ -393,8 +402,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 ?>
             </div>
             <div class="games-row" style="display: flex; height: 300px">
-                <div class="game-image" style="width: 50%; height: 100%;
-                    display: table;
+                <div class='game-image' style='width: 50%; height: 100%;
+
                     overflow: hidden;
                     text-align: center;
                     font-size: 30px;
@@ -404,8 +413,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                      border-width: 2px;
                      margin-right: 100px;
                      margin-left: 100px;
-                     border-radius: 20px;">
-                    <div style="display: table-cell; vertical-align: middle"> + </div>
+                     border-radius: 20px;'>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                        <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                    </div>
                 </div>
                 <div class="game-description" style="display: table; overflow: hidden; width: 50%; height: 100%;">
                     <div style="display: table-cell; vertical-align: middle; padding-left: 50px;">
