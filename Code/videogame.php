@@ -24,7 +24,22 @@ if (isset($_GET['game_id'])) {
     $g_requirements = $game_row['g_requirements'];
 }
 
-
+if (isset($_POST['rate_given_text'])) {
+    $rew_given_text = trim($_POST["rate_given_text"]);
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $date = date("Y/m/d");
+    $insert_com_query = "INSERT INTO rates(a_ID, g_ID, value) VALUES ($a_id  , $game_id, $rew_given_text );";
+    $insert_com_result = mysqli_query($db, $insert_com_query);
+    if (!$insert_com_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        printf("Error: 1");
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                    window.alert('You Rated The Game');
+                </script>";
+}
 if (isset($_POST['uninstall'])) {
     $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -51,7 +66,7 @@ if (isset($_POST['install'])) {
     $has_count = $has_row['g_version'];
 
 
-    $insert_query = "INSERT INTO install VALUES ( ".$_SESSION['a_ID'].",  ".$g_id." , ".$has_count." );";
+    $insert_query = "INSERT INTO install VALUES ( " . $_SESSION['a_ID'] . ",  " . $g_id . " , " . $has_count . " );";
 
     $delete_query_result = mysqli_query($db, $insert_query);
     if (!$delete_query_result) {
@@ -89,17 +104,27 @@ if (isset($_POST['return'])) {
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('You successfully returned  the Video Game...');
             </script>";
+    $que = "SELECT COUNT(*) AS cc FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
+    $delete_query_result = mysqli_query($db, $que);
 
-            $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
+    if (!$delete_query_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    $has_row = mysqli_fetch_assoc($delete_query_result);
+    $has_count = $has_row['cc'];
+    if ($has_count > 0 ) {
+        $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
-            $delete_query_result = mysqli_query($db, $delete_query);
-            if (!$delete_query_result) {
-                printf("Error: %s\n", mysqli_error($db));
-                exit();
-            }
-            echo "<script LANGUAGE='JavaScript'>
-                        window.alert('You successfully uninstall from the Video Game...');
-                    </script>";
+        $delete_query_result = mysqli_query($db, $delete_query);
+        if (!$delete_query_result) {
+            printf("Error: %s\n", mysqli_error($db));
+            exit();
+        }
+        echo "<script LANGUAGE='JavaScript'>
+                            window.alert('You successfully uninstall from the Video Game...');
+                        </script>";
+    }
 } elseif (isset($_POST['buy'])) {
     $get_balance_query = "SELECT w.balance FROM Wallet w WHERE w.a_ID=" . $_SESSION['a_ID'] . ";";
     $get_balance_query_result = mysqli_query($db, $get_balance_query);
@@ -249,37 +274,35 @@ if (isset($_POST['return'])) {
                     </div>
                 </div>
                 <div class="game-details-p2" style="width: 50%; font-family: Avenir; font-size: 24px">
-                <?php
-                     $has_query = "SELECT SUM(r.value) as has_count , COUNT(r.value) as com FROM rates r WHERE  r.g_ID = " . $g_id . ";";
-                     $has_query_result = mysqli_query($db, $has_query);
+                    <?php
+                    $has_query = "SELECT SUM(r.value) as has_count , COUNT(r.value) as com FROM rates r WHERE  r.g_ID = " . $g_id . ";";
+                    $has_query_result = mysqli_query($db, $has_query);
 
-                     if (!$has_query_result) {
-                         printf("Error: %s\n", mysqli_error($db));
+                    if (!$has_query_result) {
+                        printf("Error: %s\n", mysqli_error($db));
 
-                         exit();
-                     }
-                     $has_row = mysqli_fetch_assoc($has_query_result);
-                     $has_count = $has_row['has_count'];
-                     $com = $has_row['com'];
-                     if($com == 0){
+                        exit();
+                    }
+                    $has_row = mysqli_fetch_assoc($has_query_result);
+                    $has_count = $has_row['has_count'];
+                    $com = $has_row['com'];
+                    if ($com == 0) {
                         $com = 1;
-                     }
-                     else{
+                    } else {
                         $com = $has_row['com'];
-                     }
-                     $has_count = $has_count / $com;
-                     $has_count = $has_count / $com;
-                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
-                        $has_query_result = mysqli_query($db, $has_query);
+                    }
+                    $has_count = $has_count / $com;
+                    $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE  i.g_id = " . $g_id . ";";
+                    $has_query_result = mysqli_query($db, $has_query);
 
-                        if (!$has_query_result) {
-                            printf("Error: %s\n", mysqli_error($db));
+                    if (!$has_query_result) {
+                        printf("Error: %s\n", mysqli_error($db));
 
-                            exit();
-                        }
-                        $has_row = mysqli_fetch_assoc($has_query_result);
-                        $down = $has_row['has_count'];
-                
+                        exit();
+                    }
+                    $has_row = mysqli_fetch_assoc($has_query_result);
+                    $down = $has_row['has_count'];
+
                     echo "<div class='game-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Game Name: </span> " . $g_name . "
                         </div>
@@ -293,22 +316,32 @@ if (isset($_POST['return'])) {
                             <span style='font-weight: bold'>Downloaded: </span> " . $down . "
                         </div>
                         <div class='package-duration' style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Give Rate: </span> ".$has_count."
+                            <span style='font-weight: bold'>Rate: </span> " . $has_count . "
                              
                         </div>";
-                        $a_id = $_SESSION["a_ID"];
-                        $has_query = "SELECT COUNT(*) AS has_count FROM rates r WHERE r.a_ID = ". $a_id ." AND r.g_ID = " . $g_id . ";";
-                     $has_query_result = mysqli_query($db, $has_query);
+                    $a_id = $_SESSION["a_ID"];
+                    $has_query = "SELECT COUNT(*) AS has_count FROM rates r WHERE r.a_ID = " . $a_id . " AND r.g_ID = " . $g_id . ";";
+                    $has_query_result = mysqli_query($db, $has_query);
 
-                     if (!$has_query_result) {
-                         printf("Error: %s\n", mysqli_error($db));
+                    if (!$has_query_result) {
+                        printf("Error: %s\n", mysqli_error($db));
 
-                         exit();
-                     }
-                     $has_row = mysqli_fetch_assoc($has_query_result);
-                     $co_rate = $has_row['has_count'];
-                        if(isset($_POST['buy'])&& $co_rate < 1){
-                            echo "<form id='create-rate-form' method='post'>
+                        exit();
+                    }
+                    $has_row = mysqli_fetch_assoc($has_query_result);
+                    $co_rate = $has_row['has_count'];
+                    $has_query = "SELECT COUNT(*) AS has_count FROM buys b WHERE b.a_ID = " . $a_id . " AND b.g_ID = " . $g_id . ";";
+                    $has_query_result = mysqli_query($db, $has_query);
+
+                    if (!$has_query_result) {
+                        printf("Error: %s\n", mysqli_error($db));
+
+                        exit();
+                    }
+                    $has_row = mysqli_fetch_assoc($has_query_result);
+                    $is_buy = $has_row['has_count'];
+                    if ( $is_buy > 0 && $co_rate < 1) {
+                        echo "<form id='create-rate-form' method='post'>
                             <div class='input-group' >
                         <input id='rate_given_text' type='number' class='form-control' name='rate_given_text' placeholder='Rate' style='  margin-right: 80%;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
                     </div>
@@ -318,8 +351,8 @@ if (isset($_POST['return'])) {
                 </form>
                             
                             ";
-                        }
-                        
+                    }
+
                     ?>
                 </div>
             </div>
@@ -329,7 +362,7 @@ if (isset($_POST['return'])) {
                   background-color: rgb(126, 166, 234); 
                   border-color: rgb(126, 166, 234);
                   border-radius: 20px">
-                  <?php
+                        <?php
                         echo " <a href='videogame.php?game_id=" . $game_id . "'>
                         <div style='text-decoration:none;color: white '>
                         <span>Abouts</span>
@@ -337,7 +370,7 @@ if (isset($_POST['return'])) {
 
                   
                   </a>";
-                  ?>
+                        ?>
                     </div>
                 </div>
                 <div style="  margin-left: 200px;  float: right; width: 420px; text-align: right" ;>
@@ -361,7 +394,7 @@ if (isset($_POST['return'])) {
                   background-color: rgb(256, 256, 256); 
                   border-color: rgba(112,112,112,0.3);
                   border-radius: 20px">
-                  <?php
+                        <?php
                         echo " <a href='modsvideo.php?game_id=" . $game_id . "'>
                         <div style='text-decoration:none;color:black '>
                         <span>Mods</span>
@@ -375,43 +408,43 @@ if (isset($_POST['return'])) {
 
             </div>
             <?php
-              $has_query = "SELECT c_name as developer_name FROM develops d , Company c WHERE d.a_ID=  c.a_ID  AND d.g_id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+            $has_query = "SELECT c_name as developer_name FROM develops d , Company c WHERE d.a_ID=  c.a_ID  AND d.g_id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $dev_name = $has_row['developer_name'];
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
 
-              $has_query = "SELECT c_name as publish_name FROM publish p , Company c WHERE p.a_ID=  c.a_ID  AND p.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $dev_name = $has_row['developer_name'];
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
+            $has_query = "SELECT c_name as publish_name FROM publish p , Company c WHERE p.a_ID=  c.a_ID  AND p.g_Id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $pub_name = $has_row['publish_name'];
 
-              $has_query = "SELECT date as g_date FROM updates u  WHERE  u.g_Id = " . $g_id . ";";
-              $has_query_result = mysqli_query($db, $has_query);                   
-              
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
 
-              if (!$has_query_result) {
-                  printf("Error: %s\n", mysqli_error($db));
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $pub_name = $has_row['publish_name'];
 
-                  exit();
-              }
-              $has_row = mysqli_fetch_assoc($has_query_result);
-              $update_date = $has_row['g_date'];
+            $has_query = "SELECT date as g_date FROM updates u  WHERE  u.g_Id = " . $g_id . ";";
+            $has_query_result = mysqli_query($db, $has_query);
 
- 
+
+            if (!$has_query_result) {
+                printf("Error: %s\n", mysqli_error($db));
+
+                exit();
+            }
+            $has_row = mysqli_fetch_assoc($has_query_result);
+            $update_date = $has_row['g_date'];
+
+
             ?>
             <div class="game-details-p3" style="width: 50%; font-family: Avenir; font-size: 24px">
                 <?php
@@ -456,6 +489,17 @@ if (isset($_POST['return'])) {
                     alert("Make sure to fill all fields!");
                 } else {
                     let form = document.getElementById("login-form").submit();
+                }
+            }
+
+            function checkEmptyAndCreateRate() {
+                let giv_int = document.getElementById("rate_given_text").value;
+                if (!giv_int && giv_int > 5) {
+                    alert("Make sure to fill all fields!");
+                } else if (giv_int > 5) {
+                    alert("Rate should not be higher than 5");
+                } else {
+                    let form = document.getElementById("create-rate-form").submit();
                 }
             }
         </script>

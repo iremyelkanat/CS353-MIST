@@ -281,7 +281,7 @@ if (isset($_POST['return'])) {
                         $com = $has_row['com'];
                      }
                      $has_count = $has_count / $com;
-                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
+                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE  i.g_id = " . $g_id . ";";
                         $has_query_result = mysqli_query($db, $has_query);
 
                         if (!$has_query_result) {
@@ -305,7 +305,7 @@ if (isset($_POST['return'])) {
                             <span style='font-weight: bold'>Downloaded: </span> " . $down . "
                         </div>
                         <div class='package-duration' style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Give Rate: </span> ".$has_count."
+                            <span style='font-weight: bold'>Rate: </span> ".$has_count."
                              
                         </div>";
                         $a_id = $_SESSION["a_ID"];
@@ -319,7 +319,17 @@ if (isset($_POST['return'])) {
                      }
                      $has_row = mysqli_fetch_assoc($has_query_result);
                      $co_rate = $has_row['has_count'];
-                        if(isset($_POST['buy'])&& $co_rate < 1){
+                     $has_query = "SELECT COUNT(*) AS has_count FROM buys b WHERE b.a_ID = " . $a_id . " AND b.g_ID = " . $g_id . ";";
+                     $has_query_result = mysqli_query($db, $has_query);
+ 
+                     if (!$has_query_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+ 
+                         exit();
+                     }
+                     $has_row = mysqli_fetch_assoc($has_query_result);
+                     $is_buy = $has_row['has_count'];
+                     if ( $is_buy > 0 && $co_rate < 1) {
                             echo "<form id='create-rate-form' method='post'>
                             <div class='input-group' >
                         <input id='rate_given_text' type='number' class='form-control' name='rate_given_text' placeholder='Rate' style='  margin-right: 80%;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
