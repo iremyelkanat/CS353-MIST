@@ -2,8 +2,9 @@
    include("config.php");
    session_start();
    
-   if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "user" || $_SESSION['type'] !== "curator"){
-       header("location: index.php");
+   if(empty($_SESSION['a_ID'] ) || ( ($_SESSION['type'] !== "user" ) && ($_SESSION['type'] !== "curator"))){
+    echo $_SESSION['type'];   
+    header("location: index.php");
        die("Redirecting to login.php");
    }
 
@@ -74,10 +75,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        echo "<script LANGUAGE='JavaScript'>
-                window.alert('Your card has been added successfully! Redirecting...');
+        if($_SESSION['type'] === "user"){
+            echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your wallet has been updated successfully! Redirecing...');
                 window.location.href = 'userhome.php';
             </script>";
+        }
+        else{
+            echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your wallet has been updated successfully! Redirecing...');
+                window.location.href = 'curatorhome.php';
+            </script>";
+        }
 }
    ?>
 <!DOCTYPE html>
@@ -103,8 +112,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="navbar-nav">
                 <a class="nav-item nav-link active">Home</a>
                 <a href="store.php" class="nav-item nav-link">Store</a>
-                <a href="library.php" class="nav-item nav-link">Libary</a>
-                <a href="mode.php" class="nav-item nav-link">Mode</a>
+                <a href="library.php" class="nav-item nav-link">Library</a>
+                <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">

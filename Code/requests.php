@@ -2,6 +2,8 @@
     include("config.php");
     session_start();
 
+    #//TODO: GAMESTE NASIL YAPTIYSA ÖYLE YAP
+
     if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "pub"){
         header("location: index.php");
         die("Redirecting to login.php");
@@ -37,25 +39,26 @@
     </nav>
     <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Requests</div>
     <hr>
-    <div class="request-div" style="display: flex; height: 400px">
+    <div class="request-div" style="height: 400px">
         <?php
-            $query = "SELECT vg.g_name, vg.g_description, vg.g_image
+            $query = "SELECT vg.g_name, vg.g_description, vg.g_image, req.r_ID
                                                 FROM about a, takes t, Video_Game vg, Request req
                                                 WHERE (t.state <> 'Approved' AND t.state <> 'Declined') AND vg.g_ID=a.g_ID
                                                              AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID
                                                             AND t.a_ID=". $_SESSION['a_ID'] .";";
 
-            $card_data = mysqli_query($db, $query);
+            $game_data = mysqli_query($db, $query);
 
-            if (!$card_data) {
+            if (!$game_data) {
                 printf("Error: %s\n", mysqli_error($db));
                 exit();
             }
-            if (mysqli_num_rows($card_data) > 0) {
-                while ($cards_row = mysqli_fetch_assoc($card_data)) {
-                    $game_name = $cards_row['g_name'];
-                    $game_desc = $cards_row['g_description'];
-                    $game_image = $cards_row['g_image'];
+            if (mysqli_num_rows($game_data) > 0) {
+                while ($games_row = mysqli_fetch_assoc($game_data)) {
+                    $game_name = $games_row['g_name'];
+                    $game_desc = $games_row['g_description'];
+                    $game_image = $games_row['g_image'];
+                    $req_ID = $games_row['r_ID'];
 
                     echo "<div style='display: flex;'>
                             <div class='game-image' style='
@@ -92,14 +95,16 @@
                                 <br>
                                 <div class='buttons' style='display: flex'>
                                 <div>
-                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
+                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Approved'>
+                                            <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
                                                 Approve
-                                    </button>
+                                            </button>
+                                    </a>
                                 </div>
                                 <div>
-                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>
-                                                Decline
-                                    </button>
+                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Declined'>
+                                        <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>Decline</button>
+                                    </a>
                                 </div>
                                 </div>
                             </div>
@@ -107,7 +112,7 @@
                 }
             }
             else {
-                echo "no results";
+                echo "No recent requests found...";
             }
         ?>
     </div>

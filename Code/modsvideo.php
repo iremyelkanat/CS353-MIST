@@ -23,6 +23,22 @@ if (isset($_GET['game_id'])) {
     $genre = $game_row['genre'];
     $g_requirements = $game_row['g_requirements'];
 }
+if (isset($_POST['rate_given_text'])) {
+    $rew_given_text = trim($_POST["rate_given_text"]);
+    $a_id = $_SESSION["a_ID"];
+    $game_id = $_GET['game_id'];
+    $date = date("Y/m/d");
+    $insert_com_query = "INSERT INTO rates(a_ID, g_ID, value) VALUES ($a_id  , $game_id, $rew_given_text );";
+    $insert_com_result = mysqli_query($db, $insert_com_query);
+    if (!$insert_com_result) {
+        printf("Error: %s\n", mysqli_error($db));
+        printf("Error: 1");
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                    window.alert('You Rated The Game');
+                </script>";
+}
 if (isset($_POST['return'])) {
     $delete_query = "DELETE FROM buys WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -172,10 +188,7 @@ elseif (isset($_POST['build'])) {
                               </a></div>
                               </div>
                           </div>";
-                              
-                                    
-                              
-                               
+       
                         } else {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='buy' onclick='' class='btn btn-primary btn-lg' 
@@ -197,7 +210,36 @@ elseif (isset($_POST['build'])) {
                     </div>
                 </div>
                 <div class="game-details-p2" style="width: 50%; font-family: Avenir; font-size: 24px">
-                    <?php
+                <?php
+                     $has_query = "SELECT SUM(r.value) as has_count , COUNT(r.value) as com FROM rates r WHERE  r.g_ID = " . $g_id . ";";
+                     $has_query_result = mysqli_query($db, $has_query);
+
+                     if (!$has_query_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+
+                         exit();
+                     }
+                     $has_row = mysqli_fetch_assoc($has_query_result);
+                     $has_count = $has_row['has_count'];
+                     $com = $has_row['com'];
+                     if($com == 0){
+                        $com = 1;
+                     }
+                     else{
+                        $com = $has_row['com'];
+                     }
+                     $has_count = $has_count / $com;
+                     $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE  i.g_id = " . $g_id . ";";
+                        $has_query_result = mysqli_query($db, $has_query);
+
+                        if (!$has_query_result) {
+                            printf("Error: %s\n", mysqli_error($db));
+
+                            exit();
+                        }
+                        $has_row = mysqli_fetch_assoc($has_query_result);
+                        $down = $has_row['has_count'];
+                
                     echo "<div class='game-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Game Name: </span> " . $g_name . "
                         </div>
@@ -210,7 +252,44 @@ elseif (isset($_POST['build'])) {
                         <div class='package-duration' style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Downloaded: </span> " . $down . "
                         </div>
-                        ";
+                        <div class='package-duration' style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>Rate: </span> ".$has_count."
+                             
+                        </div>";
+                        $a_id = $_SESSION["a_ID"];
+                        $has_query = "SELECT COUNT(*) AS has_count FROM rates r WHERE r.a_ID = ". $a_id ." AND r.g_ID = " . $g_id . ";";
+                     $has_query_result = mysqli_query($db, $has_query);
+
+                     if (!$has_query_result) {
+                         printf("Error: %s\n", mysqli_error($db));
+
+                         exit();
+                     }
+                     $has_row = mysqli_fetch_assoc($has_query_result);
+                     $co_rate = $has_row['has_count'];
+                     $has_query = "SELECT COUNT(*) AS has_count FROM buys b WHERE b.a_ID = " . $a_id . " AND b.g_ID = " . $g_id . ";";
+                    $has_query_result = mysqli_query($db, $has_query);
+
+                    if (!$has_query_result) {
+                        printf("Error: %s\n", mysqli_error($db));
+
+                        exit();
+                    }
+                    $has_row = mysqli_fetch_assoc($has_query_result);
+                    $is_buy = $has_row['has_count'];
+                    if ( $is_buy > 0 && $co_rate < 1) {
+                            echo "<form id='create-rate-form' method='post'>
+                            <div class='input-group' >
+                        <input id='rate_given_text' type='number' class='form-control' name='rate_given_text' placeholder='Rate' style='  margin-right: 80%;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                    </div>
+                    <div class='form-group' style='text-align: left; margin-top: 10px'>
+                        <input onclick='checkEmptyAndCreateRate()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     Rate     '>
+                    </div>
+                </form>
+                            
+                            ";
+                        }
+                        
                     ?>
                 </div>
             </div>
@@ -269,7 +348,7 @@ elseif (isset($_POST['build'])) {
             <?php
 
                 
-                $mods_query = "SELECT M.m_name, M.m_description, U.u_name FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
+                $mods_query = "SELECT M.m_name, M.m_description, U.u_name, M.m_ID FROM Mode M, for_m f, builds b, User U WHERE M.m_ID = b.m_ID AND U.a_ID = b.a_ID AND f.m_ID = M.m_ID AND f.g_ID= " .$_GET['game_id'] . ";";
                 $mods_result = mysqli_query($db, $mods_query);
                 
                 if (!$mods_result) {
@@ -280,22 +359,20 @@ elseif (isset($_POST['build'])) {
                     while ($mods_row = mysqli_fetch_assoc($mods_result)) {
                         $mod_name = $mods_row['m_name'];
                         $mod_description = $mods_row['m_description'];
+                        $mod_id =  $mods_row['m_ID'];
+                        $user_name = $mods_row['u_name'];
 
-                        echo "<div class='credit-card-info' style='
-                                
-                               border-style: solid;
-                               border-width: 5px;
-                               margin-top: 50px;
-                               padding: 10px;
-                               border-radius: 25px; display: flex;'>
-                               <div>
-                               $mod_name
-                               </div>
-                               <div>
-                               $mod_description
-                               </div>
-                           </div>";
-
+                        echo "<a href='mode.php?mode_ID=". $mod_id ."'>
+                        <div class='game-date'; style='border-style: solid;
+                        border-width: 2px;
+                        margin-top: 50px;
+                        padding: 10px;
+                        border-radius: 25px; display: flex;'>
+                        <span style='font-weight: bold'>Mode Built By: </span> " . $user_name . "
+                        <span style='font-weight: bold'> Mode Name: </span> " . $mod_name . " 
+                        <span style='font-weight: bold'>Mode Description: </span> " . $mod_description . "
+                        </div> </a>";
+                        echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";  
                         }
                 }
                 else {
@@ -326,6 +403,17 @@ elseif (isset($_POST['build'])) {
                     alert("Make sure to fill all fields!");
                 } else {
                     let form = document.getElementById("login-form").submit();
+                }
+            }
+            function checkEmptyAndCreateRate() {
+                let giv_int = document.getElementById("rate_given_text").value;
+                if (!giv_int && giv_int > 5) {
+                    alert("Make sure to fill all fields!");
+                }
+                 else if (giv_int > 5) {
+                    alert("Rate should not be higher than 5");
+                } else {
+                    let form = document.getElementById("create-rate-form").submit();
                 }
             }
         </script>
