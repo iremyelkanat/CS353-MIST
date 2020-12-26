@@ -117,26 +117,138 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Published Games -->
             <div class="published-games">
                 <?php
-                $get_developed_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, COUNT(i.a_ID), AVG(r.value)
-                                                FROM develops d, about a, takes t, Video_Game vg, install i, rates r, asks ask,
-                                                         Request req
-                                                WHERE t.state = 'Approved' AND vg.g_ID=a.g_ID AND a.r_ID = req.r_ID AND  
-                                                            t.r_ID = req.r_ID AND ask.r_ID = t.r_ID AND ask.a_ID=d.a_ID AND
-                                                           d.a_ID=". $_SESSION['a_ID'] ." AND d.g_ID = vg.g_ID AND i.g_ID = d.g_ID 
-                                                           AND r.g_ID = d.g_ID
-                                                GROUP BY r.g_ID;";
+                $get_developed_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
+                                                FROM develops d, Video_Game vg, publish p
+                                                WHERE d.a_ID=". $_SESSION['a_ID'] ." AND d.g_ID = vg.g_ID AND p.g_ID = d.g_ID;";
+
+
                 $get_developed_games_query_result = mysqli_query($db, $get_developed_games_query);
 
                 if (!$get_developed_games_query_result) {
                     printf("Error: %s\n", mysqli_error($db));
                     exit();
                 }
+
+
                 //printf("lele" +$get_developed_games_query_result);
                 if (mysqli_num_rows($get_developed_games_query_result) > 0) {
                     while ($developed_games_row = mysqli_fetch_assoc($get_developed_games_query_result)) {
                         $g_ID = $developed_games_row['g_ID'];
                         $g_name = $developed_games_row['g_name'];
                         $g_description = $developed_games_row['g_description'];
+
+                        $get_download_query = "SELECT COUNT(*) AS num_bought
+                                                FROM Video_Game vg, buys b
+                                                WHERE b.g_ID = vg.g_ID AND vg.g_ID = ".$g_ID.";";
+
+
+                        $get_download_query_result = mysqli_query($db, $get_download_query);
+
+                        if (!$get_download_query_result) {
+                            printf("Error: %s\n", mysqli_error($db));
+                            exit();
+                        }
+
+                        $count_row = mysqli_fetch_assoc($get_download_query_result);
+                        $count = $count_row['num_bought'];
+
+
+                        $get_rate_query = "SELECT AVG(value) AS avg_rate
+                                                FROM Video_Game vg, rates r
+                                                WHERE r.g_ID = vg.g_ID AND vg.g_ID = ".$g_ID.";";
+
+
+                        $get_rate_query_result = mysqli_query($db, $get_rate_query);
+
+                        if (!$get_rate_query_result) {
+                            printf("Error: %s\n", mysqli_error($db));
+                            exit();
+                        }
+
+                        $rate_row = mysqli_fetch_assoc($get_rate_query_result);
+                        $rate = round($rate_row['avg_rate'], 2);
+
+
+                        echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
+                <div class='game-image' style='width: 50%; height: 100%;
+                    
+                    overflow: hidden;
+                    text-align: center;
+                    font-size: 30px;
+                     margin-bottom: 10px;
+                     border-style: solid;
+                     border-color: rgba(112,112,112,1);
+                     border-width: 2px;
+                     margin-right: 100px;
+                     margin-left: 100px;
+                     border-radius: 20px;'>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
+                </div>
+                <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+                    <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                        <div>
+                            <span style='font-weight: bold'>Name: </span>
+                            <span>". $g_name ."</span>
+                        </div>
+                        <div>
+                            <span style='font-weight: bold'>Description: </span>
+                            <span>". $g_description ."</span>
+                        </div>
+                        <div>
+                            <span style='font-weight: bold'>Downloaded: </span>
+                            <span>".$count."</span>
+                        </div>
+                        <div>
+                            <span style='font-weight: bold'>Rate: </span>
+                            <span>".$rate."/5</span>
+                        </div>
+                        <br>
+                        <div>
+                            <a href='updategame.php?g_ID=".$g_ID."'>
+                            <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='font-family: Avenir; width: 50%; background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px'>
+                                Update
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+
+
+                    }
+
+                }
+                else {
+                    echo "no results for published";
+                }
+                ?>
+            </div>
+
+            <!-- Approved and not published Games -->
+            <div class="approved-games">
+                <?php
+                $get_developed_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
+                                                FROM Video_Game vg, takes t, Request r, asks a, about ab, develops d
+                                                WHERE a.a_ID=". $_SESSION['a_ID'] ." AND ab.g_ID = vg.g_ID
+                                                AND ab.r_ID = r.r_ID AND d.a_ID = a.a_ID AND d.g_ID=vg.g_ID
+                                                AND a.r_ID = r.r_ID
+                                                AND t.r_ID = r.r_ID AND t.state = 'Approved'
+                                                AND vg.g_ID NOT IN (SELECT p.g_ID from publish p);";
+
+
+                $get_developed_games_query_result = mysqli_query($db, $get_developed_games_query);
+
+                if (!$get_developed_games_query_result) {
+                    printf("Error: %s\n", mysqli_error($db));
+                    exit();
+                }
+
+
+                //printf("lele" +$get_developed_games_query_result);
+                if (mysqli_num_rows($get_developed_games_query_result) > 0) {
+                    while ($developed_games_row = mysqli_fetch_assoc($get_developed_games_query_result)) {
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
@@ -169,11 +281,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span style='font-weight: bold'>Downloaded: </span>
                             <span>-</span>
                         </div>
+                        <div>
+                            <span style='font-weight: bold'>Rate: </span>
+                            <span>-/5</span>
+                        </div>
                         <br>
                         <div>
-                            <a href='updategame.php'>
+                            <a href='updategame.php?g_ID=".$g_ID."'>
                             <button type='button' disabled class='btn btn-primary' class='btn btn-primary btn-lg' style='font-family: Avenir; width: 50%; background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px'>
-                                Update
+                                Wating for Publish
                                 </button>
                             </a>
                         </div>
@@ -186,10 +302,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 }
                 else {
-                    echo "no results for published";
+                    echo "no results for approved but published";
                 }
                 ?>
             </div>
+
             <!-- Developed and pending -->
             <div class="pending-games">
                 <?php
@@ -336,7 +453,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Declined Games -->
             <div class="declined-games">
                 <?php
-                    $get_declined_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image
+                    $get_declined_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
                                          FROM develops d, about a, takes t, Video_Game vg, asks ask, Request req
                                          WHERE (t.state = 'Declined') AND vg.g_ID=a.g_ID
                                          AND a.r_ID = req.r_ID AND t.r_ID = req.r_ID AND ask.r_ID = t.r_ID
@@ -351,6 +468,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                     while ($declined_games_row = mysqli_fetch_assoc($get_declined_games_query_result)) {
                         $g_name = $declined_games_row['g_name'];
                         $g_description = $declined_games_row['g_description'];
+                        $g_ID = $declined_games_row['g_ID'];
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
@@ -369,7 +487,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
                 </div>
                 </div>
-                </div>
                 <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
                     <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
                         <div>
@@ -386,9 +503,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <br>
                         <div>
+                            <a href='requestgame.php?g_ID=".$g_ID ."'>
                             <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='font-family: Avenir; width: 50%; background-color: rgb(234, 124, 137);; border-color: rgb(234, 124, 137);; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter2'>
                                 Declined
                                 </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -401,50 +520,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
             </div>
-            <div class="games-row" style="display: flex; height: 300px">
-                <div class='game-image' style='width: 50%; height: 100%;
 
-                    overflow: hidden;
-                    text-align: center;
-                    font-size: 30px;
-                     margin-bottom: 10px;
-                     border-style: solid;
-                     border-color: rgba(112,112,112,1);
-                     border-width: 2px;
-                     margin-right: 100px;
-                     margin-left: 100px;
-                     border-radius: 20px;'>
-                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
-                        <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
-                    </div>
-                </div>
-                <div class="game-description" style="display: table; overflow: hidden; width: 50%; height: 100%;">
-                    <div style="display: table-cell; vertical-align: middle; padding-left: 50px;">
-                        <div>
-                            <span style="font-weight: bold">Name: </span>
-                            <span>Whoever Us</span>
-                        </div>
-                        <div>
-                            <span style="font-weight: bold">Description: </span>
-                            <span> HERE IS LONG DESC HERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESCHERE IS LONG DESC </span>
-                        </div>
-                        <div>
-                            <span style="font-weight: bold">Downloaded: </span>
-                            <span>25K</span>
-                        </div>
-                        <div>
-                            <span style="font-weight: bold">Rate: </span>
-                            <span>3 / 5</span>
-                        </div>
-                        <br>
-                        <div>
-                            <button type="button" class="btn btn-primary" class='btn btn-primary btn-lg' style='font-family: Avenir; width: 50%; background-color: rgb(234, 124, 137); border-color: rgb(234, 124, 137); border-radius: 20px' data-toggle="modal" data-target="#exampleModalCenter3">
-                                Update
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div style="

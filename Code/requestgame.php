@@ -24,6 +24,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $companyId = trim($_POST["companies"]);
 
+    $get_prev_req_query = "SELECT r_ID FROM about a WHERE a.g_ID = ". $_SESSION['g_ID'] .";";
+    $get_prev_req_query_result = mysqli_query($db, $get_prev_req_query);
+
+    if (!$get_prev_req_query_result) {
+        printf("Error1: %s\n", mysqli_error($db));
+        exit();
+    }
+
+    $prev_req_row = mysqli_fetch_assoc($get_prev_req_query_result);
+
+    if (mysqli_num_rows($get_prev_req_query_result) > 0) {
+        $prev_req = $prev_req_row['r_ID'];
+
+        $delete_prev_req_query = "DELETE FROM Request WHERE r_ID = ". $prev_req .";";
+        $delete_prev_req_query_result = mysqli_query($db, $delete_prev_req_query);
+
+        if (!$delete_prev_req_query_result) {
+            printf("Error1: %s\n", mysqli_error($db));
+            exit();
+        }
+    }
+
     $insert_request_query = "INSERT INTO Request() VALUES ();";
     $insert_request_result = mysqli_query($db, $insert_request_query);
 
@@ -73,7 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     echo "<script LANGUAGE='JavaScript'>
-                    window.alert('Your card has been added successfully! Redirecing...');
+                    window.alert('Your request has been sent successfully! Redirecing...');
                     window.location.href = 'games.php';
                 </script>";
 }
