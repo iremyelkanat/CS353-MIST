@@ -22,13 +22,13 @@
         if($_SESSION['type'] === "user"){
             echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your wallet has been updated successfully! Redirecing...');
-                window.location.href = 'userhome.php';
+                window.location.href = 'transfermoney.php';
             </script>";
         }
         else{
             echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your wallet has been updated successfully! Redirecing...');
-                window.location.href = 'curatorhome.php';
+                window.location.href = 'transfermoney.php';
             </script>";
         }
         
@@ -102,7 +102,7 @@
                  </div>
                  <form id="transfer-money-form" method="post">
                  <?php
-                     $card_query = "SELECT c.card_ID, c.name FROM Wallet w, include i, Credit_Card c WHERE i.w_ID = w.w_ID AND c.card_ID = i.card_ID AND w.a_ID = " . $_SESSION['a_ID'] . ";";
+                     $card_query = "SELECT c.card_ID, c.name FROM Wallet w, include i, Credit_Card c WHERE i.w_ID = w.w_ID AND i.a_ID = w.a_ID AND c.card_ID = i.card_ID AND w.a_ID = " . $_SESSION['a_ID'] . ";";
                      $card_result = mysqli_query($db, $card_query);
 
                      if (!$card_result) {

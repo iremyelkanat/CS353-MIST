@@ -78,13 +78,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if($_SESSION['type'] === "user"){
             echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your wallet has been updated successfully! Redirecing...');
-                window.location.href = 'userhome.php';
+                window.location.href = 'addcreditcard.php';
             </script>";
         }
         else{
             echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your wallet has been updated successfully! Redirecing...');
-                window.location.href = 'curatorhome.php';
+                window.location.href = 'addcreditcard.php';
             </script>";
         }
 }
@@ -149,13 +149,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                   margin-left: 200px;
                   margin-right: 200px;
                   padding: 50px;
+                  font-family: Avenir;
                   border-radius: 20px";>
              <div style="width: 100%">
-                 <div>
+                 <div style="font-size: 32px;">
                      Current Credit Cards
                  </div>
                  <?php
-                     $card_query = "SELECT c.card_ID, c.name FROM Wallet w, include i, Credit_Card c WHERE i.w_ID = w.w_ID AND c.card_ID = i.card_ID AND w.a_ID = " . $_SESSION['a_ID'] . ";";
+                     $card_query = "SELECT c.card_ID, c.name FROM Wallet w, include i, Credit_Card c WHERE i.w_ID = w.w_ID AND i.a_ID = w.a_ID AND c.card_ID = i.card_ID AND w.a_ID = " . $_SESSION['a_ID'] . ";";
                      $card_result = mysqli_query($db, $card_query);
 
                      if (!$card_result) {
@@ -169,14 +170,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                              echo "<div class='credit-card-info' style='
                                     border-style: solid;
-                                    border-width: 2px;
-                                    margin-top: 50px;
+                                    border-width: 1px;
+                                    margin-top: 20px;
                                     padding: 10px;
+                                    font-size: 20px;
+                                    font-family: Avenir;
+                                    border-color: rgba(112,112,112,0.3);
                                     border-radius: 25px; display: flex;'>
-                                    <div>
+                                    <div style='margin-left: 10px'>
                                     $package_id
                                     </div>
-                                    <div>
+                                    <div style='position: absolute; left: 600px'>
                                     $package_name
                                     </div>
                                 </div>";
@@ -204,6 +208,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                  <input id="date" type="date" class="form-control" name="date" placeholder="Expiration Date" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
                              </div>
                          </div>
+                         <br>
                          <div class="form-group" style="text-align: center; margin-top: 20px">
                              <input onclick="checkEmptyAndCreateCard()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="     Add New Card      ">
                          </div>
@@ -211,9 +216,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                  </div>
              </div>
          </div>
-         <div style="position: fixed;
-            left: 0;
-            bottom: 5px;
+         <div style="
+            margin-top: 50px;
             width: 100%;
             text-align: center;
             font-size: 20px;
@@ -234,7 +238,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                  alert("Msg!");
              }
              else {
-                 alert("full");
                  let form = document.getElementById("create-card-form").submit();
              }
          }

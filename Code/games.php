@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your game has been created successfully! Redirecing...');
-                window.location.href = 'developerhome.php';
+                window.location.href = 'games.php';
             </script>";
 }
 ?>
@@ -229,7 +229,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Approved and not published Games -->
             <div class="approved-games">
                 <?php
-                $get_developed_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
+                $get_approved_games_query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
                                                 FROM Video_Game vg, takes t, Request r, asks a, about ab, develops d
                                                 WHERE a.a_ID=". $_SESSION['a_ID'] ." AND ab.g_ID = vg.g_ID
                                                 AND ab.r_ID = r.r_ID AND d.a_ID = a.a_ID AND d.g_ID=vg.g_ID
@@ -238,17 +238,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 AND vg.g_ID NOT IN (SELECT p.g_ID from publish p);";
 
 
-                $get_developed_games_query_result = mysqli_query($db, $get_developed_games_query);
+                $get_approved_games_query_result = mysqli_query($db, $get_approved_games_query);
 
-                if (!$get_developed_games_query_result) {
+                if (!$get_approved_games_query_result) {
                     printf("Error: %s\n", mysqli_error($db));
                     exit();
                 }
 
 
                 //printf("lele" +$get_developed_games_query_result);
-                if (mysqli_num_rows($get_developed_games_query_result) > 0) {
-                    while ($developed_games_row = mysqli_fetch_assoc($get_developed_games_query_result)) {
+                if (mysqli_num_rows($get_approved_games_query_result) > 0) {
+                    while ($approved_games_row = mysqli_fetch_assoc($get_approved_games_query_result)) {
+
+                        $g_ID = $approved_games_row['g_ID'];
+                        $g_name = $approved_games_row['g_name'];
+                        $g_description = $approved_games_row['g_description'];
 
                         echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
                 <div class='game-image' style='width: 50%; height: 100%;
