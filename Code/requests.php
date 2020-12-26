@@ -2,8 +2,6 @@
     include("config.php");
     session_start();
 
-    #//TODO: GAMESTE NASIL YAPTIYSA ÖYLE YAP
-
     if(empty($_SESSION['a_ID']) || $_SESSION['type'] !== "pub"){
         header("location: index.php");
         die("Redirecting to login.php");
@@ -39,7 +37,7 @@
     </nav>
     <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Requests</div>
     <hr>
-    <div class="request-div" style="height: 400px">
+    <div class="request-div" style="width: 70%; margin-bottom: 10px;">
         <?php
             $query = "SELECT vg.g_name, vg.g_description, vg.g_image, req.r_ID
                                                 FROM about a, takes t, Video_Game vg, Request req
@@ -60,65 +58,59 @@
                     $game_image = $games_row['g_image'];
                     $req_ID = $games_row['r_ID'];
 
-                    echo "<div style='display: flex;'>
-                            <div class='game-image' style='
-                                width: 420px; 
-                                height: 250px;
-                                float: right;
-                                display: table;
-                                overflow: hidden;
-                                text-align: center;
-                                font-size: 30px;
-                                margin-top: 10px;
-                                margin-bottom: 10px;
-                                border-style: solid;
-                                border-color: rgba(112,112,112,1);
-                                border-width: 2px;
-                                margin-right: 100px;
-                                margin-left: 100px;
-                                position: relative; 
-                                border-radius: 20px;'>
-                                <div style='display: table-cell; vertical-align: middle'> 
-                                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
+                    echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
+                <div class='game-image' style='width: 50%; height: 100%;
+                    
+                    overflow: hidden;
+                    text-align: center;
+                    font-size: 30px;
+                     margin-bottom: 10px;
+                     border-style: solid;
+                     border-color: rgba(112,112,112,1);
+                     border-width: 2px;
+                     margin-right: 100px;
+                     margin-left: 100px;
+                     border-radius: 20px;'>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
+                </div>
+                <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+                    <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                        <div>
+                            <span style='font-weight: bold'>Name: </span>
+                            <span>". $game_name ."</span>
+                        </div>
+                        <div>
+                            <span style='font-weight: bold'>Description: </span>
+                            <span>". $game_desc ."</span>
+                        </div>
+                        <br>
+                        <div class='buttons' style='display: flex'>
+                            <div>
+                                <a href='answerrequest.php?r_ID=". $req_ID ."&state=Approved'>
+                                        <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
+                                            Approve
+                                        </button>
+                                </a>
+                            </div>
+                            <div>
+                                <a href='answerrequest.php?r_ID=". $req_ID ."&state=Declined'>
+                                    <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>Decline</button>
+                                </a>
                             </div>
                         </div>
-                        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
-                            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
-                                <div>
-                                    <span style='font-weight: bold'>Name: </span>
-                                    <span>" . $game_name . "</span>
-                                </div>
-                                <div>
-                                    <span style='font-weight: bold'>Description: </span>
-                                    <span>" . $game_desc . "</span>
-                                </div>
-                                <br>
-                                <div class='buttons' style='display: flex'>
-                                <div>
-                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Approved'>
-                                            <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
-                                                Approve
-                                            </button>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Declined'>
-                                        <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>Decline</button>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>";
+                    </div>
+                </div>
+            </div>";
                 }
             }
             else {
-                echo "No recent requests found...";
+                echo "        No recent requests found...";
             }
         ?>
     </div>
-    <div style="position: fixed;
-                left: 0;
-                bottom: 5px;
+    <div style="margin-top: 50px;
                 width: 100%;
                 text-align: center;
                 font-size: 20px;
