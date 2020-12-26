@@ -40,6 +40,29 @@ if (isset($_POST['rate_given_text'])) {
                     window.alert('You Rated The Game');
                 </script>";
 }
+
+if (isset($_POST['update'])) {
+    $has_query = "SELECT vg.g_version AS g_ver FROM Video_Game vg WHERE vg.g_ID = " . $g_id . ";";
+                            $has_query_result = mysqli_query($db, $has_query);
+
+                            if (!$has_query_result) {
+                                printf("Error: %s\n", mysqli_error($db));
+
+                                exit();
+                            }
+                            $has_row = mysqli_fetch_assoc($has_query_result);
+                            $vg_ver = $has_row['g_ver'];
+
+    $update_game_query = "UPDATE install i SET i.version_no = ".$vg_ver." WHERE i.g_ID = ".$g_id." AND i.a_ID = " . $_SESSION['a_ID'] . ";";
+    $update_game_query = mysqli_query($db, $update_game_query);
+    if (!$update_game_query) {
+        printf("Error: %s\n", mysqli_error($db));
+        exit();
+    }
+    echo "<script LANGUAGE='JavaScript'>
+                window.alert('Your Game sucessfully updated');
+            </script>";
+}
 if (isset($_POST['uninstall'])) {
     $delete_query = "DELETE FROM install WHERE a_ID=" . $_SESSION['a_ID'] . " AND g_ID=" . $g_id . ";";
 
@@ -49,7 +72,7 @@ if (isset($_POST['uninstall'])) {
         exit();
     }
     echo "<script LANGUAGE='JavaScript'>
-                window.alert('You successfully uninstall  the Video Game...');
+                window.alert('You successfully uninstall  your Game...');
             </script>";
 }
 if (isset($_POST['install'])) {
@@ -58,7 +81,7 @@ if (isset($_POST['install'])) {
     $delete_query_result = mysqli_query($db, $insert_query);
     if (!$delete_query_result) {
         printf("Error: %s\n", mysqli_error($db));
-        printf("dsafjajsdfj a");
+
 
         exit();
     }
@@ -122,7 +145,7 @@ if (isset($_POST['return'])) {
             exit();
         }
         echo "<script LANGUAGE='JavaScript'>
-                            window.alert('You successfully uninstall from the Video Game...');
+                            window.alert('You successfully uninstall  the Video Game...');
                         </script>";
     }
 } elseif (isset($_POST['buy'])) {
@@ -224,7 +247,7 @@ if (isset($_POST['return'])) {
                              border-color: rgb(234, 124, 137); 
                              border-radius: 20px' value='Return'>";
                             echo "</form>";
-                            $has_query = "SELECT COUNT(*) as has_count FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
+                            $has_query = "SELECT COUNT(*) as has_count, i.version_no AS ver FROM install i WHERE i.a_ID=" . $_SESSION['a_ID'] . " AND i.g_id = " . $g_id . ";";
                             $has_query_result = mysqli_query($db, $has_query);
 
                             if (!$has_query_result) {
@@ -234,15 +257,40 @@ if (isset($_POST['return'])) {
                             }
                             $has_row = mysqli_fetch_assoc($has_query_result);
                             $has_count = $has_row['has_count'];
+                            $ins_ver = $has_row['ver'];
+                            $has_query = "SELECT vg.g_version AS g_ver FROM Video_Game vg WHERE vg.g_ID = " . $g_id . ";";
+                            $has_query_result = mysqli_query($db, $has_query);
+
+                            if (!$has_query_result) {
+                                printf("Error: %s\n", mysqli_error($db));
+
+                                exit();
+                            }
+                            $has_row = mysqli_fetch_assoc($has_query_result);
+                            $vg_ver = $has_row['g_ver'];
+
                             if ($has_count > 0) {
-                                echo "<form method='post'>";
-                                echo "<input type='submit' name='uninstall' onclick='' class='btn btn-primary btn-lg' 
-                            style='font-family: Avenir; margin-top: 10px;
-                             width: 100%; 
-                             background-color: rgb(234, 124, 137); 
-                             border-color: rgb(234, 124, 137); 
-                             border-radius: 20px' value='Uninstall'>";
+                                if($vg_ver !== $ins_ver){
+                                    echo "<form method='post'>";
+                                echo "<input type='submit' name='update' onclick='' class='btn btn-primary btn-lg' 
+                                style='font-family: Avenir; margin-top: 10px;
+                                width: 100%; 
+                                background-color: green; 
+                                border-color: green; 
+                                border-radius: 20px' value='Update'>";
                                 echo "</form>";
+                                }
+                                else{
+                                    echo "<form method='post'>";
+                                    echo "<input type='submit' name='uninstall' onclick='' class='btn btn-primary btn-lg' 
+                                style='font-family: Avenir; margin-top: 10px;
+                                 width: 100%; 
+                                 background-color: rgb(234, 124, 137); 
+                                 border-color: rgb(234, 124, 137); 
+                                 border-radius: 20px' value='Uninstall'>";
+                                    echo "</form>";
+                                }
+                                
                             } else {
                                 echo "<form method='post'>";
                                 echo "<input type='submit' name='install' onclick='' class='btn btn-primary btn-lg' 
