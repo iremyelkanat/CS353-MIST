@@ -37,7 +37,7 @@
     </nav>
     <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Approvals</div>
     <hr>
-    <div class="main-div" style="height: 400px">
+    <div class="main-div" style="width: 70%">
         <?php
             $query = "SELECT vg.g_name, vg.g_description, vg.g_image, vg.g_ID
                                                 FROM about a, takes t, Video_Game vg, Request req
@@ -58,14 +58,11 @@
                     $game_image = $cards_row['g_image'];
                     $g_ID = $cards_row['g_ID'];
 
-                    echo "<div>
-                            <div class='game-image' style='
-                                width: 420px; 
-                                height: 250px;
+                    echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
+                            <div class='game-image' style='width: 50%; height: 100%;
                                 overflow: hidden;
                                 text-align: center;
                                 font-size: 30px;
-                                margin-top: 10px;
                                 margin-bottom: 10px;
                                 border-style: solid;
                                 border-color: rgba(112,112,112,1);
@@ -73,42 +70,43 @@
                                 margin-right: 100px;
                                 margin-left: 100px;
                                 border-radius: 20px;'>
-                                <div style='display: table-cell; vertical-align: middle'> 
-                                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
+                                <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                            <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
                             </div>
-                        </div>
-                        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
-                            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
-                                <div>
-                                    <span style='font-weight: bold'>Name: </span>
-                                    <span>" . $game_name . "</span>
-                                </div>
-                                <div>
-                                    <span style='font-weight: bold'>Description:> </span>
-                                    <span>" . $game_desc . "</span>
-                                </div>
-                                <br>
-                                <div>
-                                    <a href='publishgame.php?g_ID=" . $g_ID . "'>
-                                        <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
-                                                Publish
-                                        </button>
-                                    </a>
+                            </div>
+                            <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+                                <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                                    <div>
+                                        <span style='font-weight: bold'>Name: </span>
+                                        <span>". $game_name ."</span>
+                                    </div>
+                                    <div>
+                                        <span style='font-weight: bold'>Description: </span>
+                                        <span>". $game_desc ."</span>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <a href='publishgame.php?g_ID=" . $g_ID . "'>
+                                            <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
+                                                    Publish
+                                            </button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>";
                 }
             }
             else {
-                echo "No recent approvals found, check the request tab!";
+                echo "        No recent approvals found, check the request tab!";
             }
         ?>
     </div>
     <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 2%;">Published</div>
     <hr>
-    <div class="approved-div">
+    <div class="approved-div" style="width: 70%; margin-bottom: 10px;">
         <?php
-            $query = "SELECT vg.g_name, vg.g_description, vg.g_image FROM Video_Game vg, publish p WHERE vg.g_ID = p.g_ID AND p.a_ID = " . $_SESSION["a_ID"] . ";";
+            $query = "SELECT vg.g_name, vg.g_description, vg.g_image, p.date FROM Video_Game vg, publish p WHERE vg.g_ID = p.g_ID AND p.a_ID = " . $_SESSION["a_ID"] . ";";
 
             $card_result = mysqli_query($db, $query);
 
@@ -118,57 +116,54 @@
             }
             if (mysqli_num_rows($card_result) > 0) {
                 while ($cards_row = mysqli_fetch_assoc($card_result)) {
-                    $game_name = $cards_row['vg.g_name'];
-                    $game_desc = $cards_row['vg.g_description'];
-                    $game_image = $cards_row['vg.g_image'];
-
-                    echo "<div>
-                            <div class='game-image' style='
-                                width: 420px; 
-                                height: 250px;
-                                overflow: hidden;
-                                text-align: center;
-                                font-size: 30px;
-                                margin-top: 10px;
-                                margin-bottom: 10px;
-                                border-style: solid;
-                                border-color: rgba(112,112,112,1);
-                                border-width: 2px;
-                                margin-right: 100px;
-                                margin-left: 100px;
-                                border-radius: 20px;'>
-                                <div style='display: table-cell; vertical-align: middle'> 
-                                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
-                            </div>
+                    $game_name = $cards_row['g_name'];
+                    $game_desc = $cards_row['g_description'];
+                    $publish_date = $cards_row['date'];
+                    
+                    echo "<div class='games-row2' style='display: flex; height: 300px; margin-top: 25px'>
+                <div class='game-image' style='width: 50%; height: 100%;
+                    
+                    overflow: hidden;
+                    text-align: center;
+                    font-size: 30px;
+                     margin-bottom: 10px;
+                     border-style: solid;
+                     border-color: rgba(112,112,112,1);
+                     border-width: 2px;
+                     margin-right: 100px;
+                     margin-left: 100px;
+                     border-radius: 20px;'>
+                    <div style='width: 100%; height: 100%; position: relative; text-align: center'>
+                <img style=' height: 100%; width: 100%;' src='../Assets/images/game.jpg' alt=''>
+                </div>
+                </div>
+                <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
+                    <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
+                        <div>
+                            <span style='font-weight: bold'>Name: </span>
+                            <span>". $game_name ."</span>
                         </div>
-                        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
-                            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
-                                <div>
-                                    <span style='font-weight: bold'>Name: </span>
-                                    <span>" . $game_name . "</span>
-                                </div>
-                                <div>
-                                    <span style='font-weight: bold'>Description:> </span>
-                                    <span>" . $game_desc . "</span>
-                                </div>
-                                <br>
-                                <div>
+                        <div>
+                            <span style='font-weight: bold'>Description: </span>
+                            <span>". $game_desc ."</span>
+                        </div>
+                        <br>
+                        <div>
                                     <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='float:right; font-family: Avenir; width: 25%; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px' data-toggle='modal' data-target='#exampleModalCenter3'>
-                                                Published:" . $game_image . "
+                                                Published:  " . $publish_date . "
                                     </button>
                                 </div>
-                            </div>
-                        </div>";
+                    </div>
+                </div>
+            </div>";
                 }
             }
             else {
-                echo "No games found as published, first accept requests then approve!";
+                echo "        No games found as published, first accept requests then approve!";
             }
         ?>
     </div>
-    <div style="position: fixed;
-                left: 0;
-                bottom: 5px;
+    <div style="margin-top: 50px;
                 width: 100%;
                 text-align: center;
                 font-size: 20px;

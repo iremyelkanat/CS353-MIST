@@ -62,14 +62,18 @@
         </div>
     </nav>
     <div class="main-part" style="
+                    margin:auto;
                     border-style: solid;
                      border-width: 2px;
-                  margin-top: 50px;
+                  margin-top: 200px;
                   margin-left: 200px;
                   margin-right: 200px;
                   padding: 50px;
                   border-radius: 20px";>
-             <div style="width: 100%">
+             <div style="width: 100%;">
+                <div style="font-size: 48px; text-align: center;">
+                     Publish Game
+                 </div>
                  <hr style="margin-top: 25px; margin-bottom: 25px;">
                  <div class="publish-game">
                      <form id="publish-game-form" method="post">
