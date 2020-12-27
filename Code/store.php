@@ -43,7 +43,7 @@ if (isset($_POST['dewn_arc'])) {
                 ?>
                 <a class="nav-item nav-link active">Store</a>
                 <a href="library.php" class="nav-item nav-link">Libary</a>
-                <a href="mode.php" class="nav-item nav-link">Mode</a>
+                <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
             <div class="navbar-nav ml-auto">

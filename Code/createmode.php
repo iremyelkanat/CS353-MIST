@@ -49,7 +49,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
         echo "<script LANGUAGE='JavaScript'>
                 window.alert('Your mode has been added successfully! Redirecting...');
-                window.location.href = 'userhome.php';
+                window.location.href = 'modes.php';
             </script>";
 }
    ?>
@@ -109,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                              </div>
                          </div>
                          <div class="input-group" style="margin-top: 20px">
-                             <input id="mode-description" type="text" class="form-control" name="mode-description" placeholder="Mode Description" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                            <textarea id="mode-description" rows="4" maxlength="280" class="form-control" name="mode-description" placeholder="Mode Description" style="resize: none; display: block; border-radius: 20px"></textarea>
                          </div>
                          <div class="form-group" style="text-align: center; margin-top: 20px">
                              <input onclick="checkEmptyAndCreateMode()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="    Create Mode    ">

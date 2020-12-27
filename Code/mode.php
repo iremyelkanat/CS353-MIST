@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['mode_ID'])) {
     $mode_id = $_GET['mode_ID'];
 
-    $mode_query = "SELECT  u.u_name, vg.g_name, m.m_name, m.m_description, m.m_size FROM User u, Video_Game vg, Mode m, for_m f, builds b WHERE  f.g_ID = vg.g_ID AND u.a_ID = b.a_ID AND b.m_ID =" . $mode_id.  ";";
+    $mode_query = "SELECT  u.u_name, vg.g_name, m.m_name, m.m_description, m.m_size FROM User u, Video_Game vg, Mode m, for_m f, builds b WHERE  f.g_ID = vg.g_ID AND u.a_ID = b.a_ID AND b.m_ID =" . $mode_id. " AND f.m_ID =" . $mode_id. " AND m.m_ID =" . $mode_id.  ";";
     $mode_query_result = mysqli_query($db, $mode_query);
     if (!$mode_query_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -74,7 +74,7 @@ if (isset($_POST['uninstall'])) {
                     echo "<a href='curatorhome.php' class='nav-item nav-link'>Home</a>";
                 }
                 ?>
-                <a class="nav-item nav-link active">Store</a>
+                <a href="store.php" class="nav-item nav-link">Store</a>
                 <a href="library.php" class="nav-item nav-link">Library</a>
                 <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
@@ -140,6 +140,7 @@ if (isset($_POST['uninstall'])) {
                         <div class='game-description'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Mode Built By: </span> " . $mode_creator . "
                         </div>
+                        
                         <div class='game-genre'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Mode Description: </span> " . $mode_description . "
                         </div>
