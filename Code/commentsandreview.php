@@ -29,7 +29,7 @@ if (isset($_POST['given_text'])) {
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
     $date = date("Y/m/d");
-    $insert_com_query = "INSERT INTO comments_on(a_ID, g_ID, date, text) VALUES ($a_id  , $game_id, $date, '$given_text' );";
+    $insert_com_query = "INSERT INTO comments_on(a_ID, g_ID, date, text) VALUES ($a_id  , $game_id, now(), '$given_text' );";
     $insert_com_result = mysqli_query($db, $insert_com_query);
     if (!$insert_com_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -45,7 +45,7 @@ if (isset($_POST['rew_given_text'])) {
     $a_id = $_SESSION["a_ID"];
     $game_id = $_GET['game_id'];
     $date = date("Y/m/d");
-    $insert_com_query = "INSERT INTO review(c_ID, g_ID,  text,date) VALUES ($a_id  , $game_id,'$rew_given_text', $date  );";
+    $insert_com_query = "INSERT INTO review(c_ID, g_ID,  text,date) VALUES ($a_id  , $game_id,'$rew_given_text', now()  );";
     $insert_com_result = mysqli_query($db, $insert_com_query);
     if (!$insert_com_result) {
         printf("Error: %s\n", mysqli_error($db));
