@@ -2,6 +2,8 @@
 include("config.php");
 session_start();
 $flag = 0;
+$min_p = 0;
+$max_p = PHP_INT_MAX;
 if (isset($_POST['no_filter'])) {
     $flag = 0;
 }
@@ -10,6 +12,24 @@ if (isset($_POST['dewn_dcs'])) {
 }
 if (isset($_POST['dewn_arc'])) {
     $flag = 2;
+}
+if (isset($_POST['price_arc'])) {
+    $flag = 3;
+}
+if (isset($_POST['price_desc'])) {
+    $flag = 4;
+}
+if (isset($_POST['top_5'])) {
+    $flag = 5;
+}
+if (isset($_POST['min_p'] )) {
+    $min_p = trim($_POST["min_p"]);
+    $flag = 6;
+
+}
+if (isset($_POST['max_p'] )) {
+    $max_p = trim($_POST["max_p"]);
+    $flag = 6;
 }
 ?>
 
@@ -87,13 +107,52 @@ if (isset($_POST['dewn_arc'])) {
               border-radius: 20px' value='Download Acsending'>";
                         echo "</form>";
                         echo "<form method='post'>";
-                        echo "<input type='submit' name='uninstall' onclick='' class='btn btn-primary btn-lg' 
+                        echo "<input type='submit' name='price_desc' onclick='' class='btn btn-primary btn-lg' 
              style='margin-top: 10px;font-family: Avenir; margin-top: 10px;
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Uninstall'>";
+              border-radius: 20px' value='Price Decsending'>";
                         echo "</form>";
+                        ?>
+                    </div>
+                    <div style=" width: 420px; text-align: right; margin-top: 0.1px; margin-left: 10px">
+                        <?php
+                        echo "<form method='post'>";
+                        echo "<input type='submit' name='price_arc' onclick='' class='btn btn-primary btn-lg' 
+             style='font-family: Avenir; margin-top: 10px;
+              width: 100%; 
+              background-color: rgb(0,206,209); 
+              border-color: rgb(0,206,209);
+              border-radius: 20px' value='Price Acsending'>";
+                        echo "</form>";
+                        echo "<form method='post'>";
+                        echo "<input type='submit' name='top_5' onclick='' class='btn btn-primary btn-lg' 
+             style='margin-top: 10px;font-family: Avenir; margin-top: 10px;
+              width: 100%; 
+              background-color: rgb(0,206,209); 
+              border-color: rgb(0,206,209);
+              border-radius: 20px' value='Top 5 (By Rate)'>";
+                        echo "</form>";
+                        ?>
+                    </div>
+                    <div style=" width: 420px; text-align: right; margin-top: 0.1px; margin-left: 10px">
+                        <?php
+                        echo "<form id='create-price-form' method='post'>
+                        <div class='input-group' >
+                        <div style= 'display: flex '>
+                        <input id='min_p' type='number' class='form-control' name='min_p' placeholder='Min Price' style='  margin-right: 10px;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                        <input id='max_p' type='number' class='form-control' name='max_p' placeholder='Max Price' style='  margin-right: 10px;outline: none; font-size: 20px; border-style: solid; border-radius: 20px'>
+                    
+                        </div>
+                       </div>
+                <div class='form-group' style='text-align: left; margin-top: 10px'>
+                    <input onclick='checkEmptyAndCreatePrice()' type='button' class='btn btn-primary btn-lg' style='background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px' value='     By Price Range     '>
+                </div>
+            </form>
+                        
+                        ";
+                       
                         ?>
                     </div>
                 </div>
@@ -110,15 +169,28 @@ if (isset($_POST['dewn_arc'])) {
                         }
                         else if($flag == 1){
                             $packages_query = "SELECT *, COUNT(*) as count_pack FROM Subscription_Package sp, subscribes s  WHERE s.package_ID = sp.package_ID GROUP BY s.package_ID ORDER BY count_pack DESC ;";
-                            
-
+                        
                         }
                         else if($flag == 2){
                             $packages_query = "SELECT *, COUNT(*) as count_pack FROM Subscription_Package sp, subscribes s  WHERE s.package_ID = sp.package_ID GROUP BY s.package_ID ORDER BY count_pack ASC ;";
-
-
                         }
                         else if($flag == 3){
+                            $packages_query = "SELECT * FROM Subscription_Package sp ORDER BY price DESC ;";
+
+                            
+                        }
+                        else if($flag == 4){
+                            $packages_query = "SELECT * FROM Subscription_Package sp ORDER BY price ASC ;";
+
+                            
+                        }
+                        else if($flag == 5){
+                            $packages_query = "SELECT * FROM Subscription_Package;";
+
+                            
+                        }
+                        else if($flag == 6){
+                            $packages_query = "SELECT * FROM Subscription_Package sp WHERE sp.price <= ".$max_p." AND sp.price >= ".$min_p." ORDER BY sp.price DESC ;";
 
                             
                         }
@@ -167,7 +239,20 @@ if (isset($_POST['dewn_arc'])) {
                         }
                         else if($flag == 3){
 
+                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price DESC;";
+
+                        }
+                        else if($flag == 4){
+                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price ASC;";
                             
+                        }
+                        else if($flag == 5){
+                            $games_query = "SELECT *, SUM(r.value)/5 as count_game FROM Video_Game vg, rates r  WHERE r.g_ID = vg.g_ID GROUP BY r.g_ID ORDER BY count_game DESC Limit 5 ;";
+                            
+                        }
+                        else if($flag == 6){
+                            $games_query = "SELECT * FROM Video_Game vg WHERE vg.g_price <= ".$max_p." AND vg.g_price >= ".$min_p." ORDER BY vg.g_price DESC ;";
+
                         }
                         $games_query_result = mysqli_query($db, $games_query);
                         if (!$games_query_result) {
@@ -218,6 +303,25 @@ if (isset($_POST['dewn_arc'])) {
                 let form = document.getElementById("login-form").submit();
             }
         }
+        function checkEmptyAndCreatePrice() {
+                let min_pi = document.getElementById("min_p").value;
+                let max_pi = document.getElementById("max_p").value;
+
+                if (!min_pi || !max_pi  ) {
+                    alert("Make sure to fill all fields!");
+                } 
+
+                if(min_pi > max_pi ){
+                    alert("Minimum price cannot grather than maximum price!");
+
+                }
+                if(min_pi <= max_pi){
+                    if(min_pi && max_pi) {
+                    let form = document.getElementById("create-price-form").submit();
+                }
+                }
+                
+            }
     </script>
 </body>
 
