@@ -15,10 +15,10 @@ if (isset($_POST['dewn_arc'])) {
     $flag = 2;
 }
 if (isset($_POST['price_arc'])) {
-    $flag = 3;
+    $flag = 4;
 }
 if (isset($_POST['price_desc'])) {
-    $flag = 4;
+    $flag = 3;
 }
 if (isset($_POST['top_5'])) {
     $flag = 5;
@@ -31,6 +31,13 @@ if (isset($_POST['min_p'] )) {
 if (isset($_POST['max_p'] )) {
     $max_p = trim($_POST["max_p"]);
     $flag = 6;
+}
+if(isset($_POST['search-val']) ){
+
+    $search_val = trim($_POST["search-val"]);
+    echo "<script LANGUAGE='JavaScript'>
+    window.location.href = 'searchgames.php?searchVal=". $search_val ."';
+</script>";
 }
 ?>
 
@@ -71,11 +78,34 @@ if (isset($_POST['max_p'] )) {
                 <a class="nav-item nav-link" href="logout.php">Logout</a>
             </div>
         </nav>
-        <div class="main-div" style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
-            <div class="information-header" style="width: 100%">
-                <div style="font-family: Avenir; font-size: 48px;">Store</div>
+        <div class="main-div"
+            style=" padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
+            <div style="font-family: Avenir; font-size: 48px;">Store</div>
 
                 <hr>
+            <div style="display: table-cell; vertical-align: middle; 
+                     border-radius: 20px; 
+                    border-color: rgba(112,112,112,1);
+                     border-width: 2px;
+                     margin-right: 100px;
+                     margin-left: 100px;
+                     text-align: center;">
+                 <div class="search-value">
+                     <form id="search-form" method="post">
+                         <div style="display: flex">
+                             <div class="input-group" style="margin-top: 20px; margin-left: 1000px; margin-right: 30px; text-align: center">
+                                 <input id="search-val" type="text" class="form-control" name="search-val" placeholder="Search Game By Name" style=" outline: none; font-size: 20px; border-radius: 20px">
+                             </div>
+                             <div class="form-group" style="margin-top: 20px; margin-right: 30px; text-align: center">
+                             <input onclick="checkEmptyAndSearch()" type="button" class="btn btn-primary btn-lg" style="background-color: gray; font-size: 20px; border-color: gray; border-radius: 20px" value="    Search    ">
+                         </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <div class="main-div" style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
+            <div class="information-header" style="width: 100%">
+                
                 <div style="width: 100%; display: flex;">
                     <div style=" width: 420px; text-align: right; margin-top: 0.1px">
                         <?php
@@ -93,7 +123,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209); 
-              border-radius: 20px' value='Download Decsending'>";
+              border-radius: 20px' value='Download Descending'>";
                         echo "</form>";
                         ?>
                     </div>
@@ -113,7 +143,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Price Decsending'>";
+              border-radius: 20px' value='Price Descending'>";
                         echo "</form>";
                         ?>
                     </div>
@@ -321,6 +351,16 @@ if (isset($_POST['max_p'] )) {
                 }
                 
             }
+    </script>
+    <script type="text/javascript">
+    function checkEmptyAndSearch() {
+        let searchVal = document.getElementById("search-val").value;
+        if (searchVal === "" ) {
+            alert("Make sure to fill the search field!");
+        } else {
+            let form = document.getElementById("search-form").submit();      
+        }
+    }
     </script>
 </body>
 

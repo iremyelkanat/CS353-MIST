@@ -542,11 +542,17 @@ if (isset($_POST['return'])) {
 
             function checkEmptyAndCreateRate() {
                 let giv_int = document.getElementById("rate_given_text").value;
+                
                 if (!giv_int && giv_int > 5) {
                     alert("Make sure to fill all fields!");
-                } else if (giv_int > 5) {
+                }
+                 else if (giv_int > 5) {
                     alert("Rate should not be higher than 5");
-                } else {
+                 }
+                else if (giv_int < 0) {
+                    alert("Rate should not be negative");
+                }
+                 else {
                     let form = document.getElementById("create-rate-form").submit();
                 }
             }
