@@ -657,7 +657,11 @@ if (isset($_POST['return'])) {
                 }
                  else if (giv_int > 5) {
                     alert("Rate should not be higher than 5");
-                } else {
+                 }
+                else if (giv_int < 0) {
+                    alert("Rate should not be negative");
+                }
+                 else {
                     let form = document.getElementById("create-rate-form").submit();
                 }
             }

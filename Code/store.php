@@ -4,6 +4,7 @@ session_start();
 $flag = 0;
 $min_p = 0;
 $max_p = PHP_INT_MAX;
+
 if (isset($_POST['no_filter'])) {
     $flag = 0;
 }
@@ -14,10 +15,10 @@ if (isset($_POST['dewn_arc'])) {
     $flag = 2;
 }
 if (isset($_POST['price_arc'])) {
-    $flag = 3;
+    $flag = 4;
 }
 if (isset($_POST['price_desc'])) {
-    $flag = 4;
+    $flag = 3;
 }
 if (isset($_POST['top_5'])) {
     $flag = 5;
@@ -30,6 +31,13 @@ if (isset($_POST['min_p'] )) {
 if (isset($_POST['max_p'] )) {
     $max_p = trim($_POST["max_p"]);
     $flag = 6;
+}
+if(isset($_POST['search-val']) ){
+
+    $search_val = trim($_POST["search-val"]);
+    echo "<script LANGUAGE='JavaScript'>
+    window.location.href = 'searchgames.php?searchVal=". $search_val ."';
+</script>";
 }
 ?>
 
@@ -62,7 +70,7 @@ if (isset($_POST['max_p'] )) {
                 }
                 ?>
                 <a class="nav-item nav-link active">Store</a>
-                <a href="library.php" class="nav-item nav-link">Libary</a>
+                <a href="library.php" class="nav-item nav-link">Library</a>
                 <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
@@ -70,11 +78,34 @@ if (isset($_POST['max_p'] )) {
                 <a class="nav-item nav-link" href="logout.php">Logout</a>
             </div>
         </nav>
-        <div class="main-div" style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
-            <div class="information-header" style="width: 100%">
-                <div style="font-family: Avenir; font-size: 48px;">Store</div>
+        <div class="main-div"
+            style=" padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
+            <div style="font-family: Avenir; font-size: 48px;">Store</div>
 
                 <hr>
+            <div style="display: table-cell; vertical-align: middle; 
+                     border-radius: 20px; 
+                    border-color: rgba(112,112,112,1);
+                     border-width: 2px;
+                     margin-right: 100px;
+                     margin-left: 100px;
+                     text-align: center;">
+                 <div class="search-value">
+                     <form id="search-form" method="post">
+                         <div style="display: flex">
+                             <div class="input-group" style="margin-top: 20px; margin-left: 1000px; margin-right: 30px; text-align: center">
+                                 <input id="search-val" type="text" class="form-control" name="search-val" placeholder="Search Game By Name" style=" outline: none; font-size: 20px; border-radius: 20px">
+                             </div>
+                             <div class="form-group" style="margin-top: 20px; margin-right: 30px; text-align: center">
+                             <input onclick="checkEmptyAndSearch()" type="button" class="btn btn-primary btn-lg" style="background-color: gray; font-size: 20px; border-color: gray; border-radius: 20px" value="    Search    ">
+                         </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <div class="main-div" style="display: flex; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 1%">
+            <div class="information-header" style="width: 100%">
+                
                 <div style="width: 100%; display: flex;">
                     <div style=" width: 420px; text-align: right; margin-top: 0.1px">
                         <?php
@@ -92,7 +123,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209); 
-              border-radius: 20px' value='Download Decsending'>";
+              border-radius: 20px' value='Download Descending'>";
                         echo "</form>";
                         ?>
                     </div>
@@ -104,7 +135,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Download Acsending'>";
+              border-radius: 20px' value='Download Ascending'>";
                         echo "</form>";
                         echo "<form method='post'>";
                         echo "<input type='submit' name='price_desc' onclick='' class='btn btn-primary btn-lg' 
@@ -112,7 +143,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Price Decsending'>";
+              border-radius: 20px' value='Price Descending'>";
                         echo "</form>";
                         ?>
                     </div>
@@ -124,7 +155,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Price Acsending'>";
+              border-radius: 20px' value='Price Ascending'>";
                         echo "</form>";
                         echo "<form method='post'>";
                         echo "<input type='submit' name='top_5' onclick='' class='btn btn-primary btn-lg' 
@@ -225,33 +256,33 @@ if (isset($_POST['max_p'] )) {
                     <div style=" overflow-x: scroll; white-space: nowrap;">
                         <?php
                         if ($flag == 0) {
-                        $games_query = "SELECT * FROM Video_Game vg;";
+                        $games_query = "SELECT * FROM Published_Games vg;";
                         
                         }
                         else if ($flag == 1) {
-                            $games_query = "SELECT *, COUNT(*) as count_game FROM Video_Game vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game DESC ;";
+                            $games_query = "SELECT *, COUNT(*) as count_game FROM Published_Games vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game DESC ;";
                             
                         }
                         else if($flag == 2){
-                            $games_query = "SELECT *, COUNT(*) as count_game FROM Video_Game vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game ASC ;";
+                            $games_query = "SELECT *, COUNT(*) as count_game FROM Published_Games vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game ASC ;";
 
 
                         }
                         else if($flag == 3){
 
-                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price DESC;";
+                            $games_query = "SELECT * FROM Published_Games  ORDER BY g_price DESC;";
 
                         }
                         else if($flag == 4){
-                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price ASC;";
+                            $games_query = "SELECT * FROM Published_Games  ORDER BY g_price ASC;";
                             
                         }
                         else if($flag == 5){
-                            $games_query = "SELECT *, SUM(r.value)/5 as count_game FROM Video_Game vg, rates r  WHERE r.g_ID = vg.g_ID GROUP BY r.g_ID ORDER BY count_game DESC Limit 5 ;";
+                            $games_query = "SELECT *, SUM(r.value)/5 as count_game FROM Published_Games vg, rates r  WHERE r.g_ID = vg.g_ID GROUP BY r.g_ID ORDER BY count_game DESC Limit 5 ;";
                             
                         }
                         else if($flag == 6){
-                            $games_query = "SELECT * FROM Video_Game vg WHERE vg.g_price <= ".$max_p." AND vg.g_price >= ".$min_p." ORDER BY vg.g_price DESC ;";
+                            $games_query = "SELECT * FROM Published_Games vg WHERE vg.g_price <= ".$max_p." AND vg.g_price >= ".$min_p." ORDER BY vg.g_price DESC ;";
 
                         }
                         $games_query_result = mysqli_query($db, $games_query);
@@ -307,21 +338,29 @@ if (isset($_POST['max_p'] )) {
                 let min_pi = document.getElementById("min_p").value;
                 let max_pi = document.getElementById("max_p").value;
 
-                if (!min_pi || !max_pi  ) {
+                if (min_pi ==="" || max_pi ===""  ) {
                     alert("Make sure to fill all fields!");
                 } 
 
-                if(min_pi > max_pi ){
-                    alert("Minimum price cannot grather than maximum price!");
+                else if(min_pi > max_pi ){
+                    alert("Minimum price cannot be greater than maximum price!");
 
                 }
-                if(min_pi <= max_pi){
-                    if(min_pi && max_pi) {
+                else if(min_pi <= max_pi){
                     let form = document.getElementById("create-price-form").submit();
-                }
                 }
                 
             }
+    </script>
+    <script type="text/javascript">
+    function checkEmptyAndSearch() {
+        let searchVal = document.getElementById("search-val").value;
+        if (searchVal === "" ) {
+            alert("Make sure to fill the search field!");
+        } else {
+            let form = document.getElementById("search-form").submit();      
+        }
+    }
     </script>
 </body>
 
