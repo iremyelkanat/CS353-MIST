@@ -12,69 +12,67 @@
         $email=strtolower($email);
         $password=strtolower($password);
 
-        $login_query = "SELECT * FROM Accountt WHERE email_address = '$email' and password = '$password'";
+        if($email === "admin" && $password === "admin"){
+            header("location: admin.php");
+        }else{
+            $login_query = "SELECT * FROM Accountt WHERE email_address = '$email' and password = '$password'";
+            $result = mysqli_query($db, $login_query);
 
-        $result = mysqli_query($db, $login_query);
+            $num_of_rows = mysqli_num_rows($result);
 
-        $num_of_rows = mysqli_num_rows($result);
+            if ($num_of_rows > 0) {
 
-        if ($num_of_rows > 0) {
+                session_start();
+                $row = mysqli_fetch_assoc($result);
+                $a_ID = $row['a_ID'];
 
-            session_start();
-            $row = mysqli_fetch_assoc($result);
-            $a_ID = $row['a_ID'];
+                $_SESSION['a_ID'] = $a_ID;
 
-            $_SESSION['a_ID'] = $a_ID;
+                // Check if User
+                $user_query = "SELECT * FROM User WHERE a_ID = '$a_ID'";
+                $user_result = mysqli_query($db, $user_query);
+                $num_of_rows_user = mysqli_num_rows($user_result);
 
-            // Check if User
-            $user_query = "SELECT * FROM User WHERE a_ID = '$a_ID'";
-            $user_result = mysqli_query($db, $user_query);
-            $num_of_rows_user = mysqli_num_rows($user_result);
+                // Check if Curator
+                $curator_query = "SELECT * FROM Curator WHERE a_ID = '$a_ID'";
+                $curator_result = mysqli_query($db, $curator_query);
+                $num_of_rows_curator = mysqli_num_rows($curator_result);
 
-            // Check if Curator
-            $curator_query = "SELECT * FROM Curator WHERE a_ID = '$a_ID'";
-            $curator_result = mysqli_query($db, $curator_query);
-            $num_of_rows_curator = mysqli_num_rows($curator_result);
+                // Check if Developer
+                $dev_query = "SELECT * FROM Developer_Company WHERE a_ID = '$a_ID'";
+                $dev_result = mysqli_query($db, $dev_query);
+                $num_of_rows_dev = mysqli_num_rows($dev_result);
 
-            // Check if Developer
-            $dev_query = "SELECT * FROM Developer_Company WHERE a_ID = '$a_ID'";
-            $dev_result = mysqli_query($db, $dev_query);
-            $num_of_rows_dev = mysqli_num_rows($dev_result);
+                // Check if Publisher
+                $pub_query = "SELECT * FROM Publisher_Company WHERE a_ID = '$a_ID'";
+                $pub_result = mysqli_query($db, $pub_query);
+                $num_of_rows_pub = mysqli_num_rows($pub_result);
 
-            // Check if Publisher
-            $pub_query = "SELECT * FROM Publisher_Company WHERE a_ID = '$a_ID'";
-            $pub_result = mysqli_query($db, $pub_query);
-            $num_of_rows_pub = mysqli_num_rows($pub_result);
+                if ($num_of_rows_curator > 0) {
+                    $_SESSION['type'] = "curator";
+                    header("location: curatorhome.php");
+                }
 
-            echo "<script type='text/javascript'>alert('$num_of_rows_curator');</script>";
-            echo "<script type='text/javascript'>alert('$num_of_rows_user');</script>";
-            echo "<script type='text/javascript'>alert('$num_of_rows_dev');</script>";
-            echo "<script type='text/javascript'>alert('$num_of_rows_pub');</script>";
+                else if ($num_of_rows_user > 0) {
+                    $_SESSION['type'] = "user";
+                    header("location: userhome.php");
+                }
 
-            if ($num_of_rows_curator > 0) {
-                $_SESSION['type'] = "curator";
-                header("location: curatorhome.php");
+                else if ($num_of_rows_dev > 0) {
+                    $_SESSION['type'] = "dev";
+                    header("location: developerhome.php");
+                }
+
+                else if ($num_of_rows_pub > 0) {
+                    $_SESSION['type'] = "pub";
+                    header("location: publisherhome.php");
+                }
+
+                echo "<script type='text/javascript'>alert('checkpoint 11');</script>";
             }
-
-            else if ($num_of_rows_user > 0) {
-                $_SESSION['type'] = "user";
-                header("location: userhome.php");
+            else {
+                echo "<script type='text/javascript'>alert('Invalid Username or Password.');</script>";
             }
-
-            else if ($num_of_rows_dev > 0) {
-                $_SESSION['type'] = "dev";
-                header("location: developerhome.php");
-            }
-
-            else if ($num_of_rows_pub > 0) {
-                $_SESSION['type'] = "pub";
-                header("location: publisherhome.php");
-            }
-
-            echo "<script type='text/javascript'>alert('checkpoint 11');</script>";
-        }
-        else {
-            echo "<script type='text/javascript'>alert('Invalid Username or Password.');</script>";
         }
     }
 ?>
