@@ -89,31 +89,49 @@ if (isset($_GET['follower_id'])) {
                      #" AND f.target = u1.a_ID AND f.starter = u2.a_ID) OR (f.target = u2.a_ID AND f.starter = u1.a_ID AND u1.a_ID = " . $_SESSION['a_ID'] . " AND u2.a_ID <>" . $_SESSION['a_ID'] . 
                      ";";
                     $user_query_result = mysqli_query($db, $user_query);
+
+                    
                     if (!$user_query_result) {
                         printf("Error: %s\n", mysqli_error($db));
                         exit();
                     }
-                                    
+
                     if (mysqli_num_rows($user_query_result) > 0) {
+
                         while ($game_row = mysqli_fetch_assoc($user_query_result)) {
+
                             $a_id = $game_row['a_ID'];
                             $nick = $game_row['nick_name'];
+                            $friends_query = "SELECT COUNT(*) as has_count FROM friendship f, User u1, User u2 WHERE ( u1.a_ID =" . $_SESSION['a_ID'] . " AND u2.a_ID = " .$a_id . " AND f.target = u1.a_ID AND f.starter = u2.a_ID) OR (f.target = u2.a_ID AND f.starter = u1.a_ID AND u1.a_ID = " . $_SESSION['a_ID'] . " AND u2.a_ID =" . $a_id . " );";
 
-                            echo "<a href='searchfriends.php?friend_id=". $a_id ."&searchVal=". $search_val ."'>
-                            <div class='credit-card-info' style='
-                                            border-style: solid;
-                                            border-width: 1px;
-                                            margin-top: 20px;
-                                            padding: 10px;
-                                            font-size: 20px;
-                                            border-color: rgba(112,112,112,0.3);
-                                            border-radius: 25px; display: flex;
-                                            padding-left: 40px'>
-                                            <div style='margin-left: 10px'>
-                                                $nick
-                                            </div>
-                                            </div>
-                            </a>";
+                            $friends_result = mysqli_query($db, $friends_query);
+                            $has_row = mysqli_fetch_assoc($friends_result);
+
+                            $has_count = $has_row['has_count'];
+
+                            if (!$friends_result) {
+                                printf("Errorrr: no value %s\n", mysqli_error($db));
+                                exit();
+                            }
+                            if ($has_count <= 0 ) {
+                                echo "<a href='searchfriends.php?friend_id=". $a_id ."&searchVal=". $search_val ."'>
+                                <div class='credit-card-info' style='
+                                                border-style: solid;
+                                                border-width: 1px;
+                                                margin-top: 20px;
+                                                padding: 10px;
+                                                font-size: 20px;
+                                                border-color: rgba(112,112,112,0.3);
+                                                border-radius: 25px; display: flex;
+                                                padding-left: 40px'>
+                                                <div style='margin-left: 10px'>
+                                                    $nick
+                                                </div>
+                                                </div>
+                                </a>";
+
+                            }
+                           
                         }
                     }
                     else {
@@ -138,23 +156,39 @@ if (isset($_GET['follower_id'])) {
                                     
                     if (mysqli_num_rows($user_query_result) > 0) {
                         while ($game_row = mysqli_fetch_assoc($user_query_result)) {
+                    
                             $a_id = $game_row['a_ID'];
                             $nick = $game_row['nick_name'];
+                            $friends_query = "SELECT COUNT(*) as has_count FROM followed_by f, User u WHERE f.c_ID = " . $a_id . " AND f.a_ID = " . $_SESSION[a_ID] . ";";
 
-                            echo "<a href='searchfriends.php?follower_id=". $a_id ."'>
-                            <div class='credit-card-info' style='
-                                            border-style: solid;
-                                            border-width: 1px;
-                                            margin-top: 20px;
-                                            padding: 10px;
-                                            font-size: 20px;
-                                            border-color: rgba(112,112,112,0.3);
-                                            border-radius: 25px; display: flex;
-                                            padding-left: 40px'>
-                                            <div style='margin-left: 10px'>
-                                                $nick
-                                            </div>
-                            </a>";
+                            $friends_result = mysqli_query($db, $friends_query);
+                            $has_row = mysqli_fetch_assoc($friends_result);
+
+                            $has_count = $has_row['has_count'];
+
+                            if (!$friends_result) {
+                                printf("Errorrr: no value %s\n", mysqli_error($db));
+                                exit();
+                            }
+                            if ($has_count <= 0 ) {
+                                echo "<a href='searchfriends.php?follower_id=". $a_id ."'>
+                                <div class='credit-card-info' style='
+                                                border-style: solid;
+                                                border-width: 1px;
+                                                margin-top: 20px;
+                                                padding: 10px;
+                                                font-size: 20px;
+                                                border-color: rgba(112,112,112,0.3);
+                                                border-radius: 25px; display: flex;
+                                                padding-left: 40px'>
+                                                <div style='margin-left: 10px'>
+                                                    $nick
+                                                </div>
+                                                </div>
+                                </a>";
+
+                            }
+                           
                         }
                     }
                     else {
