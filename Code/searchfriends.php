@@ -66,7 +66,7 @@ if (isset($_GET['follower_id'])) {
                 }
                 ?>
                 <a href="library.php" class="nav-item nav-link">Store</a>
-                <a href="library.php" class="nav-item nav-link">Libary</a>
+                <a href="library.php" class="nav-item nav-link">Library</a>
                 <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
