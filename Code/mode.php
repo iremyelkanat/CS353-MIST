@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['mode_ID'])) {
     $mode_id = $_GET['mode_ID'];
 
-    $mode_query = "SELECT  u.u_name, vg.g_name, m.m_name, m.m_description, m.m_size FROM User u, Video_Game vg, Mode m, for_m f, builds b WHERE  f.g_ID = vg.g_ID AND u.a_ID = b.a_ID AND b.m_ID =" . $mode_id. " AND f.m_ID =" . $mode_id. " AND m.m_ID =" . $mode_id.  ";";
+    $mode_query = "SELECT  u.u_name, u.a_ID, vg.g_name, m.m_name, m.m_description, m.m_size FROM User u, Video_Game vg, Mode m, for_m f, builds b WHERE  f.g_ID = vg.g_ID AND u.a_ID = b.a_ID AND b.m_ID =" . $mode_id. " AND f.m_ID =" . $mode_id. " AND m.m_ID =" . $mode_id.  ";";
     $mode_query_result = mysqli_query($db, $mode_query);
     if (!$mode_query_result) {
         printf("Error: %s\n", mysqli_error($db));
@@ -18,7 +18,9 @@ if (isset($_GET['mode_ID'])) {
     $mode_size = $mode_row['m_size'];
     $mode_creator = $mode_row['u_name'];
     $mode_game = $mode_row['g_name'];
+    $creator_id = $mode_row['a_ID'];
 }
+
 if (isset($_POST['uninstall'])) {
     $delete_query = "DELETE FROM downloads WHERE a_ID=" . $_SESSION['a_ID'] . " AND m_ID=" . $mode_id . ";";
 
@@ -31,7 +33,8 @@ if (isset($_POST['uninstall'])) {
     echo "<script LANGUAGE='JavaScript'>
                 window.alert('You successfully uninstalled the Mode...');
             </script>";
-} elseif (isset($_POST['download'])) {
+} 
+elseif (isset($_POST['download'])) {
 
     $insert_query = "INSERT INTO downloads VALUES (". $mode_id .", " . $_SESSION['a_ID'] . ");";
     $insert_query_result = mysqli_query($db, $insert_query);
@@ -43,7 +46,19 @@ if (isset($_POST['uninstall'])) {
                 window.alert('You successfully downloaded the mode...');
             </script>";
 }
+elseif (isset($_POST['delete'])) {
 
+    $delete_query = "DELETE FROM Mode WHERE m_id =" . $mode_id . ";";
+    $delete_query_result = mysqli_query($db, $delete_query);
+    if (!$delete_query_result) {
+            printf("Error: %s\n", mysqli_error($db));
+            exit();
+        }
+        echo "<script LANGUAGE='JavaScript'>
+                window.alert('You successfully deleted the mode...');
+                window.location.href = 'modes.php';
+            </script>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +107,7 @@ if (isset($_POST['uninstall'])) {
                         $has_query = "SELECT COUNT(*) as has_count FROM downloads b WHERE b.a_ID=" . $_SESSION['a_ID'] . " AND b.m_id = " . $mode_id . ";";
                         $has_query_result = mysqli_query($db, $has_query);
 
+
                         if (!$has_query_result) {
                             printf("Error: %s\n", mysqli_error($db));
 
@@ -113,11 +129,30 @@ if (isset($_POST['uninstall'])) {
                             echo "<form method='post'>";
                             echo "<input type='submit' name='download' onclick='' class='btn btn-primary btn-lg' 
                             style='font-family: Avenir; 
-                            width: 100%; background-color: rgb(93, 239, 132); 
+                            width: 100%; 
+                            background-color: rgb(93, 239, 132); 
                             border-color: rgb(93, 239, 132); 
-                            border-radius: 20px' value='Download'>";
+                            border-radius: 20px' 
+                            value='Download'>";
                             echo "</form>";
                         }
+
+
+                        if( $creator_id === $_SESSION['a_ID']) { 
+
+                            echo "<form method='post'>";
+                            echo "<input type='submit' name='delete' onclick='' class='btn btn-primary btn-lg' 
+                            style='font-family: Avenir; 
+                            width: 100%; 
+                            background-color: rgb(234, 124, 137); 
+                            border-color: rgb(93, 239, 132); 
+                            border-radius: 20px' 
+                            value='Delete'>";
+                            echo "</form>";
+
+                        }
+
+
                         ?>
                     </div>
                 </div>
