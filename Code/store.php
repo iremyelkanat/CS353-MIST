@@ -4,6 +4,7 @@ session_start();
 $flag = 0;
 $min_p = 0;
 $max_p = PHP_INT_MAX;
+
 if (isset($_POST['no_filter'])) {
     $flag = 0;
 }
@@ -62,7 +63,7 @@ if (isset($_POST['max_p'] )) {
                 }
                 ?>
                 <a class="nav-item nav-link active">Store</a>
-                <a href="library.php" class="nav-item nav-link">Libary</a>
+                <a href="library.php" class="nav-item nav-link">Library</a>
                 <a href="modes.php" class="nav-item nav-link">Modes</a>
                 <a href="friends.php" class="nav-item nav-link">Friends</a>
             </div>
@@ -104,7 +105,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Download Acsending'>";
+              border-radius: 20px' value='Download Ascending'>";
                         echo "</form>";
                         echo "<form method='post'>";
                         echo "<input type='submit' name='price_desc' onclick='' class='btn btn-primary btn-lg' 
@@ -124,7 +125,7 @@ if (isset($_POST['max_p'] )) {
               width: 100%; 
               background-color: rgb(0,206,209); 
               border-color: rgb(0,206,209);
-              border-radius: 20px' value='Price Acsending'>";
+              border-radius: 20px' value='Price Ascending'>";
                         echo "</form>";
                         echo "<form method='post'>";
                         echo "<input type='submit' name='top_5' onclick='' class='btn btn-primary btn-lg' 
@@ -225,33 +226,33 @@ if (isset($_POST['max_p'] )) {
                     <div style=" overflow-x: scroll; white-space: nowrap;">
                         <?php
                         if ($flag == 0) {
-                        $games_query = "SELECT * FROM Video_Game vg;";
+                        $games_query = "SELECT * FROM Published_Games vg;";
                         
                         }
                         else if ($flag == 1) {
-                            $games_query = "SELECT *, COUNT(*) as count_game FROM Video_Game vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game DESC ;";
+                            $games_query = "SELECT *, COUNT(*) as count_game FROM Published_Games vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game DESC ;";
                             
                         }
                         else if($flag == 2){
-                            $games_query = "SELECT *, COUNT(*) as count_game FROM Video_Game vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game ASC ;";
+                            $games_query = "SELECT *, COUNT(*) as count_game FROM Published_Games vg, install i  WHERE i.g_ID = vg.g_ID GROUP BY i.g_ID ORDER BY count_game ASC ;";
 
 
                         }
                         else if($flag == 3){
 
-                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price DESC;";
+                            $games_query = "SELECT * FROM Published_Games  ORDER BY g_price DESC;";
 
                         }
                         else if($flag == 4){
-                            $games_query = "SELECT * FROM Video_Game  ORDER BY g_price ASC;";
+                            $games_query = "SELECT * FROM Published_Games  ORDER BY g_price ASC;";
                             
                         }
                         else if($flag == 5){
-                            $games_query = "SELECT *, SUM(r.value)/5 as count_game FROM Video_Game vg, rates r  WHERE r.g_ID = vg.g_ID GROUP BY r.g_ID ORDER BY count_game DESC Limit 5 ;";
+                            $games_query = "SELECT *, SUM(r.value)/5 as count_game FROM Published_Games vg, rates r  WHERE r.g_ID = vg.g_ID GROUP BY r.g_ID ORDER BY count_game DESC Limit 5 ;";
                             
                         }
                         else if($flag == 6){
-                            $games_query = "SELECT * FROM Video_Game vg WHERE vg.g_price <= ".$max_p." AND vg.g_price >= ".$min_p." ORDER BY vg.g_price DESC ;";
+                            $games_query = "SELECT * FROM Published_Games vg WHERE vg.g_price <= ".$max_p." AND vg.g_price >= ".$min_p." ORDER BY vg.g_price DESC ;";
 
                         }
                         $games_query_result = mysqli_query($db, $games_query);
@@ -307,18 +308,16 @@ if (isset($_POST['max_p'] )) {
                 let min_pi = document.getElementById("min_p").value;
                 let max_pi = document.getElementById("max_p").value;
 
-                if (!min_pi || !max_pi  ) {
+                if (min_pi ==="" || max_pi ===""  ) {
                     alert("Make sure to fill all fields!");
                 } 
 
-                if(min_pi > max_pi ){
-                    alert("Minimum price cannot grather than maximum price!");
+                else if(min_pi > max_pi ){
+                    alert("Minimum price cannot be greater than maximum price!");
 
                 }
-                if(min_pi <= max_pi){
-                    if(min_pi && max_pi) {
+                else if(min_pi <= max_pi){
                     let form = document.getElementById("create-price-form").submit();
-                }
                 }
                 
             }
