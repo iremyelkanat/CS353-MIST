@@ -67,6 +67,7 @@ public class DBConnector {
             stmt.executeUpdate("DROP TABLE IF EXISTS Publisher_Company;");
             stmt.executeUpdate("DROP TABLE IF EXISTS Company;");
             stmt.executeUpdate("DROP TABLE IF EXISTS Accountt;");
+            stmt.executeUpdate("DROP VIEW IF EXISTS Approved_Games;");
 
 
             System.out.println("Tables have been dropped successfully!");
@@ -388,6 +389,10 @@ public class DBConnector {
                     "FOREIGN KEY (a_ID) REFERENCES Publisher_Company (a_ID) ON DELETE CASCADE ON UPDATE RESTRICT)" +
                     "ENGINE=innodb;");
             System.out.println("takes table has been created successfully!");
+            stmt.executeUpdate("CREATE VIEW Approved_Games AS" +
+                    " SELECT vg.g_ID, vg.g_name, vg.g_version, vg.g_description, vg.g_image, vg.g_price, vg.genre, g_requirements" +
+                    " FROM Video_Game vg, publish p WHERE vg.g_ID = p.g_ID" + " ENGINE=innodb;");
+)
 
 
         } catch(SQLException e) {
