@@ -100,7 +100,6 @@ if (isset($_POST['return'])) {
 }
 elseif (isset($_POST['build'])) {
     $game_id = $_GET['game_id'];
-    echo " ";
 }
 
 ?>
@@ -363,16 +362,29 @@ elseif (isset($_POST['build'])) {
                         $user_name = $mods_row['u_name'];
 
                         echo "<a href='mode.php?mode_ID=". $mod_id ."'>
-                        <div class='game-date'; style='border-style: solid;
+                        <div class='modes'; style='border-style: solid;
                         border-width: 2px;
-                        margin-top: 50px;
+                        margin-top: 20px;
                         padding: 10px;
-                        border-radius: 25px; display: flex;'>
-                        <span style='font-weight: bold'>Mode Built By: </span> " . $user_name . "
-                        <span style='font-weight: bold'> Mode Name: </span> " . $mod_name . " 
-                        <span style='font-weight: bold'>Mode Description: </span> " . $mod_description . "
+                        border-radius: 25px;
+                        width: 50%;
+                        height: 230;
+                        font-style:Avenir;
+                        font-size:20;
+                        background-color: rgb(256, 256, 256); 
+                        border-color: rgba(112,112,112,0.3);
+                        display: inline-block; float:none; position: relative;'>
+                        <div class='builder-name'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>Mode Built By: </span> " . $user_name . "
+                        </div>
+                        <div class='mode-name'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'> Mode Name: </span> " . $mod_name . " 
+                        </div> 
+                        <div class='mode-description'; style='margin-top: 20px;'>
+                            <span style='font-weight: bold'>Mode Description: </span> " . $mod_description . "
+                        </div>
                         </div> </a>";
-                        echo "<hr style='margin-top: 25px; margin-bottom: 50px;margin-top: 20px;'>";  
+                        echo "<hr style='margin-top: 20px; margin-bottom: 20px;margin-top: 20px;'>";  
                         }
                 }
                 else {
