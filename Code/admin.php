@@ -127,8 +127,81 @@
             </form>
         </div>
     </div>
-    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Reports</div>
+    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 1</div>
     <hr>
+    <div class="main-div" style="width: 70%; margin: auto;">
+        <div style=" overflow-x: scroll; white-space: nowrap; width: 100%; height: 450px;">
+            <?php
+                $newDate = strtotime('-15 days', date("Y-m-d", time()));
+                $games_query = "SELECT *, COUNT(*) as count_game FROM Published_Games vg, buys b  WHERE b.date >" . $newDate . " AND b.g_ID = vg.g_ID GROUP BY b.g_ID ORDER BY count_game ASC ;";
+                $games_query_result = mysqli_query($db, $games_query);
+                if (!$games_query_result) {
+                    printf("Error: %s\n", mysqli_error($db));
+                    exit();
+                }
+                if (mysqli_num_rows($games_query_result) > 0) {
+                    while ($games_row = mysqli_fetch_assoc($games_query_result)) {
+                        $game_id = $games_row['g_ID'];
+                        $game_name = $games_row['g_name'];
+                        $game_price = $games_row['g_price'];
+                        echo $g_ID;
+                        echo "<div style='display: inline-block; float:none; position: relative'>
+                            <img src='../Assets/images/package.jpeg'/>
+                            <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>" . $game_name . "</h3>
+                        </div>";
+                    }
+                } else {
+                    echo "No recent reports found.";
+                }
+            ?>
+        </div>
+    </div>
+    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 2</div>
+    <hr>
+    <!-- Rate'i tüm oyunların average rate'inden büyük olan ve son 5 gün içinde satın alınmış olan top 5 oyun -->
+    <div class="main-div" style="width: 70%; margin: auto;">
+        <div style=" overflow-x: scroll; white-space: nowrap; width: 100%; height: 450px;">
+            <?php
+                $newDate = strtotime('-5 days', date("Y-m-d", time()));
+                $games_query = "SELECT *, COUNT(*) AS count_game 
+                                FROM (
+                                    SELECT *, AVG(r1.value) AS average_rate
+                                    FROM rates r1
+                                    GROUP BY r1.g_ID
+                                    ) AS avg_value_table,
+                                    (
+                                    SELECT *, AVG(r2.value) as r2_a
+                                    FROM rates r2
+                                    GROUP BY r2.g_ID
+                                    ) AS r2_table,
+                                Published_Games vg, buys b 
+                                WHERE r2_table.g_ID = vg.g_ID
+                                AND b.date > " . $newDate . " AND b.g_ID = vg.g_ID 
+                                GROUP BY r2_table.g_ID 
+                                HAVING AVG(avg_value_table.average_rate) < r2_table.r2_a
+                                ORDER BY count_game ASC LIMIT 5;";
+                $games_query_result = mysqli_query($db, $games_query);
+                if (!$games_query_result) {
+                    printf("Error: %s\n", mysqli_error($db));
+                    exit();
+                }
+                if (mysqli_num_rows($games_query_result) > 0) {
+                    while ($games_row = mysqli_fetch_assoc($games_query_result)) {
+                        $game_id = $games_row['g_ID'];
+                        $game_name = $games_row['g_name'];
+                        $game_price = $games_row['g_price'];
+                        echo $g_ID;
+                        echo "<div style='display: inline-block; float:none; position: relative'>
+                            <img src='../Assets/images/package.jpeg'/>
+                            <h3 style='font-weight: lighter; font-family: Avenir; font-size: 24px; color: white ; padding-left: 20px; padding-right: 20px; padding-bottom: 10px; padding-top: 10px; position: absolute; background-color: rgb(90,90,90); border-style: solid; border-radius: 30px; border-color: rgb(90,90,90); bottom: 8px; left: 16px;'>" . $game_name . "</h3>
+                        </div>";
+                    }
+                } else {
+                    echo "No recent reports found.";
+                }
+            ?>
+        </div>
+    </div>
     <div style="margin-top: 50px;
                 width: 100%;
                 text-align: center;
