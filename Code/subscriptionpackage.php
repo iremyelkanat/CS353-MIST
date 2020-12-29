@@ -158,9 +158,6 @@
                     echo "<div class='package-name'; style='margin-top: 20px;'>
                             <span style='font-weight: bold'>Package Name: </span> ". $package_name."
                         </div>
-                        <div class='package-duration' style='margin-top: 20px;'>
-                            <span style='font-weight: bold'>Duration: </span> " . $package_duration . "
-                        </div>
                         <div class='package-include' style='margin-top: 20px;''>
                             <span style='font-weight: bold'>This package includes: </span>
                         </div> ";
@@ -179,7 +176,7 @@
                             $game_name = $game_row['g_name'];
 
                             echo "<div class='package-item' style='margin-top: 20px; list-style: none; flex: 0 0 50%;'>
-                                    <img src='../Assets/images/amongus.jpeg' style='width: 50%;'/>
+                                    <a href='videogame.php?game_id=". $game_id ."'> <img src='../Assets/images/amongus.jpeg' style='width: 50%;'/> </a>
                                     <div style='clear: both;'></div>
                                     " . $game_name . "
                                 </div>";

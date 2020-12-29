@@ -4,7 +4,6 @@ session_start();
 
 if (isset($_GET['game_id'])) {
     $game_id = $_GET['game_id'];
-    echo $game_id;
 
     $game_query = "SELECT * FROM Video_Game WHERE g_id = " . $game_id . ";";
     $game_query_result = mysqli_query($db, $game_query);
@@ -22,6 +21,20 @@ if (isset($_GET['game_id'])) {
     $g_price = $game_row['g_price'];
     $genre = $game_row['genre'];
     $g_requirements = $game_row['g_requirements'];
+
+    $lele_query = "SELECT version_no, description FROM updates WHERE g_ID = ". $g_id .";";
+
+    $result = mysqli_query($db, $lele_query);
+    if (!$result) {
+        printf("Error55534: %s\n", mysqli_error($db));
+        exit();
+    }
+    $lele_row = mysqli_fetch_assoc($result);
+
+    $upNo = $lele_row['version_no'];
+    $upDesc = $lele_row['description'];
+    echo "";
+                
 }
 
 if (isset($_POST['rate_given_text'])) {
@@ -272,12 +285,12 @@ if (isset($_POST['return'])) {
                             if ($has_count > 0) {
                                 if($vg_ver !== $ins_ver){
                                     echo "<form method='post'>";
-                                echo "<input type='submit' name='update' onclick='' class='btn btn-primary btn-lg' 
+                                echo "<button type='button' data-toggle='modal' data-target='#update-modal' name='update' onclick='' class='btn btn-primary btn-lg' 
                                 style='font-family: Avenir; margin-top: 10px;
                                 width: 100%; 
                                 background-color: green; 
                                 border-color: green; 
-                                border-radius: 20px' value='Update'>";
+                                border-radius: 20px'> Update </button>";
                                 echo "</form>";
                                 }
                                 else{
@@ -526,6 +539,47 @@ if (isset($_POST['return'])) {
                 color: rgba(112,112,112,1);">
             <p>A Game Distribution Service by Pluto++</p>
         </div>
+
+        <div class="modal fade" id="update-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-centered" role="main" style="height: 400px; width: 800px;">
+            <div class="modal-content" style="height: 300px; width: 800px; background-color: transparent; border: none; padding: 20px">
+                <div class="modal-body" style="background-color: transparent; padding: 20px">
+                    <div style="background-color: white; height: 300px; width: 600px; border-radius: 30px; border-color: rgba(112,112,112,1); border-style: solid; padding: 40px">
+                        <div style="text-align: center; font-size: 32px; margin-top: 10px; margin-bottom: 20px">
+                            Update Game
+                        </div>
+                        <div style="align-items: center;">
+                           <?php
+                                echo "<div>
+                                    Update Version: " . $upNo . "
+                                </div>";
+                            ?>
+                            <?php
+                                echo "<div>
+                                    Update Description: " . $upDesc . "
+                                </div>";
+                            ?>
+                            <form method="POST" action="">
+                                <?php
+                                    echo "<input type='submit' name='update' onclick='' class='btn btn-primary btn-lg' 
+                                    style='font-family: Avenir; margin-top: 10px;
+                                    width: 100%; 
+                                    background-color: green; 
+                                    border-color: green; 
+                                    border-radius: 20px' value='Update'>";
+                                ?>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
         <script type="text/javascript">
             function checkEmptyAndLogin() {
                 let fullNameVal = document.getElementById("full-name").value;

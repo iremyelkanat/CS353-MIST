@@ -20,11 +20,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    $delete_old_update = "DELETE FROM updates WHERE g_ID=". $_SESSION['g_ID'] .";";
+
+    $delete_old_update_result = mysqli_query($db, $delete_old_update);
+
+    if (!$delete_old_update_result) {
+        printf("Error2: %s\n", mysqli_error($db));
+        exit();
+    }
+
     $update_game_query = "INSERT INTO updates VALUES (".$_SESSION['a_ID'].", ".$_SESSION['g_ID']." , now(), '$gameVersion', '$gameDescription');";
     $update_game_result = mysqli_query($db, $update_game_query);
 
     if (!$update_game_result) {
-        printf("Error2: %s\n", mysqli_error($db));
+        printf("Error3: %s\n", mysqli_error($db));
         exit();
     }
 

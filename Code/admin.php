@@ -127,7 +127,11 @@
             </form>
         </div>
     </div>
-    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 1</div>
+    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 1 =>
+        <span style="font-size:40px">
+            Games that bought in last 15 days:
+        </span> 
+    </div>
     <hr>
     <div class="main-div" style="width: 70%; margin: auto;">
         <div style=" overflow-x: scroll; white-space: nowrap; width: 100%; height: 450px;">
@@ -156,7 +160,11 @@
             ?>
         </div>
     </div>
-    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 2</div>
+    <div style="font-family: Avenir; font-size: 48px; margin-bottom: 2%; margin-left: 2%; margin-top: 5%;">Report 2=>
+        <span style="font-size:40px">
+            The top 5 games that bought in last 5 days with an average of max in terms of averages of all the other games:
+        </span> 
+    </div>
     <hr>
     <!-- Rate'i tüm oyunların average rate'inden büyük olan ve son 5 gün içinde satın alınmış olan top 5 oyun -->
     <div class="main-div" style="width: 70%; margin: auto;">

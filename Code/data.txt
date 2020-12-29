@@ -1,49 +1,32 @@
-echo "<div style='display: flex;'>
-                            <div class='game-image' style='
-                                width: 420px; 
-                                height: 250px;
-                                float: right;
-                                display: table;
-                                overflow: hidden;
-                                text-align: center;
-                                font-size: 30px;
-                                margin-top: 10px;
-                                margin-bottom: 10px;
-                                border-style: solid;
-                                border-color: rgba(112,112,112,1);
-                                border-width: 2px;
-                                margin-right: 100px;
-                                margin-left: 100px;
-                                position: relative; 
-                                border-radius: 20px;'>
-                                <div style='display: table-cell; vertical-align: middle'> 
-                                <img style=' max-height: 100%; max-width: 100%;' src='../Assets/images/game.jpg' alt=''> 
-                            </div>
+<div style="align-items: center;">
+                            <form id="create-game-form" method="post">
+                                <div style="display: flex; font-size: 20px;">
+                                    <div class="input-group" style="margin-bottom: 2%; margin-top: 4%; font-size: 20px;">
+                                        <input id="game-name" type="text" class="form-control" name="game-name" placeholder="Game Name" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                                    </div>
+                                    <div style="padding: 20px"></div>
+                                    <div class="input-group" style=" margin-bottom: 2%; margin-top: 4%; font-size: 20px; font-size: 20px;" >
+                                        <input id="game-version-create" type="text" class="form-control" name="game-version-create" placeholder="Game Version" style=" outline: none; font-size: 20px; border-style: solid; border-radius: 20px">
+                                    </div>
+                                </div>
+                                <div class="input-group" style="margin-top: 10px; margin-bottom: 20px; border-style: solid; border-radius: 20px; border-color: slategrey; border-width: 1px; padding: 5px;">
+                                    <select name="genres" id="genres" style="width: 100%; font-size: 20px; outline: none;" >
+                                        <option value="Genre" selected disabled>Select a Genre</option>
+                                        <option value="Horror">Horror</option>
+                                        <option value="Action">Action</option>
+                                        <option value="Adventure">Adventure</option>
+                                        <option value="RPG">RPG</option>
+                                    </select>
+                                </div>
+                                <div class="input-group" style=" margin-bottom: 10px; margin-top: 20px">
+                                    <textarea id="game-description-create" rows="4" maxlength="280" class="form-control" name="game-description-create" placeholder="Game Description" style=" outline: none; resize: none; display: block; font-size: 20px; border-style: solid; border-radius: 20px"></textarea>
+                                </div>
+                                <div class="input-group" style=" margin-bottom: 10px; margin-top: 20px">
+                                    <textarea id="game-requirements" rows="4" maxlength="280" class="form-control" name="game-requirements" placeholder="Game Requirements" style=" outline: none; resize: none; display: block; font-size: 20px; border-style: solid; border-radius: 20px"></textarea>
+                                </div>
+                                <div class="form-group" style="margin-top: 5%; text-align: right">
+                                    <input onclick="checkEmptyAndCreate()" type="button" class="btn btn-primary btn-lg" style="background-color: rgb(86, 188, 22); border-color: rgb(86, 188, 22); border-radius: 20px" value="  Create  ">
+                                </div>
+                                <br><br>
+                            </form>
                         </div>
-                        <div class='game-description' style='display: table; overflow: hidden; width: 50%; height: 100%;'>
-                            <div style='display: table-cell; vertical-align: middle; padding-left: 50px;'>
-                                <div>
-                                    <span style='font-weight: bold'>Name: </span>
-                                    <span>" . $game_name . "</span>
-                                </div>
-                                <div>
-                                    <span style='font-weight: bold'>Description: </span>
-                                    <span>" . $game_desc . "</span>
-                                </div>
-                                <br>
-                                <div class='buttons' style='display: flex'>
-                                <div>
-                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Approved'>
-                                            <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(93, 239, 132, 100); border-color: #ffffff; border-radius: 20px'>
-                                                Approve
-                                            </button>
-                                    </a>
-                                </div>
-                                <div>
-                                    <a href='answerrequest.php?r_ID=". $req_ID ."&state=Declined'>
-                                        <button type='button' class='btn btn-primary' class='btn btn-primary btn-lg' style='margin-right: 25px; font-family: Avenir; width: 100px; background-color: rgba(234, 124, 137, 100); border-color: #ffffff; border-radius: 20px; margin-right:10px;'>Decline</button>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>";
