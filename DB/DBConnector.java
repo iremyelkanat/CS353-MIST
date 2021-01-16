@@ -10,9 +10,9 @@ public class DBConnector {
             e.printStackTrace();
         }
 
-        final String USERNAME = "ecem.yelkanat";
-        final String PASSWORD = "RtjlTyQO";
-        final String URL = "jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/ecem_yelkanat";
+        final String USERNAME = "";
+        final String PASSWORD = "";
+        final String URL = "";
 
         Connection connection = null;
         try {
